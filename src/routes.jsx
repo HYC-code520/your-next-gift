@@ -1,25 +1,23 @@
-import { Children } from 'react'
-import App from './components/App.jsx'
-import DIYlist from './components/DIYlist.jsx'
-import NewDiyForm from './components/NewDiyForm.jsx'
+import AppLayout from './components/AppLayout';
+import DiyList from './components/DiyList';
+import DiyForm from './components/DiyForm';
 
 const routes = [
-    {
-        path: "/",
-        element: <App/>,
-        errorElement: <h1>Opps wrong page</h1>,
-        children: [
-            {
-                path: "/",
-                element: <DIYlist/>
-            },
-            {
-                path: "/add-diy",
-                element: <NewDiyForm/>
-            }
-        ]
-        
-    }
-]
+  {
+    path: '/',
+    element: <AppLayout />,
+    errorElement: <h1>Oops, wrong page!</h1>, // Error page for incorrect URLs
+    children: [
+      {
+        path: '', 
+        element: <DiyList />, // Route for displaying DIY list
+      },
+      {
+        path: '/add-diy', 
+        element: <DiyForm />, // Route for adding new DIY projects
+      },
+    ],
+  },
+];
 
-export default routes
+export default routes;

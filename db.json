@@ -1,12 +1,18 @@
 {
-    "DIYs":[
+    "diyProjects": [
         {
             "id": 1,
-            "name": "Mirror frame"
+            "projectName": "Mirror Frame",
+            "description": "A decorative frame for mirrors, perfect for any room.",
+            "materials": ["Wood", "Paint"],
+            "estimatedTime": "2 hours"
         },
         {
             "id": 2,
-            "name": "Pet treat hider pizza"
+            "projectName": "Pet Treat Hider Pizza",
+            "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
+            "materials": ["Fabric", "Stuffing"],
+            "estimatedTime": "1 hour"
         }
     ]
 }
