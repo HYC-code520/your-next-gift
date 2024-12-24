@@ -6,6 +6,7 @@ import About from './components/About';
 import Blog from './components/Blog';
 import Home from './components/Home'; // Import the Home component
 import Search from './components/Search';
+import DiyDetail from './components/DiyDetail'; // Import the new DiyDetail component
 
 
 const routes = [
@@ -21,6 +22,10 @@ const routes = [
       {
         path: 'list', // Relative path becomes "/list"
         element: <DiyList />, // Route for displaying DIY list
+      },
+      {
+        path: 'list/:id', // Add route for individual DIY details
+        element: <DiyDetail />,
       },
       {
         path: 'request-form', // Relative path becomes "/request-form"
