@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import NavBar from './NavBar';
 
 function AppLayout() {
@@ -10,17 +10,21 @@ function AppLayout() {
   useEffect(() => {
     fetch('http://localhost:8888/diyProjects')
       .then((response) => response.json())
-      .then((diyProjectData) => {
-        // console.log(diyProjectData); // Debug the response
-        setDiyProjects(diyProjectData);
-      });
+      .then((diyProjectData) => setDiyProjects(diyProjectData));
   }, []);
   
 
   return (
     <>
+      {/* Search Icon */}
+      <div className="search-icon">
+          <Link to="/search">
+            🔍 
+          </Link>
+      </div>
+
       <NavBar />
-      <h1>Welcome to My DIY Project Showcase</h1>
+      
       <Outlet
         context={{
           diyProjects: diyProjects, // Pass DIY projects to child components via context

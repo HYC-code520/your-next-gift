@@ -1,18 +1,134 @@
 {
-    "diyProjects": [
-        {
-            "id": 1,
-            "projectName": "Mirror Frame",
-            "description": "A decorative frame for mirrors, perfect for any room.",
-            "materials": ["Wood", "Paint"],
-            "estimatedTime": "2 hours"
-        },
-        {
-            "id": 2,
-            "projectName": "Pet Treat Hider Pizza",
-            "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
-            "materials": ["Fabric", "Stuffing"],
-            "estimatedTime": "1 hour"
-        }
-    ]
+  "diyProjects": [
+    {
+      "id": 1,
+      "projectName": "Wavy Mirror Frame",
+      "description": "A decorative frame for mirrors, perfect for any room.",
+      "materials": [
+        "Wood",
+        "Paint"
+      ],
+      "estimatedTime": "2 week"
+    },
+    {
+      "id": 2,
+      "projectName": "Pet Treat Hider Pizza",
+      "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
+      "materials": [
+        "Fabric",
+        "Stuffing"
+      ],
+      "estimatedTime": "1 week"
+    },
+    {
+        "id": 3,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 4,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 5,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 6,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 7,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 8,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 9,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 10,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 11,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      },
+      {
+        "id": 12,
+        "projectName": "",
+        "description": "",
+        "materials": [
+          "",
+          ""
+        ],
+        "estimatedTime": ""
+      }
+  ],
+  "requestSubmissions": [
+    {
+      "id": 1,
+      "fullName": "Ariel",
+      "requestedDiy": "Mirror Frame",
+      "birthday": "03/04",
+      "colorPreference": "Water blue",
+      "additionalDetails": "Put my name on it"
+    }
+  ]
 }
