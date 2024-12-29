@@ -54,6 +54,7 @@
     gap: 1rem; /* Add space between buttons */
     list-style: none;
     margin: 0;
+    margin-right: 110px;
     padding: 0;
     flex-grow: 0; /* No extra space taken by the links */
 }
@@ -69,8 +70,8 @@
     font-size: 0.9rem;
     font-weight: bold;
     color: #333; /* Default text color */
-    padding: 0.5rem 1rem; /* Padding for better click area */
-    border-radius: 20px; /* Rounded corners for hover effect */
+    padding: 0.8rem 1rem; /* Padding for better click area */
+    border-radius: 10px; /* Rounded corners for hover effect */
     line-height: 1; /* Ensure proper vertical alignment */
 }
 
