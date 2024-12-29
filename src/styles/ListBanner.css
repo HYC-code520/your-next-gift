@@ -1,0 +1,18 @@
+.list-banner {
+    background-color: #fae6f0; /* Pastel pink background */
+    color: #000000; /* White text */
+    text-align: center;
+    padding: 20px;
+    margin: 0; /* No margin to fit neatly under the navbar */
+    }
+  
+  .list-banner h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .list-banner p {
+    font-size: 1rem;
+    margin: 0;
+  }
+  

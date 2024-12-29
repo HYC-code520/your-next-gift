@@ -1,0 +1,12 @@
+/* DIY List Grid */
+.diy-grid {
+    display: grid;
+    margin-top: 10px;
+    grid-template-columns: repeat(4, 1fr); /* Four squares per row */
+    gap: 15px; /* Space between squares */
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 1000px; /* Optional: Restrict max width */
+  }
+  
