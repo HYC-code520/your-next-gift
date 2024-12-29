@@ -1,0 +1,42 @@
+/* General Container Styles */
+.home-container {
+    text-align: center;
+    padding: 2rem;
+}
+  
+/* Navigation Grid */
+.home-navigation {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four columns for one line */
+    gap: 10px; /* Reduced space between items */
+    max-width: 100%; /* Allow the grid to span full width */
+    margin: 2rem auto; /* Center align grid */
+}
+  
+/* Individual Navigation Items */
+.nav-item {
+    text-decoration: none; /* Remove underline from links */
+}
+  
+/* Placeholder Box */
+.nav-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px; /* Larger width for the square */
+    height: 200px; /* Larger height for the square */
+    background-color: #f0f0f0; /* Light gray placeholder */
+    border: 2px solid #ddd; /* Border around the square */
+    color: #333; /* Text color */
+    font-size: 1.4rem; /* Slightly larger text size */
+    font-weight: bold;
+    border-radius: 8px; /* Optional: Rounded corners */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth effects */
+}
+  
+/* Hover Effect */
+.nav-placeholder:hover {
+    background-color: #ffa5d2; /* Pastel pink on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    color: #fff; /* Change text color to white */
+}

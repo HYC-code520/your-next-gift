@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../styles/Home.css'; // If the CSS file is in the `styles` folder
 
 
 function Home() {
