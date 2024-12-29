@@ -1,6 +1,8 @@
 import React from 'react';
 import PageBanner from './PageBanner'; // Import the generalized banner
 import '../styles/About.css'; // Import the CSS file for styling
+import aboutImage from '../Image/aboutme.png';
+
 
 function About() {
   return (
@@ -8,7 +10,7 @@ function About() {
       <PageBanner title="The DIY Life Chose Me"  />
       <div className="about-container">
         <img
-          src="https://via.placeholder.com/300"
+          src={aboutImage} // Use the imported image
           alt="About Me"
           className="about-image"
         />

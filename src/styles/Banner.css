@@ -30,3 +30,21 @@
   object-fit: contain; /* Ensure the logo scales well */
   margin-bottom: 30px; /* Adjust margin to balance alignment */
 }
+
+.banner .search-icon {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.search-icon-image {
+  width: 60px; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: transform 0.3s; /* Add a hover effect */
+}
+
+.search-icon-image:hover {
+  transform: scale(1.2); /* Slightly enlarge on hover */
+}
