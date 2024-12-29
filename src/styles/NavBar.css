@@ -15,16 +15,13 @@
     border-bottom: 1px solid #333;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
     z-index: 10; /* Below the banner */
-  }
-  
-  
-
+}
 
 /* Home Button Container */
 .home-container {
     flex: 0 0 auto; /* Prevent the Home button from stretching */
     height: 100%;
-    margin-right: 1rem; /* Add space between Home and the other buttons */
+    margin-right: 4rem; /* Add more space between Home and the List button */
 }
 
 /* Home Button */
@@ -51,7 +48,7 @@
 /* Navbar Links */
 .navbar-links {
     display: flex;
-    gap: 1rem; /* Add space between buttons */
+    gap: 1rem; /* Adjust spacing between buttons */
     list-style: none;
     margin: 0;
     margin-right: 110px;
@@ -78,4 +75,11 @@
 .nav-link:hover {
     background-color: #000; /* Black background on hover */
     color: #ffa5d2; /* Pink text on hover */
+}
+
+/* Spacer between Home and List */
+.navbar-spacer {
+    width: 30px; /* Adjust to set the space between Home and List */
+    height: 50px; /* Match the navbar height */
+    flex-shrink: 0; /* Prevent it from collapsing */
 }

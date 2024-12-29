@@ -1,39 +1,79 @@
 /* General Container Styles */
 .home-container {
     text-align: center;
-    padding: 2rem;
+    margin: 0;
+    padding: 0;
 }
-  
+
+/* Slideshow Section */
+.slideshow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw; /* Full browser width */
+    height: 800px; /* Adjust height */
+    margin: 190px auto 0 auto; /* Top margin */
+    position: relative;
+    z-index: 5;
+}
+
+.slideshow-image {
+    width: 100%; /* Ensure the image spans full width */
+    height: 100%; /* Ensure full height within the slideshow */
+    object-fit: cover; /* Ensure the image covers the space */
+}
+
+.slide-content {
+    position: absolute; /* Overlay the text on the image */
+    color: #333; /* Text color */
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px; /* Optional rounded corners */
+}
+
+.slide-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.slide-content p {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
 /* Navigation Grid */
 .home-navigation {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Four columns for one line */
+    grid-template-columns: repeat(4, 1fr); /* Ensure four columns in one line */
     gap: 10px; /* Reduced space between items */
-    max-width: 100%; /* Allow the grid to span full width */
-    margin: 2rem auto; /* Center align grid */
+    max-width: 1200px; /* Ensure enough space for bigger squares */
+    margin: 40px auto; /* Center the grid */
+    justify-items: center; /* Center-align items horizontally */
+    align-items: center; /* Center-align items vertically */
 }
-  
+
 /* Individual Navigation Items */
 .nav-item {
-    text-decoration: none; /* Remove underline from links */
+    text-decoration: none;
 }
-  
+
 /* Placeholder Box */
 .nav-placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px; /* Larger width for the square */
-    height: 200px; /* Larger height for the square */
-    background-color: #f0f0f0; /* Light gray placeholder */
-    border: 2px solid #ddd; /* Border around the square */
-    color: #333; /* Text color */
-    font-size: 1.4rem; /* Slightly larger text size */
+    width: 250px; /* Bigger squares */
+    height: 250px; /* Bigger squares */
+    background-color: #ffffff; /* Light gray placeholder */
+    border: 2px solid #000000; /* Border around the square */
+    color: #333;
+    font-size: 1.6rem; /* Larger font size */
     font-weight: bold;
-    border-radius: 8px; /* Optional: Rounded corners */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth effects */
+    transition: background-color 0.3s, transform 0.2s;
 }
-  
+
 /* Hover Effect */
 .nav-placeholder:hover {
     background-color: #ffa5d2; /* Pastel pink on hover */

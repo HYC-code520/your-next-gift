@@ -9,6 +9,10 @@ function NavBar() {
           HOME
         </NavLink>
       </div>
+      
+      {/* Spacer Div */}
+      <div className="navbar-spacer"></div>
+      
       <ul className="navbar-links">
         <li>
           <NavLink to="/list" className="nav-link">
