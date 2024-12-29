@@ -1,0 +1,73 @@
+/* Search Container */
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Title Styling */
+  .search-title {
+    font-size: 2rem;
+    color: #ffa5d2;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Input */
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: 2px solid #ffa5d2;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #ff6f91;
+  }
+  
+  /* Search Results */
+  .search-results {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  /* Individual Result Item */
+  .search-result-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .search-result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Result Link */
+  .search-result-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .search-result-link:hover {
+    color: #ff6f91;
+  }
+  
+  /* Result Description */
+  .search-result-description {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+  }
+  

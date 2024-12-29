@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
+import '../styles/Search.css'; // Add this CSS file for styling
 
 function Search() {
   const { diyProjects } = useOutletContext(); // Access DIY projects from context
@@ -23,23 +24,22 @@ function Search() {
   };
 
   return (
-    <div>
-      <h1>Hi, What are you looking for?</h1>
+    <div className="search-container">
+      <h1 className="search-title">What are you looking for? 🧐</h1>
       <input
         type="text"
+        className="search-input"
         placeholder="Search DIY projects..."
-        value={searchTerm} // Bind input value to searchTerm
-        onChange={handleSearchInput} // Call handleSearchInput on user input
-        style={{ width: '100%', padding: '0.5rem', fontSize: '1rem' }}
+        value={searchTerm}
+        onChange={handleSearchInput}
       />
-      <ul>
+      <ul className="search-results">
         {filteredResults.map((project) => (
-          <li key={project.id}>
-            {/* Add a clickable link for each project */}
-            <Link to={`/list/${project.id}`}>
+          <li key={project.id} className="search-result-item">
+            <Link to={`/list/${project.id}`} className="search-result-link">
               <h2>{project.projectName}</h2>
             </Link>
-            <p>{project.description}</p>
+            <p className="search-result-description">{project.description}</p>
           </li>
         ))}
       </ul>

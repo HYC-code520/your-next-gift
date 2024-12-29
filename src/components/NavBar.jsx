@@ -10,8 +10,7 @@ function NavBar() {
         </NavLink>
       </div>
       
-      {/* Spacer Div */}
-      <div className="navbar-spacer"></div>
+      <div className="navbar-spacer"></div> {/* Spacer between Home and List */}
       
       <ul className="navbar-links">
         <li>
@@ -40,6 +39,9 @@ function NavBar() {
           </NavLink>
         </li>
       </ul>
+
+      {/* Add Spacer Div */}
+      <div className="navbar-right-spacer"></div>
     </nav>
   );
 }

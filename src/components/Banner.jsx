@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import '../styles/Banner.css'; // Make sure the path matches your project structure
+import '../styles/Banner.css';
+import logo from '../Image/logo.png';
 
 function Banner() {
   return (
@@ -7,7 +8,9 @@ function Banner() {
       <div className="search-icon">
         <Link to="/search">🔍</Link>
       </div>
-      <div className="banner-logo">LOGO</div>
+      <div className="banner-logo">
+        <img src={logo} alt="Logo" className="logo-image" />
+      </div>
     </div>
   );
 }

@@ -4,18 +4,27 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
-    height: 50px; /* Navbar height */
+    height: 60px; /* Navbar height */
     background-color: #fff;
     padding: 0 2rem;
     margin: 0;
     position: fixed;
-    top: 130px; /* Adjusted to account for the taller banner */
+    top: 250px; /* Adjust to match the height of the reduced logo section */
     left: 0;
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-    z-index: 10; /* Below the banner */
+    z-index: 20; /* Above other elements */
+  }
+  
+
+/* Right Spacer */
+.navbar-right-spacer {
+    width: 40px; /* Adjust width as needed */
+    height: 100%; /* Match navbar height */
+    flex-shrink: 0; /* Prevent collapsing */
 }
+
 
 /* Home Button Container */
 .home-container {
@@ -31,7 +40,6 @@
     justify-content: center; /* Center horizontally */
     width: 200px; /* Fixed width for the Home button */
     height: 100%; /* Matches navbar height */
-    padding-left: 0; /* Remove extra padding to ensure full centering */
     background-color: #ffa5d2; /* Pink background */
     color: #000; /* Black text */
     font-weight: bold;
@@ -51,8 +59,8 @@
     gap: 1rem; /* Adjust spacing between buttons */
     list-style: none;
     margin: 0;
-    margin-right: 110px;
-    padding: 0;
+    padding: 0 5px; /* Reduce padding for smaller adjustments */
+    transform: translateX(-15px); /* Shift all links to the left */
     flex-grow: 0; /* No extra space taken by the links */
 }
 
@@ -79,7 +87,7 @@
 
 /* Spacer between Home and List */
 .navbar-spacer {
-    width: 30px; /* Adjust to set the space between Home and List */
+    width: 50px; /* Adjust to set the space between Home and List */
     height: 50px; /* Match the navbar height */
     flex-shrink: 0; /* Prevent it from collapsing */
 }
