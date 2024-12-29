@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import DiyCard from './DiyCard';
-import ListBanner from './ListBanner'; // Import the ListBanner component
+import PageBanner from './PageBanner'; // Import the PageBanner component
 import '../styles/DiyList.css';
 
 function DiyList() {
@@ -12,7 +12,10 @@ function DiyList() {
 
   return (
     <div>
-      <ListBanner /> {/* Add the banner component here */}
+      <PageBanner 
+        title="Explore My DIY Projects" 
+        className="list-page-banner"
+      />
       <ul className="diy-grid">
         {diyProjects.map((diyProject) => (
           <DiyCard key={diyProject.id} diyProjectDetails={diyProject} />
