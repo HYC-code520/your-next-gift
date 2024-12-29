@@ -1,0 +1,70 @@
+.footer {
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    text-align: center;
+    padding: 80px 20px; /* Increased padding for taller height */
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.subscribe-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subscribe-form input {
+    padding: 10px;
+    width: 400px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.subscribe-form button {
+    padding: 10px 20px;
+    background-color: #ffa5d2; /* Pastel pink button */
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.subscribe-form button:hover {
+    background-color: #ff90c1;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.social-icon img:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
+    filter: brightness(1.2);
+}

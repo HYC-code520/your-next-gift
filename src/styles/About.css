@@ -1,0 +1,53 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 20px;
+    max-width: 800px;
+    min-height: 600px; /* Add this to make the box taller */
+    background-color: #ffffff; 
+    border: 2px solid #000000; /* Border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.about-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Circular image */
+    border: 3px solid #000000;
+    margin-bottom: 20px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.about-text {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+    padding: 0 10px;
+}
+
+.about-text strong {
+    color: #ffa5d2; /* Highlight important words in pastel pink */
+}
+
+@media (max-width: 600px) {
+    .about-container {
+        padding: 15px;
+        min-height: 300px; /* Adjust height for smaller screens */
+    }
+
+    .about-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+}

@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom'; // Import useLocation
+import { Outlet, useLocation } from 'react-router-dom';
 import '../App.css';
 import Banner from './Banner';
 import NavBar from './NavBar';
 import AnnouncementBar from './AnnouncementBar';
+import Footer from './Footer'; // Import Footer component
 
 function AppLayout() {
   const [diyProjects, setDiyProjects] = useState([]);
-  const location = useLocation(); // Get the current route
+  const location = useLocation();
 
   useEffect(() => {
     fetch('http://localhost:8888/diyProjects')
@@ -15,14 +16,13 @@ function AppLayout() {
       .then((diyProjectData) => setDiyProjects(diyProjectData));
   }, []);
 
-  const isHomePage = location.pathname === '/'; // Check if the current route is the Home page
+  const isHomePage = location.pathname === '/';
 
   return (
     <>
       <AnnouncementBar />
       <Banner />
       <NavBar />
-      {/* Main Content */}
       <div className={`main-content ${isHomePage ? 'home-page' : ''}`}>
         <Outlet
           context={{
@@ -30,6 +30,7 @@ function AppLayout() {
           }}
         />
       </div>
+      <Footer /> {/* Add the Footer component */}
     </>
   );
 }

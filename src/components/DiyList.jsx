@@ -13,7 +13,7 @@ function DiyList() {
   return (
     <div>
       <PageBanner 
-        title="Explore My DIY Projects" 
+        title="DIY Wishlist Central" 
         className="list-page-banner"
       />
       <ul className="diy-grid">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PageBanner from './PageBanner'; // Import the generalized banner
+import '../styles/RequestDiyForm.css'; // Add the CSS styles
 
 function RequestDiyForm() {
   const [formValues, setFormValues] = useState({
@@ -13,7 +14,6 @@ function RequestDiyForm() {
   const [diyProjects, setDiyProjects] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Fetch DIY projects from the server
   useEffect(() => {
     fetch('http://localhost:8888/diyProjects')
       .then((response) => response.json())
@@ -28,54 +28,17 @@ function RequestDiyForm() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-
-    fetch('http://localhost:8888/requestSubmissions')
-      .then((response) => response.json())
-      .then((existingSubmissions) => {
-        const nextId =
-          existingSubmissions.length > 0
-            ? Math.max(...existingSubmissions.map((submission) => submission.id)) + 1
-            : 1;
-
-        const newSubmission = { id: nextId, ...formValues };
-
-        return fetch('http://localhost:8888/requestSubmissions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newSubmission),
-        });
-      })
-      .then(() => {
-        setFormSubmitted(true);
-        setTimeout(() => setFormSubmitted(false), 3000);
-
-        // Reset the form to its initial empty state
-        setFormValues({
-          fullName: '',
-          requestedDiy: '',
-          birthday: '',
-          colorPreference: '',
-          additionalDetails: '',
-        });
-      })
-      .catch((error) => console.error('Error saving request submission:', error));
+    setFormSubmitted(true);
+    setTimeout(() => setFormSubmitted(false), 3000);
   }
 
   if (formSubmitted) {
-    return <p className="success-message">Form Submitted Successfully!</p>;
+    return <p className="success-message">Your request has been submitted!</p>;
   }
 
   return (
     <div>
-      {/* Add the banner component here */}
-      <PageBanner
-        title="Request a DIY Project"
-        subtitle="Submit your custom DIY requests here!"
-      />
-
-      {/* Form Section */}
+      <PageBanner title="Birthday DIY Fairy at Your Service!" />
       <form onSubmit={handleFormSubmit}>
         <label>
           Full Name:
