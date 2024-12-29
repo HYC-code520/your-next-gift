@@ -1,33 +1,34 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import Banner from './Banner';
 import NavBar from './NavBar';
+import AnnouncementBar from './AnnouncementBar';
 
 function AppLayout() {
-  const [diyProjects, setDiyProjects] = useState([]); // State to hold the list of DIY projects
+  const [diyProjects, setDiyProjects] = useState([]);
 
-  // Fetch DIY projects from the server when the component mounts
   useEffect(() => {
     fetch('http://localhost:8888/diyProjects')
       .then((response) => response.json())
       .then((diyProjectData) => setDiyProjects(diyProjectData));
   }, []);
-  
 
   return (
     <>
-      {/* Search Icon */}
-      <div className="search-icon">
-          <Link to="/search">
-            🔍 
-          </Link>
-      </div>
+      {/* Announcement Bar */}
+      <AnnouncementBar />
 
+      {/* Banner */}
+      <Banner />
+
+      {/* Navbar */}
       <NavBar />
-      
+
+      {/* Main Content */}
       <Outlet
         context={{
-          diyProjects: diyProjects, // Pass DIY projects to child components via context
+          diyProjects,
         }}
       />
     </>

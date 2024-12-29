@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, Link } from 'react-router-dom';
 
 function Search() {
   const { diyProjects } = useOutletContext(); // Access DIY projects from context
-  const [query, setQuery] = useState(''); // Search query state
-  const [filteredProjects, setFilteredProjects] = useState([]); // Start with an empty list
+  const [searchTerm, setSearchTerm] = useState(''); // State to hold the search input
+  const [filteredResults, setFilteredResults] = useState([]); // State to hold the filtered projects
 
-  const handleSearch = (event) => {
-    const input = event.target.value.toLowerCase();
-    setQuery(input);
+  const handleSearchInput = (event) => {
+    const userInput = event.target.value.toLowerCase(); // Convert input to lowercase for case-insensitive search
+    setSearchTerm(userInput); // Update the search input state
 
-    if (input.trim() === '') {
-      // If the input is empty, don't show anything
-      setFilteredProjects([]);
+    if (userInput.trim() === '') {
+      // If input is empty, clear the results
+      setFilteredResults([]);
     } else {
-      // Filter DIY projects based on the input
-      const filtered = diyProjects.filter((project) =>
-        project.projectName.toLowerCase().includes(input)
+      // Filter projects based on the search term
+      const matches = diyProjects.filter((project) =>
+        project.projectName.toLowerCase().includes(userInput)
       );
-      setFilteredProjects(filtered);
+      setFilteredResults(matches);
     }
   };
 
@@ -28,14 +28,17 @@ function Search() {
       <input
         type="text"
         placeholder="Search DIY projects..."
-        value={query}
-        onChange={handleSearch}
+        value={searchTerm} // Bind input value to searchTerm
+        onChange={handleSearchInput} // Call handleSearchInput on user input
         style={{ width: '100%', padding: '0.5rem', fontSize: '1rem' }}
       />
       <ul>
-        {filteredProjects.map((project) => (
+        {filteredResults.map((project) => (
           <li key={project.id}>
-            <h2>{project.projectName}</h2>
+            {/* Add a clickable link for each project */}
+            <Link to={`/list/${project.id}`}>
+              <h2>{project.projectName}</h2>
+            </Link>
             <p>{project.description}</p>
           </li>
         ))}

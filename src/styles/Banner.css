@@ -1,0 +1,28 @@
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100px; /* Increased height */
+    background-color: #ffffff; 
+    position: fixed;
+    top: 30px; /* Adjusted to match the new announcement bar height */
+    left: 0;
+    z-index: 15; /* Below the announcement bar */
+  }
+  
+  .banner .search-icon {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.8rem; /* Slightly increased icon size */
+  }
+  
+  .banner-logo {
+    font-size: 2rem; /* Adjust font size for the taller banner */
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+  

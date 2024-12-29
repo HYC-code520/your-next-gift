@@ -1,14 +1,41 @@
 import { NavLink } from 'react-router-dom';
+import '../styles/NavBar.css';
 
 function NavBar() {
   return (
-    <nav>
-      <NavLink to="/">Home</NavLink> {/* Link to Home Page */}
-      <NavLink to="/list">List</NavLink> 
-      <NavLink to="/request-form">Form</NavLink> {/* Link to form Page where my friend can request what they want for their BD */}
-      <NavLink to="/faq">FAQ</NavLink> 
-      <NavLink to="/about">About</NavLink> 
-      <NavLink to="/blog">Blog</NavLink> 
+    <nav className="navbar">
+      <div className="home-container">
+        <NavLink to="/" className="home-link">
+          HOME
+        </NavLink>
+      </div>
+      <ul className="navbar-links">
+        <li>
+          <NavLink to="/list" className="nav-link">
+            LIST
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/request-form" className="nav-link">
+            FORM
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/faq" className="nav-link">
+            FAQ
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" className="nav-link">
+            ABOUT
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/blog" className="nav-link">
+            BLOG
+          </NavLink>
+        </li>
+      </ul>
     </nav>
   );
 }

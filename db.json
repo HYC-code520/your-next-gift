@@ -1,7 +1,7 @@
 {
   "diyProjects": [
     {
-      "id": 1,
+      "id": "1",
       "projectName": "Wavy Mirror Frame",
       "description": "A decorative frame for mirrors, perfect for any room.",
       "materials": [
@@ -11,7 +11,7 @@
       "estimatedTime": "2 week"
     },
     {
-      "id": 2,
+      "id": "2",
       "projectName": "Pet Treat Hider Pizza",
       "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
       "materials": [
@@ -23,12 +23,20 @@
   ],
   "requestSubmissions": [
     {
-      "id": 1,
+      "id": "1",
       "fullName": "Ariel",
       "requestedDiy": "Mirror Frame",
       "birthday": "03/04",
       "colorPreference": "Water blue",
       "additionalDetails": "Put my name on it"
+    },
+    {
+      "id": 2,
+      "fullName": "",
+      "requestedDiy": "",
+      "birthday": "",
+      "colorPreference": "",
+      "additionalDetails": ""
     }
   ]
 }

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function DiyCard({ diyProjectDetails }) {
   return (
-    <li>
+    <li className="card">
       <h2>
         <Link to={`/list/${diyProjectDetails.id}`}>
           {diyProjectDetails.projectName}

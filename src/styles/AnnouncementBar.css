@@ -1,0 +1,19 @@
+.announcement-bar {
+  background-color: black;
+  color: white;
+  text-align: center;
+  height: 30px; /* Reduced height */
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20; /* Keeps it on top of other sections */
+  display: flex; /* Center text vertically */
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+}
+
+.announcement-bar p {
+  margin: 0; /* Remove default paragraph margin */
+  font-size: 0.9rem; /* Adjust font size for better fit */
+}

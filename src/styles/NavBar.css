@@ -1,0 +1,80 @@
+/* Navbar Container */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 50px; /* Navbar height */
+    background-color: #fff;
+    padding: 0 2rem;
+    margin: 0;
+    position: fixed;
+    top: 130px; /* Adjusted to account for the taller banner */
+    left: 0;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* Below the banner */
+  }
+  
+  
+
+
+/* Home Button Container */
+.home-container {
+    flex: 0 0 auto; /* Prevent the Home button from stretching */
+    height: 100%;
+    margin-right: 1rem; /* Add space between Home and the other buttons */
+}
+
+/* Home Button */
+.home-link {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    width: 200px; /* Fixed width for the Home button */
+    height: 100%; /* Matches navbar height */
+    padding-left: 0; /* Remove extra padding to ensure full centering */
+    background-color: #ffa5d2; /* Pink background */
+    color: #000; /* Black text */
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-decoration: none;
+    text-align: center; /* Ensure text alignment */
+}
+
+.home-link:hover {
+    background-color: #ffa5d2; /* Same pink color on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Navbar Links */
+.navbar-links {
+    display: flex;
+    gap: 1rem; /* Add space between buttons */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 0; /* No extra space taken by the links */
+}
+
+.navbar-links li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-link {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333; /* Default text color */
+    padding: 0.5rem 1rem; /* Padding for better click area */
+    border-radius: 20px; /* Rounded corners for hover effect */
+    line-height: 1; /* Ensure proper vertical alignment */
+}
+
+.nav-link:hover {
+    background-color: #000; /* Black background on hover */
+    color: #ffa5d2; /* Pink text on hover */
+}

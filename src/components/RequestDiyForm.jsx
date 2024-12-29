@@ -71,7 +71,7 @@ function RequestDiyForm() {
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} className="form-section">
       <label>
         Full Name:
         <input
