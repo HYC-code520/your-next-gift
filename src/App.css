@@ -52,7 +52,7 @@ body {
 
 /* Main Content */
 .main-content {
-  padding-top: 310px; /* Adjust to match the new banner height */
+  padding-top: 1px; /* Adjust to match the new banner height */
 }
 
 /* No padding for the Home page */

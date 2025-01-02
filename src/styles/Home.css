@@ -12,7 +12,7 @@
     flex-direction: column;
     width: 100%; /* Full container width */
     height: 800px; /* Adjust height */
-    margin: 330px auto 0 auto; /* Adjusted top margin to account for the banner and navbar */
+    margin: 10px auto 0 auto; /* Adjusted top margin to account for the banner and navbar */
     position: relative;
     z-index: 5;
     overflow: hidden; /* Prevent overflow issues */
