@@ -11,6 +11,7 @@ function AppLayout() {
   const location = useLocation();
 
   useEffect(() => {
+    // Perform a GET request to fetch data for diyProjects
     fetch('http://localhost:8888/diyProjects')
       .then((response) => response.json())
       .then((diyProjectData) => setDiyProjects(diyProjectData));

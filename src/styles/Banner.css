@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 250px; /* Height of the banner */
+  height: 160px; /* Height of the banner */
   background-color: #ffffff; /* Background color */
   position: relative; /* Change from fixed to relative */
   margin-top: 30px; /* Add spacing if needed */
@@ -25,7 +25,7 @@
 }
 
 .logo-image {
-  height: 220px; /* Adjusted logo size */
+  height: 190px; /* Adjusted logo size */
   object-fit: contain; /* Ensure the logo scales well */
   margin-bottom: 30px; /* Adjust margin to balance alignment */
 }

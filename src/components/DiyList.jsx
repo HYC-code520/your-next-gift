@@ -3,6 +3,7 @@ import DiyCard from './DiyCard';
 import PageBanner from './PageBanner'; // Import the PageBanner component
 import '../styles/DiyList.css';
 
+
 function DiyList() {
   const { diyProjects } = useOutletContext();
 
@@ -19,6 +20,8 @@ function DiyList() {
       <ul className="diy-grid">
         {diyProjects.map((diyProject) => (
           <DiyCard key={diyProject.id} diyProjectDetails={diyProject} />
+          //Pass props as attributes when rendering a component. Passing diyProjectDetails to DiyCard
+          //child
         ))}
       </ul>
     </div>
