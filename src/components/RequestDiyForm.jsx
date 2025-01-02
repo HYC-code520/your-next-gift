@@ -15,6 +15,7 @@ function RequestDiyForm() {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
+    // Fetch DIY projects to populate the dropdown menu
     fetch('http://localhost:8888/diyProjects')
       .then((response) => response.json())
       .then((data) => setDiyProjects(data))
@@ -28,8 +29,47 @@ function RequestDiyForm() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 3000);
+
+    // Fetch existing submissions to determine the next ID
+    fetch('http://localhost:8888/requestSubmissions')
+      .then((response) => response.json())
+      .then((submissions) => {
+        const nextId = submissions.length > 0 
+          ? (Math.max(...submissions.map((s) => parseInt(s.id, 10))) + 1).toString() 
+          : '1';
+
+        const newSubmission = {
+          id: nextId,
+          ...formValues,
+        };
+
+        // Send the data to the "requestSubmissions" section in db.json
+        fetch('http://localhost:8888/requestSubmissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newSubmission), // Send form data as JSON
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Form data submitted successfully!');
+              setFormSubmitted(true);
+              setTimeout(() => setFormSubmitted(false), 3000);
+
+              // Reset the form fields after successful submission
+              setFormValues({
+                fullName: '',
+                requestedDiy: '',
+                birthday: '',
+                colorPreference: '',
+                additionalDetails: '',
+              });
+            } else {
+              console.error('Failed to submit form data.');
+            }
+          })
+          .catch((error) => console.error('Error submitting form data:', error));
+      })
+      .catch((error) => console.error('Error fetching submissions:', error));
   }
 
   if (formSubmitted) {

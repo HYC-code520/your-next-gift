@@ -4,7 +4,10 @@
       "id": "1",
       "projectName": "Wavy Mirror Frame",
       "description": "A decorative frame for mirrors, perfect for any room.",
-      "materials": ["Wood", "Paint"],
+      "materials": [
+        "Wood",
+        "Paint"
+      ],
       "estimatedTime": "2 weeks",
       "images": [
         "https://via.placeholder.com/300",
@@ -16,7 +19,10 @@
       "id": "2",
       "projectName": "Pet Treat Hider Pizza",
       "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
-      "materials": ["Fabric", "Stuffing"],
+      "materials": [
+        "Fabric",
+        "Stuffing"
+      ],
       "estimatedTime": "1 week",
       "images": [
         "https://via.placeholder.com/300",
@@ -28,7 +34,10 @@
       "id": "3",
       "projectName": "Customize Twisty Sticks Pet Bouquet",
       "description": "A playful and colorful bouquet for your pet made from twisty sticks.",
-      "materials": ["Twisty Sticks", "Ribbon"],
+      "materials": [
+        "Twisty Sticks",
+        "Ribbon"
+      ],
       "estimatedTime": "3 days",
       "images": [
         "https://via.placeholder.com/300",
@@ -40,7 +49,10 @@
       "id": "4",
       "projectName": "Balloon Flower Bouquet",
       "description": "A stunning bouquet of flowers made from balloons.",
-      "materials": ["Balloons", "Pump"],
+      "materials": [
+        "Balloons",
+        "Pump"
+      ],
       "estimatedTime": "2 days",
       "images": [
         "https://via.placeholder.com/300",
@@ -52,7 +64,11 @@
       "id": "5",
       "projectName": "Mini Store Signboard Magnet",
       "description": "A tiny, vintage-inspired store signboard as a magnet.",
-      "materials": ["Wood", "Paint", "Magnets"],
+      "materials": [
+        "Wood",
+        "Paint",
+        "Magnets"
+      ],
       "estimatedTime": "3 days",
       "images": [
         "https://via.placeholder.com/300",
@@ -64,7 +80,11 @@
       "id": "6",
       "projectName": "Adjustable Crossbody Bag",
       "description": "A stylish and customizable crossbody bag with adjustable straps.",
-      "materials": ["Fabric", "Straps", "Sewing Kit"],
+      "materials": [
+        "Fabric",
+        "Straps",
+        "Sewing Kit"
+      ],
       "estimatedTime": "1 week",
       "images": [
         "https://via.placeholder.com/300",
@@ -76,7 +96,10 @@
       "id": "7",
       "projectName": "Fireplace Display Shelf",
       "description": "A decorative shelf styled as a miniature fireplace.",
-      "materials": ["Wood", "Paint"],
+      "materials": [
+        "Wood",
+        "Paint"
+      ],
       "estimatedTime": "1.5 weeks",
       "images": [
         "https://via.placeholder.com/300",
@@ -88,7 +111,10 @@
       "id": "8",
       "projectName": "Vintage Mini Photo Album TV",
       "description": "A nostalgic photo album shaped like a vintage TV.",
-      "materials": ["Cardboard", "Decorative Paper"],
+      "materials": [
+        "Cardboard",
+        "Decorative Paper"
+      ],
       "estimatedTime": "1 week",
       "images": [
         "https://via.placeholder.com/300",
@@ -100,7 +126,10 @@
       "id": "9",
       "projectName": "Cookie Seat Cushion",
       "description": "A comfy seat cushion designed to look like a cookie.",
-      "materials": ["Fabric", "Stuffing"],
+      "materials": [
+        "Fabric",
+        "Stuffing"
+      ],
       "estimatedTime": "5 days",
       "images": [
         "https://via.placeholder.com/300",
@@ -112,7 +141,10 @@
       "id": "10",
       "projectName": "Hamster Hideout",
       "description": "A cozy and fun hideout for your hamster.",
-      "materials": ["Wood", "Paint"],
+      "materials": [
+        "Wood",
+        "Paint"
+      ],
       "estimatedTime": "4 days",
       "images": [
         "https://via.placeholder.com/300",
@@ -124,7 +156,11 @@
       "id": "11",
       "projectName": "Cat Hideout",
       "description": "A custom hideout for your cat to relax and play.",
-      "materials": ["Wood", "Fabric", "Paint"],
+      "materials": [
+        "Wood",
+        "Fabric",
+        "Paint"
+      ],
       "estimatedTime": "1 week",
       "images": [
         "https://via.placeholder.com/300",
@@ -144,6 +180,14 @@
     },
     {
       "id": "2",
+      "fullName": "",
+      "requestedDiy": "",
+      "birthday": "",
+      "colorPreference": "",
+      "additionalDetails": ""
+    },
+    {
+      "id": "3",
       "fullName": "",
       "requestedDiy": "",
       "birthday": "",
