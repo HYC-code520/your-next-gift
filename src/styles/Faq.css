@@ -1,56 +1,66 @@
+.faq-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .faq-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px auto;
-    max-width: 600px;
-    border: 2px solid #000000; /* Cute pastel border */
-    border-radius: 10px;
-    background-color: #ffffff;
-  }
-  
-  .faq-item {
-    border-bottom: 1px solid #000000; /* Divider between items */
-    padding: 10px 20px;
-  }
-  
-  .faq-item:last-child {
-    border-bottom: none;
-  }
-  
-  .faq-question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-  
-  .faq-question:focus {
-    outline: none;
-  }
-  
-  .faq-icon {
-    font-size: 1.5rem;
-    color: #000000;
-    transition: transform 0.3s;
-  }
-  
-  .faq-icon.open {
-    transform: rotate(90deg);
-  }
-  
-  .faq-answer {
-    margin-top: 10px;
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
-    padding-left: 10px;
-  }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border: none; /* Remove the duplicate border */
+  border-radius: 0;
+  background: none;
+}
+
+.faq-item {
+  border-bottom: 1px solid #ddd; /* Made lighter for better visual hierarchy */
+  padding: 15px 0; /* Adjusted padding */
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.faq-question:focus {
+  outline: none;
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  color: #000000;
+  transition: transform 0.3s;
+}
+
+.faq-icon.open {
+  transform: rotate(90deg);
+}
+
+.faq-answer {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  padding-left: 0; /* Aligned with question */
+}
   

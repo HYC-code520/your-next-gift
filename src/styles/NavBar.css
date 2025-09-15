@@ -1,92 +1,188 @@
 /* Navbar Container */
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 60px; /* Navbar height */
-    background-color: #fff;
-    padding: 0 2rem;
-    margin-top: 10px; /* Add spacing below the banner */
-    position: relative; /* Change from fixed to relative */
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-    z-index: 20; /* Stack order for navbar */
-  }
-  
-  
-
-/* Right Spacer */
-.navbar-right-spacer {
-    width: 40px; /* Adjust width as needed */
-    height: 100%; /* Match navbar height */
-    flex-shrink: 0; /* Prevent collapsing */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  padding: 0 2rem;
+  margin-top: 10px;
+  position: relative;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  overflow: visible;
 }
 
-
-/* Home Button Container */
+/* Home Button Container - Left side */
 .home-container {
-    flex: 0 0 auto; /* Prevent the Home button from stretching */
-    height: 100%;
-    margin-right: 4rem; /* Add more space between Home and the List button */
+  flex: 0 0 auto;
+  height: 100%;
+  margin-right: 2rem;
 }
 
 /* Home Button */
 .home-link {
-    display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    width: 200px; /* Fixed width for the Home button */
-    height: 100%; /* Matches navbar height */
-    background-color: #ffa5d2; /* Pink background */
-    color: #000; /* Black text */
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-decoration: none;
-    text-align: center; /* Ensure text alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 100%;
+  background-color: #ffa5d2;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-align: center;
 }
 
 .home-link:hover {
-    background-color: #ffa5d2; /* Same pink color on hover */
-    color: #fff; /* White text on hover */
+  background-color: #ffa5d2;
+  color: #fff;
 }
 
-/* Navbar Links */
+/* Navbar Links - Center area */
 .navbar-links {
-    display: flex;
-    gap: 1rem; /* Adjust spacing between buttons */
-    list-style: none;
-    margin: 0;
-    padding: 0 5px; /* Reduce padding for smaller adjustments */
-    transform: translateX(-15px); /* Shift all links to the left */
-    flex-grow: 0; /* No extra space taken by the links */
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100% - 400px);
 }
 
 .navbar-links li {
-    display: flex;
-    align-items: center;
-    height: 100%;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .nav-link {
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #333; /* Default text color */
-    padding: 0.8rem 1rem; /* Padding for better click area */
-    border-radius: 10px; /* Rounded corners for hover effect */
-    line-height: 1; /* Ensure proper vertical alignment */
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
-    background-color: #000; /* Black background on hover */
-    color: #ffa5d2; /* Pink text on hover */
+  background-color: #000;
+  color: #ffa5d2;
+  transform: translateY(-2px);
 }
 
-/* Spacer between Home and List */
-.navbar-spacer {
-    width: 50px; /* Adjust to set the space between Home and List */
-    height: 50px; /* Match the navbar height */
-    flex-shrink: 0; /* Prevent it from collapsing */
+/* Search Container - Remove only background, border, and shadow */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: transparent !important; /* Hide background */
+  border: none !important; /* Hide border */
+  box-shadow: none !important; /* Hide shadow */
+  /* Keep other properties like positioning, padding, etc. */
+}
+
+/* Search button - Remove only visual container styling */
+.search-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Keep some padding for click area */
+  transition: all 0.3s ease;
+  text-decoration: none;
+  /* Remove visual styling */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.search-nav-link:hover {
+  /* Only remove visual styling, keep functional hover */
+  background: transparent !important;
+  border: none !important; 
+  box-shadow: none !important;
+  transform: scale(1.1); /* Keep the scale effect */
+}
+
+.search-nav-icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.search-nav-link:hover .search-nav-icon {
+  transform: scale(1.2);
+  filter: brightness(0) saturate(100%) invert(65%) sepia(78%) saturate(2073%) hue-rotate(307deg) brightness(103%) contrast(95%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .navbar-links {
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .home-link {
+    width: 140px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+  
+  .navbar-links {
+    gap: 0.8rem;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .home-link {
+    width: 120px;
+    font-size: 0.8rem;
+  }
+  
+  .search-nav-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .search-nav-icon {
+    width: 20px;
+    height: 20px;
+  }
 }

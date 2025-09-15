@@ -54,23 +54,25 @@ function Faq() {
 
   return (
     <div>
-      <PageBanner title="So, You’re Wondering…" />
-      <ul className="faq-list">
-        {faqData.map((item, index) => (
-          <li key={index} className="faq-item">
-            <button
-              className="faq-question"
-              onClick={() => toggleDropdown(index)}
-            >
-              {item.question}
-              <span className={`faq-icon ${activeIndex === index ? 'open' : ''}`}>
-                {activeIndex === index ? '-' : '+'}
-              </span>
-            </button>
-            {activeIndex === index && <p className="faq-answer">{item.answer}</p>}
-          </li>
-        ))}
-      </ul>
+      <PageBanner title="FAQ" className="faq-page-banner" />
+      <div className="faq-container">
+        <ul className="faq-list">
+          {faqData.map((item, index) => (
+            <li key={index} className="faq-item">
+              <button
+                className="faq-question"
+                onClick={() => toggleDropdown(index)}
+              >
+                {item.question}
+                <span className={`faq-icon ${activeIndex === index ? 'open' : ''}`}>
+                  {activeIndex === index ? '-' : '+'}
+                </span>
+              </button>
+              {activeIndex === index && <p className="faq-answer">{item.answer}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

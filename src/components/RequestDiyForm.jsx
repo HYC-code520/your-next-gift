@@ -79,68 +79,70 @@ function RequestDiyForm() {
   return (
     <div>
       <PageBanner title="Birthday DIY Fairy at Your Service!" />
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          Full Name:
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Enter your full name"
-            value={formValues.fullName}
-            onChange={handleInputChange}
-          />
-        </label>
+      <div className="form-container">
+        <form onSubmit={handleFormSubmit}>
+          <label>
+            Full Name:
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Enter your full name"
+              value={formValues.fullName}
+              onChange={handleInputChange}
+            />
+          </label>
 
-        <label>
-          Requested DIY:
-          <select
-            name="requestedDiy"
-            value={formValues.requestedDiy}
-            onChange={handleInputChange}
-          >
-            <option value="">Select a DIY Project</option>
-            {diyProjects.map((project) => (
-              <option key={project.id} value={project.projectName}>
-                {project.projectName}
-              </option>
-            ))}
-          </select>
-        </label>
+          <label>
+            Requested DIY:
+            <select
+              name="requestedDiy"
+              value={formValues.requestedDiy}
+              onChange={handleInputChange}
+            >
+              <option value="">Select a DIY Project</option>
+              {diyProjects.map((project) => (
+                <option key={project.id} value={project.projectName}>
+                  {project.projectName}
+                </option>
+              ))}
+            </select>
+          </label>
 
-        <label>
-          Birthday:
-          <input
-            type="text"
-            name="birthday"
-            placeholder="MM/DD"
-            value={formValues.birthday}
-            onChange={handleInputChange}
-          />
-        </label>
+          <label>
+            Birthday:
+            <input
+              type="text"
+              name="birthday"
+              placeholder="MM/DD"
+              value={formValues.birthday}
+              onChange={handleInputChange}
+            />
+          </label>
 
-        <label>
-          Colors Preference:
-          <input
-            type="text"
-            name="colorPreference"
-            placeholder="Enter preferred colors"
-            value={formValues.colorPreference}
-            onChange={handleInputChange}
-          />
-        </label>
+          <label>
+            Colors Preference:
+            <input
+              type="text"
+              name="colorPreference"
+              placeholder="Enter preferred colors"
+              value={formValues.colorPreference}
+              onChange={handleInputChange}
+            />
+          </label>
 
-        <label>
-          Additional Details:
-          <textarea
-            name="additionalDetails"
-            placeholder="Any custom details you'd like to add"
-            value={formValues.additionalDetails}
-            onChange={handleInputChange}
-          />
-        </label>
+          <label>
+            Additional Details:
+            <textarea
+              name="additionalDetails"
+              placeholder="Any custom details you'd like to add"
+              value={formValues.additionalDetails}
+              onChange={handleInputChange}
+            />
+          </label>
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 }

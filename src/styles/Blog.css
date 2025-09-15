@@ -2,7 +2,7 @@
 .blog-container {
     max-width: 800px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 40px;
     background-color: #ffffff; /* White background */
     border: 2px solid #000000; /* Border */
     border-radius: 10px;
@@ -25,8 +25,8 @@
 }
 
 .blog-list li {
-    background-color: #ffffff; /* Soft pastel pink background */
-    border: 2px solid #000000; /* Cute pink border */
+    background-color: #f9f9f9; /* Subtle background difference */
+    border: 1px solid #ddd; /* Lighter border for visual hierarchy */
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
@@ -57,7 +57,7 @@
 /* Responsive Styling */
 @media (max-width: 600px) {
     .blog-container {
-        padding: 15px;
+        padding: 20px;
     }
 
     .blog-list li {

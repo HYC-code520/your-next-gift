@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import '../styles/NavBar.css';
+import searchIcon from '../Image/search-icon.png';
 
 function NavBar() {
   return (
@@ -9,8 +10,6 @@ function NavBar() {
           HOME
         </NavLink>
       </div>
-      
-      <div className="navbar-spacer"></div> {/* Spacer between Home and List */}
       
       <ul className="navbar-links">
         <li>
@@ -40,8 +39,11 @@ function NavBar() {
         </li>
       </ul>
 
-      {/* Add Spacer Div */}
-      <div className="navbar-right-spacer"></div>
+      <div className="search-container">
+        <NavLink to="/search" className="search-nav-link">
+          <img src={searchIcon} alt="Search" className="search-nav-icon" />
+        </NavLink>
+      </div>
     </nav>
   );
 }

@@ -10,26 +10,35 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%; /* Full container width */
-    height: 800px; /* Adjust height */
-    margin: 10px auto 0 auto; /* Adjusted top margin to account for the banner and navbar */
+    width: 100%;
+    height: 800px;
+    margin: 10px auto 0 auto;
     position: relative;
     z-index: 5;
-    overflow: hidden; /* Prevent overflow issues */
+    overflow: hidden;
 }
 
 .slideshow-image {
-    width: 100%; /* Ensure the image spans full width */
-    height: 100%; /* Ensure full height within the slideshow */
-    object-fit: cover; /* Ensure the image covers the space */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slideshow-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .slide-content {
-    position: absolute; /* Overlay the text on the image */
-    color: #000000; /* Text color */
+    position: absolute;
+    top: 60%; /* Moved down from center - adjust this value as needed */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center horizontally and vertically from the new position */
+    color: #000000;
     text-align: center;
     padding: 20px;
-    border-radius: 10px; /* Optional rounded corners */
+    border-radius: 10px;
 }
 
 .slide-content h1 {
@@ -45,12 +54,12 @@
 /* Navigation Grid */
 .home-navigation {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Ensure four columns in one line */
-    gap: 10px; /* Reduced space between items */
-    max-width: 1200px; /* Ensure enough space for bigger squares */
-    margin: 40px auto; /* Center the grid */
-    justify-items: center; /* Center-align items horizontally */
-    align-items: center; /* Center-align items vertically */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 1200px;
+    margin: 40px auto;
+    justify-items: center;
+    align-items: center;
 }
 
 /* Individual Navigation Items */
@@ -63,20 +72,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 250px; /* Bigger squares */
-    height: 250px; /* Bigger squares */
-    background-color: #ffffff; /* Light gray placeholder */
-    border: 2px solid #000000; /* Border around the square */
+    width: 250px;
+    height: 250px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
     color: #333;
-    font-size: 1.6rem; /* Larger font size */
+    font-size: 1.6rem;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 /* Hover Effect */
 .nav-placeholder:hover {
-    background-color: #ffa5d2; /* Pastel pink on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-    color: #fff; /* Change text color to white */
+    background-color: #ffa5d2;
+    transform: scale(1.05);
+    color: #fff;
 }
 
