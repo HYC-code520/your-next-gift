@@ -89,21 +89,19 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  background: transparent !important; /* Hide background */
-  border: none !important; /* Hide border */
-  box-shadow: none !important; /* Hide shadow */
-  /* Keep other properties like positioning, padding, etc. */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* Search button - Remove only visual container styling */
+/* Search button - Even bigger size */
 .search-nav-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px; /* Keep some padding for click area */
+  padding: 15px; /* Increased from 12px for even bigger click area */
   transition: all 0.3s ease;
   text-decoration: none;
-  /* Remove visual styling */
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -111,16 +109,15 @@
 }
 
 .search-nav-link:hover {
-  /* Only remove visual styling, keep functional hover */
   background: transparent !important;
   border: none !important; 
   box-shadow: none !important;
-  transform: scale(1.1); /* Keep the scale effect */
+  transform: scale(1.1);
 }
 
 .search-nav-icon {
-  width: 24px;
-  height: 24px;
+  width: 36px; /* Increased from 30px to 36px */
+  height: 36px; /* Increased from 30px to 36px */
   transition: all 0.3s ease;
   display: block;
 }
@@ -130,7 +127,7 @@
   filter: brightness(0) saturate(100%) invert(65%) sepia(78%) saturate(2073%) hue-rotate(307deg) brightness(103%) contrast(95%);
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Updated for bigger sizes */
 @media (max-width: 1200px) {
   .navbar-links {
     gap: 1rem;
@@ -143,6 +140,11 @@
   
   .home-link {
     width: 140px;
+  }
+  
+  .search-nav-icon {
+    width: 32px; /* Bigger on medium screens */
+    height: 32px;
   }
 }
 
@@ -165,9 +167,13 @@
     font-size: 0.8rem;
   }
   
+  .search-nav-link {
+    padding: 12px; /* Bigger padding for mobile */
+  }
+  
   .search-nav-icon {
-    width: 22px;
-    height: 22px;
+    width: 30px; /* Bigger size for mobile */
+    height: 30px;
   }
 }
 
@@ -182,7 +188,7 @@
   }
   
   .search-nav-icon {
-    width: 20px;
-    height: 20px;
+    width: 28px; /* Still good size for small screens */
+    height: 28px;
   }
 }
