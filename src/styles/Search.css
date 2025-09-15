@@ -231,19 +231,72 @@
   transform: translateY(-1px);
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
+/* =============================================== */
+/* RESPONSIVE SEARCH DESIGN */
+/* =============================================== */
+
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
   .search-container {
-    padding: 20px;
+    max-width: 90%;
+    padding: 30px;
+    margin: 15px auto;
+  }
+  
+  .search-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .search-input-wrapper {
+    max-width: 450px;
+  }
+  
+  .search-input {
+    padding: 12px 18px;
+    font-size: 0.95rem;
+  }
+  
+  .suggestion-tags {
+    gap: 8px;
+  }
+  
+  .suggestion-tag {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .search-container {
+    max-width: 95%;
+    padding: 25px;
+    margin: 12px auto;
   }
   
   .search-subtitle {
     font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .search-input-wrapper {
+    max-width: 400px;
+  }
+  
+  .search-input {
+    padding: 10px 15px;
+    font-size: 0.9rem;
   }
   
   .results-header {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  
+  .project-meta {
+    flex-direction: column;
+    gap: 8px;
     align-items: flex-start;
   }
   
@@ -255,6 +308,74 @@
   .clear-search-btn,
   .browse-all-btn {
     width: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .search-container {
+    max-width: 98%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+  
+  .search-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  
+  .search-input-wrapper {
+    max-width: 100%;
+  }
+  
+  .search-input {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+  }
+  
+  .search-suggestions {
+    padding: 15px 0;
+  }
+  
+  .suggestion-tags {
+    gap: 6px;
+  }
+  
+  .suggestion-tag {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .search-result-item {
+    padding: 15px;
+  }
+  
+  .project-name {
+    font-size: 1.1rem;
+  }
+  
+  .project-description {
+    font-size: 0.9rem;
+  }
+  
+  .project-meta {
+    font-size: 0.8rem;
+  }
+  
+  .no-results {
+    padding: 30px 15px;
+  }
+  
+  .no-results-icon {
+    font-size: 2.5rem;
+  }
+  
+  .clear-search-btn,
+  .browse-all-btn {
+    width: 100%;
+    font-size: 0.85rem;
   }
 }
   

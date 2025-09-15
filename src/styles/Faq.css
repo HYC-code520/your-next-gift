@@ -13,14 +13,14 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  border: none; /* Remove the duplicate border */
+  border: none;
   border-radius: 0;
   background: none;
 }
 
 .faq-item {
-  border-bottom: 1px solid #ddd; /* Made lighter for better visual hierarchy */
-  padding: 15px 0; /* Adjusted padding */
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
 }
 
 .faq-item:last-child {
@@ -61,6 +61,81 @@
   font-size: 1rem;
   color: #555;
   line-height: 1.5;
-  padding-left: 0; /* Aligned with question */
+  padding-left: 0;
+}
+
+/* =============================================== */
+/* RESPONSIVE FAQ DESIGN */
+/* =============================================== */
+
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .faq-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 15px auto;
+  }
+  
+  .faq-question {
+    font-size: 1.1rem;
+  }
+  
+  .faq-answer {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .faq-container {
+    max-width: 95%;
+    padding: 25px;
+    margin: 12px auto;
+  }
+  
+  .faq-item {
+    padding: 12px 0;
+  }
+  
+  .faq-question {
+    font-size: 1rem;
+  }
+  
+  .faq-icon {
+    font-size: 1.3rem;
+  }
+  
+  .faq-answer {
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .faq-container {
+    max-width: 98%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+  
+  .faq-item {
+    padding: 10px 0;
+  }
+  
+  .faq-question {
+    font-size: 0.95rem;
+  }
+  
+  .faq-icon {
+    font-size: 1.2rem;
+  }
+  
+  .faq-answer {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-top: 6px;
+  }
 }
   

@@ -84,3 +84,85 @@ form button:hover {
   text-align: center;
   margin-top: 20px;
 }
+
+/* =============================================== */
+/* RESPONSIVE FORM DESIGN */
+/* =============================================== */
+
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .form-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 15px auto;
+  }
+  
+  form label {
+    font-size: 0.95rem;
+  }
+  
+  form input,
+  form select,
+  form textarea {
+    font-size: 0.95rem;
+    padding: 9px;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .form-container {
+    max-width: 95%;
+    padding: 25px;
+    margin: 12px auto;
+  }
+  
+  form label {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+  
+  form input,
+  form select,
+  form textarea {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+  
+  form button {
+    font-size: 0.95rem;
+    padding: 9px 18px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .form-container {
+    max-width: 98%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+  
+  form label {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  
+  form input,
+  form select,
+  form textarea {
+    font-size: 0.85rem;
+    padding: 7px;
+  }
+  
+  form button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    width: 100%;
+  }
+  
+  .success-message {
+    font-size: 1rem;
+  }
+}

@@ -11,7 +11,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  min-height: auto; /* Remove fixed height for consistency */
+  min-height: auto;
 }
 
 .about-image {
@@ -35,17 +35,64 @@
   color: #ffa5d2;
 }
 
-@media (max-width: 600px) {
-  .about-container {
-    padding: 20px;
-  }
+/* =============================================== */
+/* RESPONSIVE ABOUT DESIGN */
+/* =============================================== */
 
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .about-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 15px auto;
+  }
+  
+  .about-image {
+    width: 130px;
+    height: 130px;
+  }
+  
+  .about-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .about-container {
+    max-width: 95%;
+    padding: 25px;
+    margin: 12px auto;
+  }
+  
   .about-image {
     width: 120px;
     height: 120px;
+    margin-bottom: 15px;
   }
-
+  
   .about-text {
     font-size: 1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .about-container {
+    max-width: 98%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+  
+  .about-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
+  }
+  
+  .about-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 }

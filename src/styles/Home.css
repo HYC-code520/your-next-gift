@@ -32,9 +32,9 @@
 
 .slide-content {
     position: absolute;
-    top: 60%; /* Moved down from center - adjust this value as needed */
+    top: 60%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center horizontally and vertically from the new position */
+    transform: translate(-50%, -50%);
     color: #000000;
     text-align: center;
     padding: 20px;
@@ -87,5 +87,196 @@
     background-color: #ffa5d2;
     transform: scale(1.05);
     color: #fff;
+}
+
+/* =============================================== */
+/* RESPONSIVE HOME PAGE DESIGN */
+/* =============================================== */
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .slideshow {
+    height: 900px;
+  }
+  
+  .slide-content h1 {
+    font-size: 3.5rem;
+  }
+  
+  .slide-content p {
+    font-size: 1.8rem;
+  }
+  
+  .home-navigation {
+    max-width: 1400px;
+    gap: 15px;
+  }
+  
+  .nav-placeholder {
+    width: 280px;
+    height: 280px;
+    font-size: 1.8rem;
+  }
+}
+
+/* Medium Desktop */
+@media (max-width: 1199px) and (min-width: 900px) {
+  .slideshow {
+    height: 700px;
+  }
+  
+  .slide-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .slide-content p {
+    font-size: 1.3rem;
+  }
+  
+  .home-navigation {
+    max-width: 1000px;
+  }
+  
+  .nav-placeholder {
+    width: 220px;
+    height: 220px;
+    font-size: 1.4rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .slideshow {
+    height: 600px;
+  }
+  
+  .slide-content {
+    top: 65%;
+    padding: 15px;
+  }
+  
+  .slide-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .slide-content p {
+    font-size: 1.2rem;
+  }
+  
+  .home-navigation {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    margin: 30px auto;
+    gap: 15px;
+  }
+  
+  .nav-placeholder {
+    width: 200px;
+    height: 200px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .slideshow {
+    height: 500px;
+  }
+  
+  .slide-content {
+    top: 70%;
+    padding: 12px;
+  }
+  
+  .slide-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .slide-content p {
+    font-size: 1rem;
+  }
+  
+  .home-navigation {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+    margin: 25px auto;
+    gap: 12px;
+  }
+  
+  .nav-placeholder {
+    width: 180px;
+    height: 180px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) and (min-width: 480px) {
+  .slideshow {
+    height: 400px;
+  }
+  
+  .slide-content {
+    top: 75%;
+    padding: 10px;
+  }
+  
+  .slide-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .slide-content p {
+    font-size: 0.9rem;
+  }
+  
+  .home-navigation {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 400px;
+    margin: 20px auto;
+    gap: 10px;
+  }
+  
+  .nav-placeholder {
+    width: 150px;
+    height: 150px;
+    font-size: 1rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 479px) {
+  .slideshow {
+    height: 350px;
+  }
+  
+  .slide-content {
+    top: 75%;
+    padding: 8px;
+  }
+  
+  .slide-content h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .slide-content p {
+    font-size: 0.8rem;
+  }
+  
+  .home-navigation {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+    margin: 15px auto;
+    gap: 8px;
+  }
+  
+  .nav-placeholder {
+    width: 200px;
+    height: 100px;
+    font-size: 0.9rem;
+  }
 }
 

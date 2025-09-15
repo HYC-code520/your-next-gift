@@ -24,7 +24,7 @@
 }
 
 .logo-link:hover {
-  transform: scale(1.05); /* Subtle hover effect */
+  transform: scale(1.05);
 }
 
 .logo-image {
@@ -35,5 +35,81 @@
 }
 
 .logo-link:hover .logo-image {
-  opacity: 0.9; /* Slight opacity change on hover */
+  opacity: 0.9;
+}
+
+/* =============================================== */
+/* RESPONSIVE BANNER DESIGN */
+/* =============================================== */
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .banner {
+    height: 120px;
+    margin-top: 25px;
+  }
+  
+  .logo-image {
+    height: 90px;
+  }
+}
+
+/* Medium Desktop */
+@media (max-width: 1199px) and (min-width: 900px) {
+  .banner {
+    height: 90px;
+    margin-top: 18px;
+  }
+  
+  .logo-image {
+    height: 70px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .banner {
+    height: 80px;
+    margin-top: 15px;
+  }
+  
+  .logo-image {
+    height: 60px;
+  }
+}
+
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .banner {
+    height: 70px;
+    margin-top: 12px;
+  }
+  
+  .logo-image {
+    height: 50px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) and (min-width: 480px) {
+  .banner {
+    height: 60px;
+    margin-top: 10px;
+  }
+  
+  .logo-image {
+    height: 45px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 479px) {
+  .banner {
+    height: 55px;
+    margin-top: 8px;
+  }
+  
+  .logo-image {
+    height: 40px;
+  }
 }

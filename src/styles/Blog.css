@@ -54,21 +54,83 @@
     line-height: 1.6;
 }
 
-/* Responsive Styling */
-@media (max-width: 600px) {
-    .blog-container {
-        padding: 20px;
-    }
+/* =============================================== */
+/* RESPONSIVE BLOG DESIGN */
+/* =============================================== */
 
-    .blog-list li {
-        padding: 10px;
-    }
+/* Tablet */
+@media (max-width: 899px) and (min-width: 768px) {
+  .blog-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 15px auto;
+  }
+  
+  .blog-intro {
+    font-size: 1.1rem;
+  }
+  
+  .blog-list h3 {
+    font-size: 1.3rem;
+  }
+  
+  .blog-description {
+    font-size: 0.95rem;
+  }
+}
 
-    .blog-list h3 {
-        font-size: 1.2rem;
-    }
+/* Small Tablet/Large Phone */
+@media (max-width: 767px) and (min-width: 576px) {
+  .blog-container {
+    max-width: 95%;
+    padding: 25px;
+    margin: 12px auto;
+  }
+  
+  .blog-intro {
+    font-size: 1rem;
+  }
+  
+  .blog-list li {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .blog-list h3 {
+    font-size: 1.2rem;
+  }
+  
+  .blog-description {
+    font-size: 0.9rem;
+  }
+}
 
-    .blog-description {
-        font-size: 0.9rem;
-    }
+/* Mobile */
+@media (max-width: 575px) {
+  .blog-container {
+    max-width: 98%;
+    padding: 20px;
+    margin: 10px auto;
+    border-radius: 8px;
+  }
+  
+  .blog-intro {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+  }
+  
+  .blog-list li {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .blog-list h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  
+  .blog-description {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
 }

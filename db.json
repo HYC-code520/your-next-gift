@@ -193,6 +193,14 @@
       "birthday": "",
       "colorPreference": "",
       "additionalDetails": ""
+    },
+    {
+      "id": "4",
+      "fullName": "Ariel",
+      "requestedDiy": "Wavy Mirror Frame",
+      "birthday": "03/04",
+      "colorPreference": "Water Blue",
+      "additionalDetails": ""
     }
   ]
 }
