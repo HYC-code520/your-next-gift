@@ -16,7 +16,6 @@ const localImageMap = {
   '9': '/images/Cookie-cusion.JPG',
   '10': '/images/Ham-hideout.PNG',
   '12': '/images/AH-DAI-pen-holder.PNG',
-  '13': '/images/cat-bow-frame.PNG',
   '14': '/images/flower-box-with-jellycat.JPG',
   '15': '/images/Fuji-Mountain-weaved-bag.png',
   '16': '/images/icecream-cake.JPG',
@@ -26,6 +25,8 @@ const localImageMap = {
   '20': '/images/Chiikawa-frame2.png',
   '21': '/images/Crossbodybag-1.JPG',
   '22': '/images/Cat-bow-frame.png',
+  '23': '/images/double-frame-clay-frame.PNG',
+  '24': '/images/Fancy-fruit-basket1.png',
 };
 
 function DiyCard({ diyProjectDetails }) {

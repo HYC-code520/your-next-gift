@@ -12,15 +12,14 @@ import '../styles/DiyDetail.css';
 // Now supports arrays for multiple angles!
 const localImageMap = {
   '1': ['/images/Wavy-frame.JPG'],
-  '2': ['/images/dog-pizza.JPG'],
+  '2': ['/images/dog-pizza.JPG', '/images/pet-treat-hider-pizza-2.JPEG'],
   '3': ['/images/customize-twistt-sticks-pet-bouquet.png', '/images/customize-twistt-sticks-pet-bouquet-closedup.PNG'],
   '4': ['/images/Flower-balloon.PNG'],
-  '5': ['/images/7-11.PNG'],
+  '5': ['/images/7-11.PNG', '/images/7-11-store-mangents2.PNG'],
   '6': ['/images/weaved-black-crossbody-bag.PNG', '/images/weaved-black-crossbody-bag-closedup.PNG'],
   '9': ['/images/Cookie-cusion.JPG'],
   '10': ['/images/Ham-hideout.PNG'],
   '12': ['/images/AH-DAI-pen-holder.PNG', '/images/AH-DAI-penholder2.PNG'],
-  '13': ['/images/cat-bow-frame.PNG'],
   '14': ['/images/flower-box-with-jellycat.JPG'],
   '15': ['/images/Fuji-Mountain-weaved-bag.png'],
   '16': ['/images/icecream-cake.JPG'],
@@ -30,6 +29,8 @@ const localImageMap = {
   '20': ['/images/Chiikawa-frame2.png', '/images/Chiikawa-frame.JPG'],
   '21': ['/images/Crossbodybag-1.JPG', '/images/crossbodybag-2.JPG'],
   '22': ['/images/Cat-bow-frame.png'],
+  '23': ['/images/double-frame-clay-frame.PNG'],
+  '24': ['/images/Fancy-fruit-basket1.png'],
 };
 
 function DiyDetail() {

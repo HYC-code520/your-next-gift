@@ -14,8 +14,6 @@ WHERE id = 6;
 INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
 (12, 'Ah-Dai Character Pen Holder', 'An adorable Shin-chan Ah-Dai character mug that doubles as a pen holder. Hand-painted with cute details!', ARRAY['Clay', 'Acrylic Paint', 'Sealant'], '1 week', ARRAY[]::text[]),
 
-(13, 'Kawaii Birthday Photo Frame', 'A super cute birthday-themed photo frame with adorable animal characters, sprinkles, and Happy Birthday text.', ARRAY['Clay', 'Acrylic Paint', 'Frame Base'], '1 week', ARRAY[]::text[]),
-
 (14, 'Jellycat Flower Box Arrangement', 'A beautiful flower box arrangement featuring preserved flowers and a cute Jellycat plush companion.', ARRAY['Flower Box', 'Preserved Flowers', 'Jellycat Plush', 'Ribbon'], '1 day', ARRAY[]::text[]),
 
 (15, 'Fuji Mountain Woven Bag', 'A stunning woven bag inspired by Mount Fuji with gradient colors.', ARRAY['Thick Yarn', 'Crochet Hook'], '2 weeks', ARRAY[]::text[]),
@@ -48,6 +46,27 @@ ON CONFLICT (id) DO UPDATE SET
 -- Add Cat Bow Friendship Frame (ID 22)
 INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
 (22, 'Cat Bow Friendship Frame', 'An adorable turquoise photo frame with cute cats, a pink bow, hearts, and stars. Perfect for your bestie!', ARRAY['Clay', 'Acrylic Paint', 'Frame Base'], '1 week', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Delete Kawaii Birthday Photo Frame (ID 13)
+DELETE FROM diy_projects WHERE id = 13;
+
+-- Add "Always With You" Double Photo Frame (ID 23)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(23, 'Always With You Double Frame', 'A cute pink polka dot clay photo frame that holds two photos. Features adorable character charms including a girl, dog, star, cupcake, and "Always with you" message.', ARRAY['Clay', 'Acrylic Paint', 'Frame Base', 'Mini Charms'], '1.5 weeks', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Add Fancy Fruit Basket (ID 24)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(24, 'Fancy Fruit Basket Arrangement', 'A beautiful decorative fruit basket arrangement with elegant styling. Perfect as a gift or home decor!', ARRAY['Basket', 'Artificial Fruits', 'Decorative Ribbon', 'Filler'], '1 day', ARRAY[]::text[])
 ON CONFLICT (id) DO UPDATE SET
   project_name = EXCLUDED.project_name,
   description = EXCLUDED.description,
