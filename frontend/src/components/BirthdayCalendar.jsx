@@ -326,20 +326,31 @@ function BirthdayCalendar() {
         ) : (
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <CardTitle className="text-2xl">
                   {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
                 </CardTitle>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={previousMonth}>
+                  <button
+                    onClick={previousMonth}
+                    className="px-4 py-2 rounded-lg bg-[hsl(210,100%,90%)] text-[hsl(231,44%,28%)] hover:bg-[hsl(210,100%,85%)] transition-all font-medium flex items-center gap-1"
+                  >
                     <ChevronLeft className="w-5 h-5" />
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={goToToday}>
+                    <span className="hidden sm:inline">Previous</span>
+                  </button>
+                  <button
+                    onClick={goToToday}
+                    className="px-4 py-2 rounded-lg bg-[hsl(307,58%,85%)] text-[hsl(231,44%,28%)] hover:bg-[hsl(307,58%,80%)] transition-all font-semibold"
+                  >
                     Today
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={nextMonth}>
+                  </button>
+                  <button
+                    onClick={nextMonth}
+                    className="px-4 py-2 rounded-lg bg-[hsl(210,100%,90%)] text-[hsl(231,44%,28%)] hover:bg-[hsl(210,100%,85%)] transition-all font-medium flex items-center gap-1"
+                  >
+                    <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-5 h-5" />
-                  </Button>
+                  </button>
                 </div>
               </div>
             </CardHeader>

@@ -1,54 +1,25 @@
-import React from 'react';
-import '../styles/Footer.css';
+import { Heart } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 function Footer() {
+  const { language } = useLanguage();
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <h2>Stay Connected</h2>
-        <p>Subscribe to our email list for the latest updates and DIY ideas!</p>
-        <form className="subscribe-form">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            aria-label="Email address"
-          />
-          <button type="submit">Subscribe</button>
-        </form>
-        <div className="social-media">
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <img
-              src="https://img.icons8.com/doodle/48/fae6f0/linkedin-circled.png"
-              alt="LinkedIn"
-            />
-          </a>
-          <a
-            href="https://youtube.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <img
-              src="https://img.icons8.com/doodle/48/fae6f0/youtube-play.png"
-              alt="YouTube"
-            />
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <img
-              src="https://img.icons8.com/doodle/48/fae6f0/instagram-new.png"
-              alt="Instagram"
-            />
-          </a>
+    <footer className="border-t border-border bg-muted/30">
+      <div className="max-w-[1400px] mx-auto px-6 py-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Made with love */}
+          <p className="text-sm text-muted-foreground flex items-center gap-1">
+            {language === 'en' ? 'Made with' : '用'}
+            <Heart className="w-4 h-4 text-pink-400 fill-pink-400" />
+            {language === 'en' ? 'by Ariel' : '由 Ariel 製作'}
+          </p>
+
+          {/* Copyright */}
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} DIY Gifts
+          </p>
         </div>
       </div>
     </footer>

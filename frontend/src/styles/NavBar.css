@@ -135,7 +135,7 @@
 .dark .language-toggle-btn {
   color: #999;
   background: transparent !important;
-  border: none !important;
+  border: none !important; 
 }
 
 .dark .search-nav-link:hover,

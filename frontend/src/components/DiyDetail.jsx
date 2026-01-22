@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
-import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles } from 'lucide-react';
+import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import '../styles/DiyDetail.css';
@@ -41,11 +41,16 @@ function DiyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { diyProjects } = useOutletContext();
-  const { addToCart } = useCart();
-  const { t } = useLanguage();
+  const { addToCart, hasItems, replaceCart, addAsAdditionalRequest, cart } = useCart();
+  const { t, language } = useLanguage();
   
   const [selectedImage, setSelectedImage] = useState(null);
   const [added, setAdded] = useState(false);
+  
+  // Modal state for "already have item in cart"
+  const [showCartModal, setShowCartModal] = useState(false);
+  const [additionalReason, setAdditionalReason] = useState('');
+  const [pendingProject, setPendingProject] = useState(null);
   
   // Customization state
   const [customization, setCustomization] = useState({
@@ -65,27 +70,55 @@ function DiyDetail() {
     );
   }
 
-  // Color options (you can customize these per project later)
-  const colorOptions = [
-    { name: 'Saturated Blue', value: 'saturated-blue', hex: '#88A2FF' },
-    { name: 'Neon Green', value: 'neon-green', hex: '#E3FC87' },
-    { name: 'Deep Blue', value: 'deep-blue', hex: '#253A82' },
-    { name: 'Bright Pink', value: 'bright-pink', hex: '#FFB2F7' },
-    { name: 'Light Blue', value: 'light-blue', hex: '#C0E0FF' },
-    { name: 'Saturated Violet', value: 'saturated-violet', hex: '#AB9DFF' },
-    { name: 'White', value: 'white', hex: '#FFFFFF' },
-    { name: 'Black', value: 'black', hex: '#000000' },
+  // Preset color options (popular choices)
+  const presetColors = [
+    { name: 'Periwinkle', hex: '#9BA8E5' },
+    { name: 'Lime', hex: '#E2EDA3' },
+    { name: 'Navy', hex: '#2A3362' },
+    { name: 'Pink', hex: '#F0B8E8' },
+    { name: 'Sky Blue', hex: '#CCE5FF' },
+    { name: 'Lavender', hex: '#B8A8F0' },
+    { name: 'White', hex: '#FFFFFF' },
+    { name: 'Black', hex: '#000000' },
+    { name: 'Coral', hex: '#FF7F7F' },
+    { name: 'Mint', hex: '#98FF98' },
+    { name: 'Peach', hex: '#FFCBA4' },
+    { name: 'Teal', hex: '#008080' },
   ];
+
+  // State for custom color picker
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customColorInput, setCustomColorInput] = useState('#FF6B6B');
 
   // Size options
   const sizeOptions = ['Small', 'Medium', 'Large', 'Custom'];
 
-  const handleColorToggle = (color) => {
+  // Toggle a color (add/remove from selection)
+  const handleColorToggle = (hex) => {
     setCustomization(prev => ({
       ...prev,
-      colors: prev.colors.includes(color)
-        ? prev.colors.filter(c => c !== color)
-        : [...prev.colors, color]
+      colors: prev.colors.includes(hex)
+        ? prev.colors.filter(c => c !== hex)
+        : [...prev.colors, hex]
+    }));
+  };
+
+  // Add custom color from picker
+  const handleAddCustomColor = () => {
+    if (customColorInput && !customization.colors.includes(customColorInput)) {
+      setCustomization(prev => ({
+        ...prev,
+        colors: [...prev.colors, customColorInput]
+      }));
+    }
+    setShowColorPicker(false);
+  };
+
+  // Remove a specific color
+  const handleRemoveColor = (hex) => {
+    setCustomization(prev => ({
+      ...prev,
+      colors: prev.colors.filter(c => c !== hex)
     }));
   };
 
@@ -95,12 +128,39 @@ function DiyDetail() {
       customization: customization
     };
     
-    addToCart(projectWithCustomization);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-    
-    // Optionally navigate to cart
-    // navigate('/cart');
+    // Check if cart already has items
+    if (hasItems()) {
+      // Show modal to ask user what they want to do
+      setPendingProject(projectWithCustomization);
+      setShowCartModal(true);
+    } else {
+      // First item - add directly
+      addToCart(projectWithCustomization);
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+      navigate('/cart');
+    }
+  };
+
+  // Handle replacing current cart item
+  const handleReplaceCart = async () => {
+    if (pendingProject) {
+      await replaceCart(pendingProject);
+      setShowCartModal(false);
+      setPendingProject(null);
+      navigate('/cart');
+    }
+  };
+
+  // Handle adding as additional request
+  const handleAddAsAdditional = async () => {
+    if (pendingProject && additionalReason.trim()) {
+      await addAsAdditionalRequest(pendingProject, additionalReason);
+      setShowCartModal(false);
+      setPendingProject(null);
+      setAdditionalReason('');
+      navigate('/cart');
+    }
   };
 
   const hasCustomization = () => {
@@ -193,31 +253,109 @@ function DiyDetail() {
                     <Palette className="w-4 h-4" />
                     Choose Colors (select multiple)
                   </label>
-                  <div className="grid grid-cols-4 gap-3">
-                    {colorOptions.map((color) => (
+                  
+                  {/* Preset Colors Grid */}
+                  <div className="grid grid-cols-6 gap-2 mb-3">
+                    {presetColors.map((color) => (
                       <button
-                        key={color.value}
-                        onClick={() => handleColorToggle(color.value)}
-                        className={`relative aspect-square rounded-lg border-2 transition-all hover:scale-105 ${
-                          customization.colors.includes(color.value)
-                            ? 'border-primary ring-2 ring-primary/20'
-                            : 'border-border'
+                        key={color.hex}
+                        onClick={() => handleColorToggle(color.hex)}
+                        className={`relative aspect-square rounded-xl border-2 transition-all hover:scale-110 ${
+                          customization.colors.includes(color.hex)
+                            ? 'border-primary ring-2 ring-primary/30 scale-105'
+                            : 'border-border hover:border-primary/50'
                         }`}
                         style={{ backgroundColor: color.hex }}
                         title={color.name}
                       >
-                        {customization.colors.includes(color.value) && (
-                          <Check className="absolute inset-0 m-auto w-6 h-6 text-white drop-shadow-lg" />
+                        {customization.colors.includes(color.hex) && (
+                          <Check className={`absolute inset-0 m-auto w-5 h-5 drop-shadow-lg ${
+                            ['#FFFFFF', '#E2EDA3', '#CCE5FF', '#98FF98', '#FFCBA4'].includes(color.hex) 
+                              ? 'text-gray-700' 
+                              : 'text-white'
+                          }`} />
                         )}
                       </button>
                     ))}
                   </div>
+
+                  {/* Custom Color Picker Button */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowColorPicker(!showColorPicker)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-dashed border-border hover:border-primary/50 transition-all text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Custom Color
+                    </button>
+                  </div>
+
+                  {/* Custom Color Picker */}
+                  {showColorPicker && (
+                    <div className="mt-3 p-4 rounded-lg bg-muted/50 border border-border">
+                      <p className="text-sm font-medium mb-2">Pick any color:</p>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="color"
+                          value={customColorInput}
+                          onChange={(e) => setCustomColorInput(e.target.value)}
+                          className="w-16 h-16 rounded-lg cursor-pointer border-2 border-border"
+                        />
+                        <div className="flex-1">
+                          <input
+                            type="text"
+                            value={customColorInput}
+                            onChange={(e) => setCustomColorInput(e.target.value)}
+                            placeholder="#RRGGBB"
+                            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm font-mono"
+                          />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Click the color square or enter a hex code
+                          </p>
+                        </div>
+                        <Button
+                          onClick={handleAddCustomColor}
+                          size="sm"
+                          className="shrink-0"
+                        >
+                          Add
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Selected Colors Display */}
                   {customization.colors.length > 0 && (
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Selected: {customization.colors.map(c => 
-                        colorOptions.find(opt => opt.value === c)?.name
-                      ).join(', ')}
-                    </p>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">
+                        Selected ({customization.colors.length}):
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {customization.colors.map((hex) => {
+                          const preset = presetColors.find(c => c.hex === hex);
+                          return (
+                            <div
+                              key={hex}
+                              className="flex items-center gap-1 px-2 py-1 rounded-full bg-muted border border-border"
+                            >
+                              <div
+                                className="w-4 h-4 rounded-full border border-border"
+                                style={{ backgroundColor: hex }}
+                              />
+                              <span className="text-xs font-medium">
+                                {preset?.name || hex}
+                              </span>
+                              <button
+                                onClick={() => handleRemoveColor(hex)}
+                                className="ml-1 text-muted-foreground hover:text-destructive transition-colors"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -323,6 +461,103 @@ function DiyDetail() {
           </div>
         </div>
       </div>
+
+      {/* Modal: Already have item in cart */}
+      {showCartModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowCartModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="relative bg-card border border-border rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in">
+            <button
+              onClick={() => setShowCartModal(false)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center mb-6">
+              <AlertCircle className="w-12 h-12 text-primary mx-auto mb-3" />
+              <h3 className="text-xl font-bold mb-2">
+                {language === 'en' ? 'You already have a gift selected!' : '你已經選了一個禮物！'}
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                {language === 'en' 
+                  ? 'Each person can typically request one birthday gift. What would you like to do?'
+                  : '每人通常只能選擇一個生日禮物。你想怎麼做？'
+                }
+              </p>
+            </div>
+
+            {/* Current cart item preview */}
+            {cart[0] && (
+              <div className="bg-muted/50 rounded-lg p-3 mb-4 flex items-center gap-3">
+                <div className="text-xs text-muted-foreground">
+                  {language === 'en' ? 'Currently selected:' : '目前已選：'}
+                </div>
+                <div className="font-medium text-sm">{cart[0].projectName}</div>
+              </div>
+            )}
+
+            <div className="space-y-3">
+              {/* Option 1: Replace */}
+              <Button
+                onClick={handleReplaceCart}
+                className="w-full"
+                variant="default"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {language === 'en' ? 'Replace with this one' : '換成這個'}
+              </Button>
+
+              {/* Divider */}
+              <div className="relative py-2">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-card px-3 text-xs text-muted-foreground">
+                    {language === 'en' ? 'or request additional' : '或申請額外禮物'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Option 2: Request additional */}
+              <div className="space-y-2">
+                <textarea
+                  value={additionalReason}
+                  onChange={(e) => setAdditionalReason(e.target.value)}
+                  placeholder={language === 'en' 
+                    ? "Please explain why you'd like an additional gift (e.g., for a different occasion, as a backup option...)"
+                    : "請說明為什麼需要額外禮物（例如：不同場合、備用選項...）"
+                  }
+                  className="w-full px-3 py-2 bg-input border border-border rounded-lg text-sm resize-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  rows="3"
+                />
+                <Button
+                  onClick={handleAddAsAdditional}
+                  className="w-full"
+                  variant="outline"
+                  disabled={!additionalReason.trim()}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {language === 'en' ? 'Request additional gift' : '申請額外禮物'}
+                </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  {language === 'en' 
+                    ? '* Additional requests require approval'
+                    : '* 額外請求需要審核批准'
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

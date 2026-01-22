@@ -319,6 +319,30 @@ export const CartProvider = ({ children }) => {
     return cart.reduce((total, item) => total + (item.quantity || 1), 0);
   };
 
+  // Check if cart already has items (for the "one gift" flow)
+  const hasItems = () => {
+    return cart.length > 0;
+  };
+
+  // Replace all items in cart with a new one
+  const replaceCart = async (project) => {
+    await clearCart();
+    await addToCart(project);
+  };
+
+  // Add item as additional request (with reason)
+  const addAsAdditionalRequest = async (project, reason) => {
+    const projectWithReason = {
+      ...project,
+      customization: {
+        ...(project.customization || {}),
+        additionalItemReason: reason,
+        isAdditionalRequest: true,
+      }
+    };
+    await addToCart(projectWithReason);
+  };
+
   const value = {
     cart,
     loading,
@@ -328,6 +352,9 @@ export const CartProvider = ({ children }) => {
     updateItemDetails,
     clearCart,
     getCartCount,
+    hasItems,
+    replaceCart,
+    addAsAdditionalRequest,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

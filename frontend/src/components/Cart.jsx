@@ -1,15 +1,17 @@
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShoppingCart, CreditCard, Lock, Lightbulb } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { ShoppingCart, CreditCard, Lock, Lightbulb, AlertCircle } from 'lucide-react';
 import PageBanner from './PageBanner';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 
 function Cart() {
-  const { cart, removeFromCart, updateQuantity, getCartCount } = useCart();
+  const { cart, removeFromCart } = useCart();
   const { user } = useAuth();
+  const { language } = useLanguage();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -23,17 +25,21 @@ function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-spotify-gray to-spotify-black">
-        <PageBanner title="Your Cart" />
+      <div className="min-h-screen bg-background">
+        <PageBanner title={language === 'en' ? 'Your Cart' : '購物車'} />
         <div className="max-w-4xl mx-auto px-4 py-20 animate-fade-in">
-          <Card className="text-center py-20 glass">
+          <Card className="text-center py-20">
             <CardContent className="pt-6">
-              <ShoppingCart className="w-32 h-32 mx-auto mb-6 animate-scale-in text-spotify-green" />
-              <h2 className="text-3xl font-bold mb-3 text-white">Your cart is empty</h2>
-              <p className="text-spotify-light-gray mb-8 text-lg">Browse our amazing DIY projects and start creating!</p>
+              <ShoppingCart className="w-32 h-32 mx-auto mb-6 animate-pulse text-primary" />
+              <h2 className="text-3xl font-bold mb-3">
+                {language === 'en' ? 'Your cart is empty' : '購物車是空的'}
+              </h2>
+              <p className="text-muted-foreground mb-8 text-lg">
+                {language === 'en' ? 'Browse our amazing DIY projects and find your perfect gift!' : '瀏覽我們的 DIY 專案，找到你的完美禮物！'}
+              </p>
               <Link to="/list">
-                <Button size="lg" variant="play" className="px-12">
-                  Explore Projects
+                <Button size="lg" className="px-12">
+                  {language === 'en' ? 'Explore Projects' : '探索專案'}
                 </Button>
               </Link>
             </CardContent>
@@ -44,8 +50,8 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-spotify-gray to-spotify-black">
-      <PageBanner title={`Your Cart (${getCartCount()} items)`} />
+    <div className="min-h-screen bg-background">
+      <PageBanner title={language === 'en' ? `Your Cart (${cart.length} ${cart.length === 1 ? 'gift' : 'gifts'})` : `購物車 (${cart.length} 個禮物)`} />
       <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
@@ -80,29 +86,53 @@ function Cart() {
                       </p>
                       
                       {/* Customization Details */}
-                      {item.customization && (item.customization.colors?.length > 0 || item.customization.size || item.customization.personalization) && (
+                      {item.customization && (item.customization.colors?.length > 0 || item.customization.size || item.customization.personalization || item.customization.specialRequests) && (
                         <div className="bg-primary/10 rounded-lg p-3 mb-3 space-y-1">
-                          <p className="text-xs font-semibold text-primary mb-1">✨ Customization:</p>
+                          <p className="text-xs font-semibold text-primary mb-1">
+                            ✨ {language === 'en' ? 'Customization:' : '客製化：'}
+                          </p>
                           {item.customization.colors?.length > 0 && (
-                            <p className="text-xs">
-                              <span className="font-medium">Colors:</span> {item.customization.colors.join(', ')}
-                            </p>
+                            <div className="flex items-center gap-1 text-xs">
+                              <span className="font-medium">{language === 'en' ? 'Colors:' : '顏色：'}</span>
+                              <div className="flex gap-1">
+                                {item.customization.colors.map((color, i) => (
+                                  <div 
+                                    key={i}
+                                    className="w-4 h-4 rounded-full border border-border"
+                                    style={{ backgroundColor: color }}
+                                    title={color}
+                                  />
+                                ))}
+                              </div>
+                            </div>
                           )}
                           {item.customization.size && (
                             <p className="text-xs">
-                              <span className="font-medium">Size:</span> {item.customization.size}
+                              <span className="font-medium">{language === 'en' ? 'Size:' : '尺寸：'}</span> {item.customization.size}
                             </p>
                           )}
                           {item.customization.personalization && (
                             <p className="text-xs">
-                              <span className="font-medium">Text:</span> "{item.customization.personalization}"
+                              <span className="font-medium">{language === 'en' ? 'Text:' : '文字：'}</span> "{item.customization.personalization}"
                             </p>
                           )}
                           {item.customization.specialRequests && (
                             <p className="text-xs">
-                              <span className="font-medium">Notes:</span> {item.customization.specialRequests}
+                              <span className="font-medium">{language === 'en' ? 'Notes:' : '備註：'}</span> {item.customization.specialRequests}
                             </p>
                           )}
+                        </div>
+                      )}
+                      
+                      {/* Additional Request Reason */}
+                      {item.customization?.isAdditionalRequest && item.customization?.additionalItemReason && (
+                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 mb-3">
+                          <p className="text-xs font-semibold text-amber-600 mb-1">
+                            📝 {language === 'en' ? 'Reason for additional gift:' : '額外禮物原因：'}
+                          </p>
+                          <p className="text-xs text-amber-700 dark:text-amber-400">
+                            "{item.customization.additionalItemReason}"
+                          </p>
                         </div>
                       )}
                       
@@ -122,28 +152,15 @@ function Cart() {
 
                     {/* Actions */}
                     <div className="flex flex-col gap-3 items-end">
-                      {/* Quantity Controls */}
-                      <div className="flex items-center gap-2 bg-spotify-black rounded-full p-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-full"
-                          onClick={() => updateQuantity(item.cartItemId || item.id, item.quantity - 1)}
-                        >
-                          <span className="text-lg">−</span>
-                        </Button>
-                        <Badge variant="default" className="min-w-[2.5rem] justify-center px-3">
-                          {item.quantity || 1}
-                        </Badge>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-full"
-                          onClick={() => updateQuantity(item.cartItemId || item.id, item.quantity + 1)}
-                        >
-                          <span className="text-lg">+</span>
-                        </Button>
-                      </div>
+                      {/* Additional Request Badge */}
+                      {item.customization?.isAdditionalRequest && (
+                        <div className="flex items-center gap-1 px-2 py-1 bg-amber-500/20 border border-amber-500/50 rounded-full">
+                          <AlertCircle className="w-3 h-3 text-amber-500" />
+                          <span className="text-xs font-medium text-amber-500">
+                            {language === 'en' ? 'Additional Request' : '額外請求'}
+                          </span>
+                        </div>
+                      )}
 
                       {/* Remove Button */}
                       <Button
@@ -152,7 +169,7 @@ function Cart() {
                         onClick={() => removeFromCart(item.cartItemId || item.id)}
                         className="rounded-full"
                       >
-                        Remove
+                        {language === 'en' ? 'Remove' : '移除'}
                       </Button>
                     </div>
                   </div>
@@ -163,25 +180,31 @@ function Cart() {
 
           {/* Cart Summary */}
           <div>
-            <Card className="sticky top-20 glass">
+            <Card className="sticky top-20">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-white/10 text-white">
-                  Cart Summary
+                <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-border">
+                  {language === 'en' ? 'Order Summary' : '訂單摘要'}
                 </h3>
                 
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between items-center">
-                    <span className="text-spotify-light-gray">Total Items:</span>
+                    <span className="text-muted-foreground">
+                      {language === 'en' ? 'Selected Gifts:' : '已選禮物：'}
+                    </span>
                     <Badge variant="default" className="text-lg px-4 py-1">
-                      {getCartCount()}
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-spotify-light-gray">Projects:</span>
-                    <Badge variant="secondary" className="text-lg px-4 py-1">
                       {cart.length}
                     </Badge>
                   </div>
+                  {cart.some(item => item.customization?.isAdditionalRequest) && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-muted-foreground">
+                        {language === 'en' ? 'Pending Approval:' : '待審核：'}
+                      </span>
+                      <Badge variant="outline" className="text-lg px-4 py-1 border-amber-500 text-amber-500">
+                        {cart.filter(item => item.customization?.isAdditionalRequest).length}
+                      </Badge>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-3">
@@ -189,27 +212,26 @@ function Cart() {
                     onClick={handleCheckout} 
                     className="w-full"
                     size="lg"
-                    variant="play"
                   >
                     {user ? (
-                      <><CreditCard className="w-5 h-5 mr-2 inline" /> Proceed to Checkout</>
+                      <><CreditCard className="w-5 h-5 mr-2 inline" /> {language === 'en' ? 'Proceed to Checkout' : '前往結帳'}</>
                     ) : (
-                      <><Lock className="w-5 h-5 mr-2 inline" /> Login to Checkout</>
+                      <><Lock className="w-5 h-5 mr-2 inline" /> {language === 'en' ? 'Login to Checkout' : '登入結帳'}</>
                     )}
                   </Button>
                   
                   <Link to="/list" className="block">
                     <Button variant="outline" className="w-full" size="lg">
-                      ← Continue Shopping
+                      ← {language === 'en' ? 'Continue Shopping' : '繼續選購'}
                     </Button>
                   </Link>
                 </div>
 
                 {!user && (
-                  <div className="mt-6 p-4 bg-spotify-green/10 border border-spotify-green/30 rounded-lg backdrop-blur-sm">
-                    <p className="text-sm text-spotify-green flex items-center gap-2">
+                  <div className="mt-6 p-4 bg-primary/10 border border-primary/30 rounded-lg">
+                    <p className="text-sm text-primary flex items-center gap-2">
                       <Lightbulb className="w-5 h-5" />
-                      Login to save your cart and submit your request!
+                      {language === 'en' ? 'Login to save your cart and submit your request!' : '登入以保存購物車並提交請求！'}
                     </p>
                   </div>
                 )}

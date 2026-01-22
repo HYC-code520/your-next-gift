@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { ShoppingCart, Check } from 'lucide-react';
+import { Sparkles, Eye } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { useLanguage } from '../context/LanguageContext';
 
 // Map project IDs to image paths (images are in public/images/)
 const localImageMap = {
@@ -34,8 +34,8 @@ const localImageMap = {
 };
 
 function DiyCard({ diyProjectDetails }) {
-  const { addToCart } = useCart();
-  const [added, setAdded] = useState(false);
+  const navigate = useNavigate();
+  const { language } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
 
   // Use local image if available, otherwise use placeholder
@@ -44,11 +44,9 @@ function DiyCard({ diyProjectDetails }) {
       ? diyProjectDetails.images[0] 
       : '/images/placeholder.png');
 
-  const handleAddToCart = (e) => {
+  const handleCustomize = (e) => {
     e.preventDefault();
-    addToCart(diyProjectDetails);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    navigate(`/list/${diyProjectDetails.id}`);
   };
 
   return (
@@ -68,15 +66,12 @@ function DiyCard({ diyProjectDetails }) {
               e.target.src = '/images/placeholder.png';
             }}
           />
-          {/* Spotify-style play button overlay - theme aware */}
-          <div className={`absolute inset-0 bg-white/70 dark:bg-black/40 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-            <Button 
-              variant="play" 
-              size="icon"
-              className="w-14 h-14 shadow-2xl"
-            >
-              <span className="text-2xl">▶</span>
-            </Button>
+          {/* View overlay on hover */}
+          <div className={`absolute inset-0 bg-white/60 dark:bg-black/40 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="flex flex-col items-center gap-2 text-foreground">
+              <Eye className="w-8 h-8" />
+              <span className="text-sm font-medium">View Details</span>
+            </div>
           </div>
         </div>
       </Link>
@@ -94,16 +89,13 @@ function DiyCard({ diyProjectDetails }) {
 
       <CardFooter>
         <Button 
-          onClick={handleAddToCart}
+          onClick={handleCustomize}
           className="w-full"
-          variant={added ? "secondary" : "default"}
+          variant="default"
           size="sm"
         >
-          {added ? (
-            <><Check className="w-4 h-4 mr-2 inline" /> Added to Cart</>
-          ) : (
-            <><ShoppingCart className="w-4 h-4 mr-2 inline" /> Add to Cart</>
-          )}
+          <Sparkles className="w-4 h-4 mr-2 inline" />
+          {language === 'en' ? 'Customize & Order' : '客製化訂購'}
         </Button>
       </CardFooter>
     </Card>

@@ -36,11 +36,13 @@ function NavBar() {
             {t('about')}
           </NavLink>
         </li>
+{/* Blog tab hidden for now
         <li>
           <NavLink to="/blog" className="nav-link">
             {t('blog')}
           </NavLink>
         </li>
+*/}
         <li>
           <NavLink to="/birthdays" className="nav-link">
             {t('birthdays')}

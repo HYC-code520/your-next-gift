@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider> {/* Provides theme toggle context to the app */}
         <AuthProvider> {/* Provides authentication context to the app */}
           <CartProvider> {/* Provides cart context to the app */}
-            <RouterProvider router={router} /> {/* Provides routing context to the app */}
+    <RouterProvider router={router} /> {/* Provides routing context to the app */}
           </CartProvider>
         </AuthProvider>
       </ThemeProvider>

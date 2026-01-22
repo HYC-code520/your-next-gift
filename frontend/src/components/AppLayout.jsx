@@ -4,8 +4,7 @@ import '../App.css';
 import Banner from './Banner';
 import NavBar from './NavBar';
 import AnnouncementBar from './AnnouncementBar';
-import TopSearchBar from './TopSearchBar';
-import Footer from './Footer'; // Import Footer component
+import Footer from './Footer';
 import { supabase } from '../lib/supabaseClient';
 
 function AppLayout() {
@@ -31,6 +30,7 @@ function AppLayout() {
           materials: project.materials,
           estimatedTime: project.estimated_time,
           images: project.images,
+          categories: project.categories || [], // Changed to categories (array)
         }));
         setDiyProjects(transformedData);
       }
@@ -42,20 +42,19 @@ function AppLayout() {
   const isHomePage = location.pathname === '/';
 
   return (
-    <>
-      <AnnouncementBar />
+    <div className="flex flex-col min-h-screen">
+      {/* <AnnouncementBar /> */}
       <Banner />
-      <TopSearchBar />
       <NavBar />
-      <div className={`main-content ${isHomePage ? 'home-page' : ''}`}>
+      <div className={`flex-1 main-content ${isHomePage ? 'home-page' : ''}`}>
         <Outlet
           context={{
             diyProjects,
           }}
         />
       </div>
-      <Footer /> {/* Add the Footer component */}
-    </>
+      <Footer />
+    </div>
   );
 }
 

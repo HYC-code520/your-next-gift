@@ -4,48 +4,64 @@
 
 @layer base {
   :root {
+    /* New Pastel Palette from your image */
+    --periwinkle: 232 76% 74%;      /* #9BA8E5 - periwinkle blue */
+    --lime: 72 68% 80%;              /* #E2EDA3 - lime/yellow-green */
+    --navy: 231 44% 28%;             /* #2A3362 - navy blue */
+    --pink: 307 58% 85%;             /* #F0B8E8 - pink */
+    --sky: 210 100% 90%;             /* #CCE5FF - light sky blue */
+    --lavender: 252 76% 80%;         /* #B8A8F0 - lavender/violet */
+    
     --background: 0 0% 100%;
-    --foreground: 230 56% 33%;
+    --foreground: 231 44% 28%;       /* Navy for text */
     --card: 0 0% 100%;
-    --card-foreground: 230 56% 33%;
+    --card-foreground: 231 44% 28%;
     --popover: 0 0% 100%;
-    --popover-foreground: 230 56% 33%;
-    --primary: 229 100% 76%;
-    --primary-foreground: 230 56% 33%;
-    --secondary: 213 100% 88%;
-    --secondary-foreground: 230 56% 33%;
-    --muted: 213 100% 94%;
-    --muted-foreground: 230 30% 50%;
-    --accent: 244 100% 81%;
-    --accent-foreground: 230 56% 33%;
+    --popover-foreground: 231 44% 28%;
+    --primary: 232 76% 74%;          /* Periwinkle as primary */
+    --primary-foreground: 231 44% 28%;
+    --secondary: 210 100% 90%;       /* Sky blue as secondary */
+    --secondary-foreground: 231 44% 28%;
+    --muted: 210 100% 95%;           /* Lighter sky blue */
+    --muted-foreground: 231 30% 45%;
+    --accent: 252 76% 80%;           /* Lavender as accent */
+    --accent-foreground: 231 44% 28%;
+    --highlight: 72 68% 80%;         /* Lime for highlights */
+    --highlight-foreground: 231 44% 28%;
+    --feature: 307 58% 85%;          /* Pink for features */
+    --feature-foreground: 231 44% 28%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 213 100% 90%;
-    --input: 213 100% 90%;
-    --ring: 229 100% 76%;
+    --border: 232 40% 88%;           /* Light periwinkle border */
+    --input: 232 40% 92%;
+    --ring: 232 76% 74%;
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 230 56% 10%;
-    --foreground: 213 100% 94%;
-    --card: 230 56% 15%;
-    --card-foreground: 213 100% 94%;
-    --popover: 230 56% 15%;
-    --popover-foreground: 213 100% 94%;
-    --primary: 229 100% 76%;
-    --primary-foreground: 230 56% 33%;
-    --secondary: 230 56% 20%;
-    --secondary-foreground: 213 100% 94%;
-    --muted: 230 56% 20%;
-    --muted-foreground: 213 50% 70%;
-    --accent: 244 100% 81%;
-    --accent-foreground: 230 56% 10%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 213 100% 94%;
-    --border: 230 56% 25%;
-    --input: 230 56% 25%;
-    --ring: 229 100% 76%;
+    --background: 231 44% 12%;       /* Dark navy */
+    --foreground: 210 100% 92%;      /* Light sky blue text */
+    --card: 231 44% 18%;
+    --card-foreground: 210 100% 92%;
+    --popover: 231 44% 18%;
+    --popover-foreground: 210 100% 92%;
+    --primary: 232 76% 74%;          /* Periwinkle stays */
+    --primary-foreground: 231 44% 12%;
+    --secondary: 231 44% 25%;
+    --secondary-foreground: 210 100% 92%;
+    --muted: 231 44% 22%;
+    --muted-foreground: 210 50% 70%;
+    --accent: 252 76% 75%;           /* Lavender stays */
+    --accent-foreground: 231 44% 12%;
+    --highlight: 72 68% 75%;         /* Lime stays */
+    --highlight-foreground: 231 44% 12%;
+    --feature: 307 58% 75%;          /* Pink stays */
+    --feature-foreground: 231 44% 12%;
+    --destructive: 0 62.8% 40%;
+    --destructive-foreground: 210 100% 92%;
+    --border: 231 44% 28%;
+    --input: 231 44% 28%;
+    --ring: 232 76% 74%;
   }
 }
 
@@ -106,6 +122,6 @@
 }
 
 .hover-glow:hover {
-  box-shadow: 0 8px 32px rgba(136, 162, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(155, 168, 229, 0.4); /* Periwinkle glow */
   transform: translateY(-2px);
 }
