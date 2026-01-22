@@ -15,6 +15,7 @@ const localImageMap = {
   '6': '/images/weaved-black-crossbody-bag.PNG',
   '9': '/images/Cookie-cusion.JPG',
   '10': '/images/Ham-hideout.PNG',
+  '11': '/images/cat-hideout1.png',
   '12': '/images/AH-DAI-pen-holder.PNG',
   '14': '/images/flower-box-with-jellycat.JPG',
   '15': '/images/Fuji-Mountain-weaved-bag.png',
@@ -27,6 +28,9 @@ const localImageMap = {
   '22': '/images/Cat-bow-frame.png',
   '23': '/images/double-frame-clay-frame.PNG',
   '24': '/images/Fancy-fruit-basket1.png',
+  '25': '/images/2nd-shape-wavy-mirror-frame.JPG',
+  '26': '/images/white-weaving-handbag.png',
+  '27': '/images/cat-pizza01.png',
 };
 
 function DiyCard({ diyProjectDetails }) {
@@ -38,7 +42,7 @@ function DiyCard({ diyProjectDetails }) {
   const imageUrl = localImageMap[diyProjectDetails.id] 
     || (diyProjectDetails.images && diyProjectDetails.images.length > 0 
       ? diyProjectDetails.images[0] 
-      : 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop');
+      : '/images/placeholder.png');
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -61,7 +65,7 @@ function DiyCard({ diyProjectDetails }) {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             loading="lazy"
             onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop';
+              e.target.src = '/images/placeholder.png';
             }}
           />
           {/* Spotify-style play button overlay - theme aware */}

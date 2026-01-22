@@ -12,13 +12,14 @@ import '../styles/DiyDetail.css';
 // Now supports arrays for multiple angles!
 const localImageMap = {
   '1': ['/images/Wavy-frame.JPG'],
-  '2': ['/images/dog-pizza.JPG', '/images/pet-treat-hider-pizza-2.JPEG'],
+  '2': ['/images/dog-pizza.JPG'],
   '3': ['/images/customize-twistt-sticks-pet-bouquet.png', '/images/customize-twistt-sticks-pet-bouquet-closedup.PNG'],
   '4': ['/images/Flower-balloon.PNG'],
   '5': ['/images/7-11.PNG', '/images/7-11-store-mangents2.PNG'],
   '6': ['/images/weaved-black-crossbody-bag.PNG', '/images/weaved-black-crossbody-bag-closedup.PNG'],
   '9': ['/images/Cookie-cusion.JPG'],
   '10': ['/images/Ham-hideout.PNG'],
+  '11': ['/images/cat-hideout1.png', '/images/cat-hideout2.png'],
   '12': ['/images/AH-DAI-pen-holder.PNG', '/images/AH-DAI-penholder2.PNG'],
   '14': ['/images/flower-box-with-jellycat.JPG'],
   '15': ['/images/Fuji-Mountain-weaved-bag.png'],
@@ -31,6 +32,9 @@ const localImageMap = {
   '22': ['/images/Cat-bow-frame.png'],
   '23': ['/images/double-frame-clay-frame.PNG'],
   '24': ['/images/Fancy-fruit-basket1.png'],
+  '25': ['/images/2nd-shape-wavy-mirror-frame.JPG', '/images/2nd-shape-wavy-mirror-frame02.JPG'],
+  '26': ['/images/white-weaving-handbag.png', '/images/white-weaving-handbag2.png'],
+  '27': ['/images/cat-pizza01.png', '/images/cat-pizza02.JPEG'],
 };
 
 function DiyDetail() {
@@ -109,7 +113,7 @@ function DiyDetail() {
   // Get local images array for this project
   const localImages = localImageMap[id] || [];
   const allImages = localImages.length > 0 ? localImages : (project.images || []);
-  const mainImage = selectedImage || allImages[0] || 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop';
+  const mainImage = selectedImage || allImages[0] || '/images/placeholder.png';
 
   return (
     <div className="min-h-screen bg-background py-8">
@@ -123,7 +127,7 @@ function DiyDetail() {
           alt={project.projectName}
                 className="w-full aspect-square object-cover"
                 onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop';
+                  e.target.src = '/images/placeholder.png';
                 }}
               />
             </Card>

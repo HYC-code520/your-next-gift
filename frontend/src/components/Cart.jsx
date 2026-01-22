@@ -61,11 +61,11 @@ function Cart() {
                     {/* Image */}
                     <div className="flex-shrink-0 group">
                       <img
-                        src={item.images?.[0] || 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=400&fit=crop'}
+                        src={item.images?.[0] || '/images/placeholder.png'}
                         alt={item.projectName}
                         className="w-32 h-32 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
                         onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=400&fit=crop';
+                          e.target.src = '/images/placeholder.png';
                         }}
                       />
                     </div>

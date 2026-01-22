@@ -73,5 +73,35 @@ ON CONFLICT (id) DO UPDATE SET
   materials = EXCLUDED.materials,
   estimated_time = EXCLUDED.estimated_time;
 
+-- Add Pink Wavy Mirror Frame (ID 25)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(25, 'Pink Wavy Mirror Frame', 'A gorgeous full-length mirror with a unique pink wavy frame design. Perfect statement piece for any room!', ARRAY['Wood Frame', 'Mirror', 'Pink Paint', 'Wall Hooks'], '2-3 days', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Add White Chunky Woven Handbag (ID 26)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(26, 'White Chunky Woven Handbag', 'A stunning cream-colored chunky knit handbag with braided handles. Super trendy and perfect for everyday use!', ARRAY['Chunky Yarn', 'Knitting Needles', 'Lining Fabric', 'Handles'], '1-2 days', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Update project ID 2 (Dog Treat Hider Pizza)
+UPDATE diy_projects SET project_name = 'Dog Treat Hider Pizza' WHERE id = 2;
+
+-- Add Cat Treat Hider Pizza (ID 27)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(27, 'Cat Treat Hider Pizza', 'An adorable pizza-shaped treat puzzle for your cat! Hide treats in the pockets to keep your kitty entertained and mentally stimulated.', ARRAY['Felt Fabric', 'Stuffing', 'Treat Pockets', 'Thread'], '3-4 hours', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
 -- Verify the new projects were added
 SELECT id, project_name FROM diy_projects ORDER BY id;
