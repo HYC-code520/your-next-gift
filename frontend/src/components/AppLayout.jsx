@@ -4,6 +4,7 @@ import '../App.css';
 import Banner from './Banner';
 import NavBar from './NavBar';
 import AnnouncementBar from './AnnouncementBar';
+import TopSearchBar from './TopSearchBar';
 import Footer from './Footer'; // Import Footer component
 import { supabase } from '../lib/supabaseClient';
 
@@ -44,6 +45,7 @@ function AppLayout() {
     <>
       <AnnouncementBar />
       <Banner />
+      <TopSearchBar />
       <NavBar />
       <div className={`main-content ${isHomePage ? 'home-page' : ''}`}>
         <Outlet

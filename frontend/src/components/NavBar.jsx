@@ -15,13 +15,12 @@ function NavBar() {
 
   return (
     <nav className="navbar">
-      <div className="home-container">
-        <NavLink to="/" className="home-link">
-          {t('home')}
-        </NavLink>
-      </div>
-      
       <ul className="navbar-links">
+        <li>
+          <NavLink to="/" className="nav-link">
+            {t('home')}
+          </NavLink>
+        </li>
         <li>
           <NavLink to="/list" className="nav-link">
             {t('list')}
@@ -63,20 +62,20 @@ function NavBar() {
         )}
       </ul>
 
-      <div className="search-container">
+      {/* Utility buttons - right side */}
+      <div className="flex items-center gap-4">
+        {/* Language Toggle */}
         <button 
-          onClick={toggleLanguage} 
-          className="language-toggle-btn"
-          aria-label="Toggle language"
-          title={language === 'en' ? 'Switch to Chinese' : '切换到英文'}
+          onClick={toggleLanguage}
+          className="text-sm font-medium text-gray-500 hover:text-primary transition-colors"
         >
-          <Languages className="w-5 h-5" />
-          <span className="language-text">{language === 'en' ? '中文' : 'EN'}</span>
+          {language === 'en' ? '中文' : 'EN'}
         </button>
+
+        {/* Theme Toggle */}
         <button 
-          onClick={toggleTheme} 
-          className="theme-toggle-btn"
-          aria-label="Toggle theme"
+          onClick={toggleTheme}
+          className="text-gray-500 hover:text-primary transition-colors"
         >
           {theme === 'dark' ? (
             <Sun className="w-5 h-5" />
@@ -84,18 +83,16 @@ function NavBar() {
             <Moon className="w-5 h-5" />
           )}
         </button>
-        <NavLink to="/cart" className="cart-nav-link">
-          <ShoppingCart className="w-7 h-7" />
-          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+
+        {/* Cart */}
+        <NavLink to="/cart" className="relative text-gray-500 hover:text-primary transition-colors">
+          <ShoppingCart className="w-5 h-5" />
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+              {cartCount}
+            </span>
+          )}
         </NavLink>
-        <NavLink to="/search" className="search-nav-link">
-          <Search className="w-9 h-9" />
-        </NavLink>
-        {!user && (
-          <NavLink to="/login" className="login-nav-link">
-            <Lock className="w-6 h-6" />
-          </NavLink>
-        )}
       </div>
     </nav>
   );

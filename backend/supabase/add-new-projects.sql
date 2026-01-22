@@ -1,0 +1,58 @@
+-- Add new DIY projects to Supabase
+-- Run this in your Supabase SQL Editor (https://supabase.com/dashboard → SQL Editor)
+
+-- First, update existing project #6 to be the Woven Black Crossbody Bag
+UPDATE diy_projects 
+SET 
+  project_name = 'Woven Black Crossbody Bag',
+  description = 'A stylish handwoven crossbody bag with adjustable chain strap.',
+  materials = ARRAY['Thick Yarn', 'Chain Strap', 'Crochet Hook'],
+  estimated_time = '1 week'
+WHERE id = 6;
+
+-- Insert new projects (IDs 12-20)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(12, 'Ah-Dai Character Pen Holder', 'An adorable Shin-chan Ah-Dai character mug that doubles as a pen holder. Hand-painted with cute details!', ARRAY['Clay', 'Acrylic Paint', 'Sealant'], '1 week', ARRAY[]::text[]),
+
+(13, 'Kawaii Birthday Photo Frame', 'A super cute birthday-themed photo frame with adorable animal characters, sprinkles, and Happy Birthday text.', ARRAY['Clay', 'Acrylic Paint', 'Frame Base'], '1 week', ARRAY[]::text[]),
+
+(14, 'Jellycat Flower Box Arrangement', 'A beautiful flower box arrangement featuring preserved flowers and a cute Jellycat plush companion.', ARRAY['Flower Box', 'Preserved Flowers', 'Jellycat Plush', 'Ribbon'], '1 day', ARRAY[]::text[]),
+
+(15, 'Fuji Mountain Woven Bag', 'A stunning woven bag inspired by Mount Fuji with gradient colors.', ARRAY['Thick Yarn', 'Crochet Hook'], '2 weeks', ARRAY[]::text[]),
+
+(16, 'Vintage Birthday Cake Design', 'A beautifully decorated vintage-style birthday cake with intricate piping and elegant design.', ARRAY['Cake Base', 'Buttercream', 'Piping Tips'], '1 day', ARRAY[]::text[]),
+
+(17, 'Kawaii Twisty Sticks Keychain', 'An adorable keychain made from twisty sticks featuring cute character designs with hearts and bows.', ARRAY['Twisty Sticks', 'Keychain Ring', 'Decorations'], '2 days', ARRAY[]::text[]),
+
+(18, 'Miffy Character Clock', 'A cute Miffy-themed clock perfect for any room. Hand-painted with love!', ARRAY['Clock Mechanism', 'Wood Base', 'Acrylic Paint'], '4 days', ARRAY[]::text[]),
+
+(19, 'Twisty Sticks Flower Bouquet', 'A beautiful and everlasting flower bouquet made entirely from twisty sticks. Perfect for any occasion!', ARRAY['Twisty Sticks', 'Ribbon', 'Floral Wire'], '3 days', ARRAY[]::text[]),
+
+(20, 'Chiikawa Character Frame', 'An adorable Chiikawa-themed photo frame with cute character decorations.', ARRAY['Clay', 'Acrylic Paint', 'Frame Base'], '1 week', ARRAY[]::text[])
+
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Add Green Woven Crossbody Bag (ID 21)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(21, 'Green Woven Shoulder Bag', 'A beautiful sage green woven shoulder bag with chunky texture. Perfect for everyday use!', ARRAY['Chunky Yarn', 'Crochet Hook'], '2 weeks', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Add Cat Bow Friendship Frame (ID 22)
+INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
+(22, 'Cat Bow Friendship Frame', 'An adorable turquoise photo frame with cute cats, a pink bow, hearts, and stars. Perfect for your bestie!', ARRAY['Clay', 'Acrylic Paint', 'Frame Base'], '1 week', ARRAY[]::text[])
+ON CONFLICT (id) DO UPDATE SET
+  project_name = EXCLUDED.project_name,
+  description = EXCLUDED.description,
+  materials = EXCLUDED.materials,
+  estimated_time = EXCLUDED.estimated_time;
+
+-- Verify the new projects were added
+SELECT id, project_name FROM diy_projects ORDER BY id;

@@ -4,169 +4,161 @@
       "id": "1",
       "projectName": "Wavy Mirror Frame",
       "description": "A decorative frame for mirrors, perfect for any room.",
-      "materials": [
-        "Wood",
-        "Paint"
-      ],
+      "materials": ["Wood", "Paint"],
       "estimatedTime": "2 weeks",
-      "images": [
-        "/image/Wavy-frame.JPG",
-        "https://via.placeholder.com/300/FF0000",
-        "https://via.placeholder.com/300/00FF00"
-      ]
+      "images": []
     },
     {
       "id": "2",
       "projectName": "Pet Treat Hider Pizza",
       "description": "A fun toy to hide pet treats, shaped like a pizza slice.",
-      "materials": [
-        "Fabric",
-        "Stuffing"
-      ],
+      "materials": ["Fabric", "Stuffing"],
       "estimatedTime": "1 week",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FF0000",
-        "https://via.placeholder.com/300/0000FF"
-      ]
+      "images": []
     },
     {
       "id": "3",
       "projectName": "Customize Twisty Sticks Pet Bouquet",
       "description": "A playful and colorful bouquet for your pet made from twisty sticks.",
-      "materials": [
-        "Twisty Sticks",
-        "Ribbon"
-      ],
+      "materials": ["Twisty Sticks", "Ribbon"],
       "estimatedTime": "3 days",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FFFF00",
-        "https://via.placeholder.com/300/00FFFF"
-      ]
+      "images": []
     },
     {
       "id": "4",
       "projectName": "Balloon Flower Bouquet",
       "description": "A stunning bouquet of flowers made from balloons.",
-      "materials": [
-        "Balloons",
-        "Pump"
-      ],
+      "materials": ["Balloons", "Pump"],
       "estimatedTime": "2 days",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FF00FF",
-        "https://via.placeholder.com/300/00FF00"
-      ]
+      "images": []
     },
     {
       "id": "5",
       "projectName": "Mini Store Signboard Magnet",
       "description": "A tiny, vintage-inspired store signboard as a magnet.",
-      "materials": [
-        "Wood",
-        "Paint",
-        "Magnets"
-      ],
+      "materials": ["Wood", "Paint", "Magnets"],
       "estimatedTime": "3 days",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/0000FF",
-        "https://via.placeholder.com/300/FF0000"
-      ]
+      "images": []
     },
     {
       "id": "6",
-      "projectName": "Adjustable Crossbody Bag",
-      "description": "A stylish and customizable crossbody bag with adjustable straps.",
-      "materials": [
-        "Fabric",
-        "Straps",
-        "Sewing Kit"
-      ],
+      "projectName": "Woven Black Crossbody Bag",
+      "description": "A stylish handwoven crossbody bag with adjustable chain strap.",
+      "materials": ["Thick Yarn", "Chain Strap", "Crochet Hook"],
       "estimatedTime": "1 week",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FFFF00",
-        "https://via.placeholder.com/300/00FFFF"
-      ]
+      "images": []
     },
     {
       "id": "7",
       "projectName": "Fireplace Display Shelf",
       "description": "A decorative shelf styled as a miniature fireplace.",
-      "materials": [
-        "Wood",
-        "Paint"
-      ],
+      "materials": ["Wood", "Paint"],
       "estimatedTime": "1.5 weeks",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FF00FF",
-        "https://via.placeholder.com/300/00FF00"
-      ]
+      "images": []
     },
     {
       "id": "8",
       "projectName": "Vintage Mini Photo Album TV",
       "description": "A nostalgic photo album shaped like a vintage TV.",
-      "materials": [
-        "Cardboard",
-        "Decorative Paper"
-      ],
+      "materials": ["Cardboard", "Decorative Paper"],
       "estimatedTime": "1 week",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FFFF00",
-        "https://via.placeholder.com/300/0000FF"
-      ]
+      "images": []
     },
     {
       "id": "9",
       "projectName": "Cookie Seat Cushion",
       "description": "A comfy seat cushion designed to look like a cookie.",
-      "materials": [
-        "Fabric",
-        "Stuffing"
-      ],
+      "materials": ["Fabric", "Stuffing"],
       "estimatedTime": "5 days",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FF0000",
-        "https://via.placeholder.com/300/00FFFF"
-      ]
+      "images": []
     },
     {
       "id": "10",
       "projectName": "Hamster Hideout",
       "description": "A cozy and fun hideout for your hamster.",
-      "materials": [
-        "Wood",
-        "Paint"
-      ],
+      "materials": ["Wood", "Paint"],
       "estimatedTime": "4 days",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/FF00FF",
-        "https://via.placeholder.com/300/FFFF00"
-      ]
+      "images": []
     },
     {
       "id": "11",
       "projectName": "Cat Hideout",
       "description": "A custom hideout for your cat to relax and play.",
-      "materials": [
-        "Wood",
-        "Fabric",
-        "Paint"
-      ],
+      "materials": ["Wood", "Fabric", "Paint"],
       "estimatedTime": "1 week",
-      "images": [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300/0000FF",
-        "https://via.placeholder.com/300/FF0000"
-      ]
+      "images": []
+    },
+    {
+      "id": "12",
+      "projectName": "Ah-Dai Character Pen Holder",
+      "description": "An adorable Shin-chan Ah-Dai character mug that doubles as a pen holder. Hand-painted with cute details!",
+      "materials": ["Clay", "Acrylic Paint", "Sealant"],
+      "estimatedTime": "1 week",
+      "images": []
+    },
+    {
+      "id": "13",
+      "projectName": "Kawaii Birthday Photo Frame",
+      "description": "A super cute birthday-themed photo frame with adorable animal characters, sprinkles, and 'Happy Birthday' text.",
+      "materials": ["Clay", "Acrylic Paint", "Frame Base"],
+      "estimatedTime": "1 week",
+      "images": []
+    },
+    {
+      "id": "14",
+      "projectName": "Jellycat Flower Box Arrangement",
+      "description": "A beautiful flower box arrangement featuring preserved flowers and a cute Jellycat plush companion.",
+      "materials": ["Flower Box", "Preserved Flowers", "Jellycat Plush", "Ribbon"],
+      "estimatedTime": "1 day",
+      "images": []
+    },
+    {
+      "id": "15",
+      "projectName": "Fuji Mountain Woven Bag",
+      "description": "A stunning woven bag inspired by Mount Fuji with gradient colors.",
+      "materials": ["Thick Yarn", "Crochet Hook"],
+      "estimatedTime": "2 weeks",
+      "images": []
+    },
+    {
+      "id": "16",
+      "projectName": "Vintage Birthday Cake Design",
+      "description": "A beautifully decorated vintage-style birthday cake with intricate piping and elegant design.",
+      "materials": ["Cake Base", "Buttercream", "Piping Tips"],
+      "estimatedTime": "1 day",
+      "images": []
+    },
+    {
+      "id": "17",
+      "projectName": "Kawaii Twisty Sticks Keychain",
+      "description": "An adorable keychain made from twisty sticks featuring cute character designs with hearts and bows.",
+      "materials": ["Twisty Sticks", "Keychain Ring", "Decorations"],
+      "estimatedTime": "2 days",
+      "images": []
+    },
+    {
+      "id": "18",
+      "projectName": "Miffy Character Clock",
+      "description": "A cute Miffy-themed clock perfect for any room. Hand-painted with love!",
+      "materials": ["Clock Mechanism", "Wood Base", "Acrylic Paint"],
+      "estimatedTime": "4 days",
+      "images": []
+    },
+    {
+      "id": "19",
+      "projectName": "Twisty Sticks Flower Bouquet",
+      "description": "A beautiful and everlasting flower bouquet made entirely from twisty sticks. Perfect for any occasion!",
+      "materials": ["Twisty Sticks", "Ribbon", "Floral Wire"],
+      "estimatedTime": "3 days",
+      "images": []
+    },
+    {
+      "id": "20",
+      "projectName": "Chiikawa Character Frame",
+      "description": "An adorable Chiikawa-themed photo frame with cute character decorations.",
+      "materials": ["Clay", "Acrylic Paint", "Frame Base"],
+      "estimatedTime": "1 week",
+      "images": []
     }
   ],
   "requestSubmissions": [

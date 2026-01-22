@@ -8,9 +8,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Spotify-inspired colors
+        // Pastel Color Palette
+        pastel: {
+          'saturated-blue': '#88A2FF',
+          'neon-green': '#E3FC87',
+          'deep-blue': '#253A82',
+          'bright-pink': '#FFB2F7',
+          'light-blue': '#C0E0FF',
+          'saturated-violet': '#AB9DFF',
+        },
         spotify: {
-          green: '#1DB954',
+          green: '#88A2FF', // Primary color
           black: '#191414',
           gray: '#121212',
           'dark-gray': '#282828',

@@ -8,6 +8,30 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import '../styles/DiyDetail.css';
 
+// Map project IDs to image paths (images are in public/images/)
+// Now supports arrays for multiple angles!
+const localImageMap = {
+  '1': ['/images/Wavy-frame.JPG'],
+  '2': ['/images/dog-pizza.JPG'],
+  '3': ['/images/customize-twistt-sticks-pet-bouquet.png', '/images/customize-twistt-sticks-pet-bouquet-closedup.PNG'],
+  '4': ['/images/Flower-balloon.PNG'],
+  '5': ['/images/7-11.PNG'],
+  '6': ['/images/weaved-black-crossbody-bag.PNG', '/images/weaved-black-crossbody-bag-closedup.PNG'],
+  '9': ['/images/Cookie-cusion.JPG'],
+  '10': ['/images/Ham-hideout.PNG'],
+  '12': ['/images/AH-DAI-pen-holder.PNG', '/images/AH-DAI-penholder2.PNG'],
+  '13': ['/images/cat-bow-frame.PNG'],
+  '14': ['/images/flower-box-with-jellycat.JPG'],
+  '15': ['/images/Fuji-Mountain-weaved-bag.png'],
+  '16': ['/images/icecream-cake.JPG'],
+  '17': ['/images/Kawaii-twisty-sticks-keychain.PNG'],
+  '18': ['/images/Miffy-clock2.png', '/images/Miffy-clock.PNG'],
+  '19': ['/images/twistysticks-flower.PNG'],
+  '20': ['/images/Chiikawa-frame2.png', '/images/Chiikawa-frame.JPG'],
+  '21': ['/images/Crossbodybag-1.JPG', '/images/crossbodybag-2.JPG'],
+  '22': ['/images/Cat-bow-frame.png'],
+};
+
 function DiyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -38,14 +62,14 @@ function DiyDetail() {
 
   // Color options (you can customize these per project later)
   const colorOptions = [
+    { name: 'Saturated Blue', value: 'saturated-blue', hex: '#88A2FF' },
+    { name: 'Neon Green', value: 'neon-green', hex: '#E3FC87' },
+    { name: 'Deep Blue', value: 'deep-blue', hex: '#253A82' },
+    { name: 'Bright Pink', value: 'bright-pink', hex: '#FFB2F7' },
+    { name: 'Light Blue', value: 'light-blue', hex: '#C0E0FF' },
+    { name: 'Saturated Violet', value: 'saturated-violet', hex: '#AB9DFF' },
     { name: 'White', value: 'white', hex: '#FFFFFF' },
     { name: 'Black', value: 'black', hex: '#000000' },
-    { name: 'Pink', value: 'pink', hex: '#FFC0CB' },
-    { name: 'Blue', value: 'blue', hex: '#4A90E2' },
-    { name: 'Green', value: 'green', hex: '#1DB954' },
-    { name: 'Gold', value: 'gold', hex: '#FFD700' },
-    { name: 'Silver', value: 'silver', hex: '#C0C0C0' },
-    { name: 'Purple', value: 'purple', hex: '#9B59B6' },
   ];
 
   // Size options
@@ -81,9 +105,10 @@ function DiyDetail() {
            customization.specialRequests;
   };
 
-  const imageUrl = selectedImage || (project.images && project.images.length > 0 
-    ? project.images[0] 
-    : 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop');
+  // Get local images array for this project
+  const localImages = localImageMap[id] || [];
+  const allImages = localImages.length > 0 ? localImages : (project.images || []);
+  const mainImage = selectedImage || allImages[0] || 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop';
 
   return (
     <div className="min-h-screen bg-background py-8">
@@ -93,8 +118,8 @@ function DiyDetail() {
           <div className="space-y-4">
             <Card className="overflow-hidden">
               <img
-                src={imageUrl}
-                alt={project.projectName}
+                src={mainImage}
+          alt={project.projectName}
                 className="w-full aspect-square object-cover"
                 onError={(e) => {
                   e.target.src = 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&h=800&fit=crop';
@@ -102,23 +127,26 @@ function DiyDetail() {
               />
             </Card>
             
-            {/* Thumbnails */}
-            {project.images && project.images.length > 1 && (
+            {/* Thumbnails - show when we have multiple images */}
+            {allImages.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
-                {project.images.map((image, index) => (
+                {allImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(image)}
                     className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      (selectedImage || project.images[0]) === image 
-                        ? 'border-primary' 
+                      mainImage === image 
+                        ? 'border-primary ring-2 ring-primary/30' 
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
                     <img
-                      src={image}
+              src={image}
                       alt={`View ${index + 1}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
                     />
                   </button>
                 ))}
@@ -207,9 +235,9 @@ function DiyDetail() {
                       >
                         {size}
                       </button>
-                    ))}
-                  </div>
-                </div>
+          ))}
+        </div>
+      </div>
 
                 {/* Personalization */}
                 <div>
