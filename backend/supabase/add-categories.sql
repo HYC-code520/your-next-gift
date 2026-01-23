@@ -4,8 +4,7 @@ ALTER TABLE diy_projects ADD COLUMN categories TEXT[] DEFAULT '{}';
 
 -- Update existing projects with categories (now supporting multiple categories!)
 
--- 🪵 Wood (6 projects)
-UPDATE diy_projects SET categories = ARRAY['Wood'] WHERE id = 7;  -- Fireplace Display Shelf
+-- 🪵 Wood (5 projects) - Removed Fireplace Display Shelf
 UPDATE diy_projects SET categories = ARRAY['Wood'] WHERE id = 1;  -- Wavy Mirror Frame
 UPDATE diy_projects SET categories = ARRAY['Wood'] WHERE id = 25; -- Pink Wavy Mirror Frame
 
@@ -32,7 +31,7 @@ UPDATE diy_projects SET categories = ARRAY['Photo Frame'] WHERE id IN (20, 22, 2
 
 -- 🏠 Decor (7 projects) - ID 18 already set above with Wood
 UPDATE diy_projects SET categories = ARRAY['Decor'] WHERE id IN (5, 8, 12, 14, 17);
--- Mini Store Signboard Magnet, Vintage Mini Photo Album TV, Ah-Dai Character Pen Holder, Jellycat Flower Box, Kawaii Twisty Sticks Keychain
+-- Mini Store Signboard Magnet, Vintage Mini Photo Album TV, Ah-Dai Character Pen Holder, Stuff Toy Flower Box, Kawaii Twisty Sticks Keychain
 
 -- ID 19: Decor + Bouquet (Twisty Sticks Flower Bouquet)
 UPDATE diy_projects SET categories = ARRAY['Decor', 'Bouquet'] WHERE id = 19;

@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import DiyCard from './DiyCard';
 import PageBanner from './PageBanner';
 import CategoryFilter from './CategoryFilter';
+import OrderWindowBanner from './OrderWindowBanner';
 
 function DiyList() {
   const { diyProjects } = useOutletContext();
@@ -47,6 +48,9 @@ function DiyList() {
       />
       
       <div className="max-w-[1400px] mx-auto px-6 py-8">
+        {/* Order Window Banner */}
+        <OrderWindowBanner />
+        
         {/* Search Bar */}
         <div className="flex justify-center mb-6">
           <div className="relative w-full max-w-xl">

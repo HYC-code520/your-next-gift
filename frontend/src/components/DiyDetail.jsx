@@ -11,30 +11,31 @@ import '../styles/DiyDetail.css';
 // Map project IDs to image paths (images are in public/images/)
 // Now supports arrays for multiple angles!
 const localImageMap = {
-  '1': ['/images/Wavy-frame.JPG'],
+  '1': ['/images/Wavy-photo-frame-coverphoto.PNG', '/images/Wavy-frame.JPG'],
   '2': ['/images/dog-pizza.JPG'],
   '3': ['/images/customize-twistt-sticks-pet-bouquet.png', '/images/customize-twistt-sticks-pet-bouquet-closedup.PNG'],
   '4': ['/images/Flower-balloon.PNG'],
-  '5': ['/images/7-11.PNG', '/images/7-11-store-mangents2.PNG'],
+  '5': ['/images/7-11-coverphoto-1.PNG', '/images/7-11-04.PNG', '/images/7-11.PNG', '/images/7-11-store-mangents2.PNG'],
   '6': ['/images/weaved-black-crossbody-bag.PNG', '/images/weaved-black-crossbody-bag-closedup.PNG'],
-  '9': ['/images/Cookie-cusion.JPG'],
+  '9': ['/images/Cookie-cusion.JPG', '/images/cookie-cusion-detail.PNG'],
   '10': ['/images/Ham-hideout.PNG'],
   '11': ['/images/cat-hideout1.png', '/images/cat-hideout2.png'],
   '12': ['/images/AH-DAI-pen-holder.PNG', '/images/AH-DAI-penholder2.PNG'],
-  '14': ['/images/flower-box-with-jellycat.JPG'],
+  '14': ['/images/flower-box-with-jellycat.JPG', '/images/Flower-box-wth-stufftoy2.JPG'],
   '15': ['/images/Fuji-Mountain-weaved-bag.png'],
   '16': ['/images/icecream-cake.JPG'],
   '17': ['/images/Kawaii-twisty-sticks-keychain.PNG'],
   '18': ['/images/Miffy-clock2.png', '/images/Miffy-clock.PNG'],
   '19': ['/images/twistysticks-flower.PNG'],
   '20': ['/images/Chiikawa-frame2.png', '/images/Chiikawa-frame.JPG'],
-  '21': ['/images/Crossbodybag-1.JPG', '/images/crossbodybag-2.JPG'],
+  '21': ['/images/Crossbodybag-1.JPG', '/images/crossbodybag-2.JPG', '/images/crossbody-bag-detail.JPG'],
   '22': ['/images/Cat-bow-frame.png'],
   '23': ['/images/double-frame-clay-frame.PNG'],
   '24': ['/images/Fancy-fruit-basket1.png'],
   '25': ['/images/2nd-shape-wavy-mirror-frame.JPG', '/images/2nd-shape-wavy-mirror-frame02.JPG'],
   '26': ['/images/white-weaving-handbag.png', '/images/white-weaving-handbag2.png'],
   '27': ['/images/cat-pizza01.png', '/images/cat-pizza02.JPEG'],
+  '28': ['/images/custom-pet-inscense-stick-holder-01.PNG', '/images/custom-pet-inscense-stick-holder-02.PNG'],
 };
 
 function DiyDetail() {

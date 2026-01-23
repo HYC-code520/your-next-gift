@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabaseClient';
+import { getCurrentBirthdayYear, canOrderForBirthdayYear, getOrderWindowMessage } from '../utils/birthdayYearLogic';
 
 const CartContext = createContext({});
 
@@ -15,12 +16,56 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userBirthday, setUserBirthday] = useState(null);
+  const [existingOrders, setExistingOrders] = useState([]);
+  const [orderWindowInfo, setOrderWindowInfo] = useState(null);
   const { user } = useAuth();
 
   // Load cart from localStorage or database
   useEffect(() => {
     loadCart();
+    if (user) {
+      loadUserBirthdayAndOrders();
+    }
   }, [user]);
+
+  const loadUserBirthdayAndOrders = async () => {
+    if (!user) return;
+    
+    try {
+      // Fetch user's birthday from profiles
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('birthday')
+        .eq('id', user.id)
+        .single();
+      
+      if (profileError && profileError.code !== 'PGRST116') {
+        console.error('Error fetching user birthday:', profileError);
+      } else if (profile?.birthday) {
+        setUserBirthday(profile.birthday);
+        
+        // Fetch user's existing orders with birthday_year
+        const { data: orders, error: ordersError } = await supabase
+          .from('orders')
+          .select('id, birthday_year, created_at')
+          .eq('user_id', user.id)
+          .not('birthday_year', 'is', null);
+        
+        if (ordersError) {
+          console.error('Error fetching orders:', ordersError);
+        } else {
+          setExistingOrders(orders || []);
+          
+          // Calculate order window info
+          const windowInfo = getOrderWindowMessage(profile.birthday, orders || []);
+          setOrderWindowInfo(windowInfo);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading birthday and orders:', error);
+    }
+  };
 
   const loadCart = async () => {
     setLoading(true);
@@ -155,6 +200,25 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (project) => {
+    // Validate birthday year window (only for non-additional requests)
+    if (user && !project.customization?.isAdditionalRequest) {
+      if (!userBirthday) {
+        alert('Please set your birthday in your profile before ordering a gift.');
+        return;
+      }
+      
+      const currentBirthdayYear = getCurrentBirthdayYear(userBirthday);
+      const validation = canOrderForBirthdayYear(userBirthday, currentBirthdayYear, existingOrders);
+      
+      if (!validation.canOrder) {
+        alert(`Unable to order: ${validation.reason}\n\n${orderWindowInfo?.message || ''}`);
+        return;
+      }
+      
+      // Add birthday year to the project
+      project.birthdayYear = currentBirthdayYear;
+    }
+    
     // Check if item with same customization already exists
     const existingItem = cart.find(item => 
       item.id === project.id && 
@@ -316,7 +380,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartCount = () => {
-    return cart.reduce((total, item) => total + (item.quantity || 1), 0);
+    // Only count the main gift (not additional requests pending approval)
+    const mainGift = cart.find(item => !item.customization?.isAdditionalRequest);
+    return mainGift ? 1 : 0;
   };
 
   // Check if cart already has items (for the "one gift" flow)
@@ -355,6 +421,9 @@ export const CartProvider = ({ children }) => {
     hasItems,
     replaceCart,
     addAsAdditionalRequest,
+    userBirthday,
+    orderWindowInfo,
+    existingOrders,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

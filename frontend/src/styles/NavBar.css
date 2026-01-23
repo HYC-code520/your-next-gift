@@ -2,7 +2,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -10,6 +10,7 @@
   background: transparent;
   padding: 0 2rem;
   z-index: 50;
+  position: relative;
 }
 
 .dark .navbar {
@@ -24,8 +25,6 @@
   margin: 0;
   padding: 0;
   align-items: center;
-  flex: 1;
-  justify-content: center;
 }
 
 .navbar-links li {

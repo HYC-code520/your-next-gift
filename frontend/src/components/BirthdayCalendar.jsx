@@ -30,7 +30,7 @@ function BirthdayCalendar() {
       const { data, error } = await supabase
         .from('birthdays')
         .select('*')
-        .order('birthday', { ascending: true });
+        .order('date', { ascending: true });
 
       if (error) throw error;
       setBirthdays(data || []);

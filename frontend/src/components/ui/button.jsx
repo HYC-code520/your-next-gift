@@ -7,13 +7,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-spotify-green text-black hover:bg-spotify-green/90 hover:scale-105",
+        default: "bg-[#CCE5FF] text-black hover:bg-[#CCE5FF]/90 hover:scale-105",
         destructive: "bg-red-600 text-white hover:bg-red-700",
         outline: "border-2 border-white/20 bg-transparent hover:bg-white/10 text-white backdrop-blur-sm",
         secondary: "bg-spotify-dark-gray text-white hover:bg-spotify-dark-gray/80",
         ghost: "hover:bg-white/10 text-white",
-        link: "text-spotify-green underline-offset-4 hover:underline",
-        play: "bg-spotify-green text-black hover:bg-spotify-green hover:scale-110 shadow-lg shadow-spotify-green/50",
+        link: "text-[#CCE5FF] underline-offset-4 hover:underline",
+        play: "bg-[#CCE5FF] text-black hover:bg-[#CCE5FF] hover:scale-110 shadow-lg shadow-[#CCE5FF]/50",
       },
       size: {
         default: "h-11 px-6 py-3",

@@ -14,7 +14,7 @@ WHERE id = 6;
 INSERT INTO diy_projects (id, project_name, description, materials, estimated_time, images) VALUES
 (12, 'Ah-Dai Character Pen Holder', 'An adorable Shin-chan Ah-Dai character mug that doubles as a pen holder. Hand-painted with cute details!', ARRAY['Clay', 'Acrylic Paint', 'Sealant'], '1 week', ARRAY[]::text[]),
 
-(14, 'Jellycat Flower Box Arrangement', 'A beautiful flower box arrangement featuring preserved flowers and a cute Jellycat plush companion.', ARRAY['Flower Box', 'Preserved Flowers', 'Jellycat Plush', 'Ribbon'], '1 day', ARRAY[]::text[]),
+(14, 'Stuff Toy Flower Box Arrangement', 'A beautiful flower box arrangement featuring preserved flowers and a cute stuffed toy companion.', ARRAY['Flower Box', 'Preserved Flowers', 'Stuffed Toy', 'Ribbon'], '1 day', ARRAY[]::text[]),
 
 (15, 'Fuji Mountain Woven Bag', 'A stunning woven bag inspired by Mount Fuji with gradient colors.', ARRAY['Thick Yarn', 'Crochet Hook'], '2 weeks', ARRAY[]::text[]),
 
