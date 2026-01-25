@@ -9,11 +9,13 @@ import { supabase } from '../lib/supabaseClient';
 
 function AppLayout() {
   const [diyProjects, setDiyProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
     // Fetch DIY projects from Supabase
     async function fetchDiyProjects() {
+      setIsLoading(true);
       const { data, error } = await supabase
         .from('diy_projects')
         .select('*')
@@ -34,6 +36,7 @@ function AppLayout() {
         }));
         setDiyProjects(transformedData);
       }
+      setIsLoading(false);
     }
     
     fetchDiyProjects();
@@ -50,6 +53,7 @@ function AppLayout() {
         <Outlet
           context={{
             diyProjects,
+            isLoading,
           }}
         />
       </div>

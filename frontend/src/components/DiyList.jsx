@@ -6,9 +6,10 @@ import DiyCard from './DiyCard';
 import PageBanner from './PageBanner';
 import CategoryFilter from './CategoryFilter';
 import OrderWindowBanner from './OrderWindowBanner';
+import LoadingState from './LoadingState';
 
 function DiyList() {
-  const { diyProjects } = useOutletContext();
+  const { diyProjects, isLoading } = useOutletContext();
   const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,15 +30,9 @@ function DiyList() {
     return matchesCategory && matchesSearch;
   });
 
-  if (diyProjects.length === 0) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Palette className="w-16 h-16 mx-auto mb-4 animate-pulse text-primary" />
-          <p className="text-muted-foreground text-xl">{t('loadingDiyProjects')}</p>
-        </div>
-      </div>
-    );
+  // Show cute loading state
+  if (isLoading || diyProjects.length === 0) {
+    return <LoadingState />;
   }
 
   return (

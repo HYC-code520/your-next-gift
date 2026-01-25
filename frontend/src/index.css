@@ -125,3 +125,17 @@
   box-shadow: 0 8px 32px rgba(155, 168, 229, 0.4); /* Periwinkle glow */
   transform: translateY(-2px);
 }
+
+/* Shimmer animation for loading images */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}

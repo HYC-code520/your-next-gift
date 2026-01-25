@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Sparkles, Eye } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Sparkles, Eye, Loader2, Gift } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { useLanguage } from '../context/LanguageContext';
@@ -40,6 +40,8 @@ function DiyCard({ diyProjectDetails }) {
   const { language } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageLoading, setImageLoading] = useState(false);
+  const loadingTimerRef = useRef(null);
 
   // Get all images for this project
   const projectImages = localImageMap[diyProjectDetails.id] || ['/images/placeholder.png'];
@@ -55,6 +57,11 @@ function DiyCard({ diyProjectDetails }) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex(index);
+    
+    // Only show loading state if image takes longer than 100ms to load
+    loadingTimerRef.current = setTimeout(() => {
+      setImageLoading(true);
+    }, 100);
   };
 
   const handleMouseEnter = () => {
@@ -62,13 +69,26 @@ function DiyCard({ diyProjectDetails }) {
     // Auto-swap to 2nd image on hover if available
     if (hasMultipleImages && currentImageIndex === 0) {
       setCurrentImageIndex(1);
+      
+      // Only show loading state if image takes longer than 100ms to load
+      loadingTimerRef.current = setTimeout(() => {
+        setImageLoading(true);
+      }, 100);
     }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    // Reset to first image when mouse leaves
+    // Reset to first image when mouse leaves (no loading state needed, image is cached)
     setCurrentImageIndex(0);
+  };
+
+  const handleImageLoad = () => {
+    // Clear the timer and hide loading state
+    if (loadingTimerRef.current) {
+      clearTimeout(loadingTimerRef.current);
+    }
+    setImageLoading(false);
   };
 
   return (
@@ -79,13 +99,31 @@ function DiyCard({ diyProjectDetails }) {
     >
       <Link to={`/list/${diyProjectDetails.id}`}>
         <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-muted to-muted/50">
+          {/* Cute loading animation */}
+          {imageLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted/80 to-muted/60 backdrop-blur-sm z-10">
+              <div className="relative flex flex-col items-center gap-3">
+                {/* Bouncing gift icon */}
+                <Gift className="w-12 h-12 text-primary animate-bounce" />
+                {/* Pulsing dots */}
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
+                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <img
             src={currentImage}
             alt={diyProjectDetails.projectName}
-            className="w-full h-full object-cover transition-all duration-500"
-            loading="lazy"
+            className={`w-full h-full object-cover transition-all duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+            loading="eager"
+            onLoad={handleImageLoad}
             onError={(e) => {
               e.target.src = '/images/placeholder.png';
+              setImageLoading(false);
             }}
           />
           
