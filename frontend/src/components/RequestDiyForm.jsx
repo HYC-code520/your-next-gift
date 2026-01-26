@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PageBanner from './PageBanner'; // Import the generalized banner
 import '../styles/RequestDiyForm.css'; // Add the CSS styles
 import { supabase } from '../lib/supabaseClient';
 
@@ -86,7 +85,6 @@ function RequestDiyForm() {
 
   return (
     <div>
-      <PageBanner title="Birthday DIY Fairy at Your Service!" />
       <div className="form-container">
         <form onSubmit={handleFormSubmit}>
           <label>

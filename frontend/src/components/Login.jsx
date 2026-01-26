@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import PageBanner from './PageBanner';
 import '../styles/Login.css';
 
 function Login() {
@@ -40,7 +39,6 @@ function Login() {
 
   return (
     <div>
-      <PageBanner title={isSignUp ? 'Create Admin Account' : 'Admin Login'} />
       <div className="login-container">
         <div className="login-card">
           <h2>{isSignUp ? 'Sign Up' : 'Sign In'}</h2>

@@ -24,10 +24,10 @@ function CategoryFilter({ selectedCategory, onCategoryChange }) {
           onClick={() => onCategoryChange(cat.id)}
           className={`
             px-5 py-2.5 rounded-full text-sm font-semibold 
-            transition-all duration-200
+            transition-all duration-200 border border-black dark:border-white
             ${selectedCategory === cat.id 
               ? `${cat.color} shadow-lg scale-105` 
-              : `bg-white text-[hsl(231,44%,28%)] border border-border hover:${cat.color.replace('bg-', 'bg-').replace('text-', 'text-')} hover:shadow-md hover:scale-105`
+              : `bg-white dark:bg-gray-800 text-[hsl(231,44%,28%)] dark:text-white hover:${cat.color.replace('bg-', 'bg-').replace('text-', 'text-')} hover:shadow-md hover:scale-105`
             }
           `}
         >

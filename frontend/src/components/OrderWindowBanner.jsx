@@ -1,23 +1,30 @@
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { Calendar, AlertCircle, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function OrderWindowBanner() {
   const { orderWindowInfo, userBirthday } = useCart();
+  const { user } = useAuth();
 
   if (!userBirthday) {
     return (
-      <div className="bg-[#F4C7D6]/20 border-l-4 border-[#F4C7D6] p-4 mb-6 rounded-r-lg">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <AlertCircle className="w-5 h-5 text-[#E89BB5]" />
-          <div>
-            <p className="font-semibold text-[#D67A9A] dark:text-[#F4C7D6]">
-              Birthday Required
-            </p>
-            <p className="text-sm text-[#E89BB5] dark:text-[#F4C7D6]/90 mt-1">
-              Please set your birthday in your profile to order birthday gifts.
-            </p>
-          </div>
-        </div>
+      <div className="mb-6 p-3 bg-primary/5 border border-primary/20 rounded-lg text-center">
+        <p className="text-sm text-foreground">
+          Please set your birthday to order birthday gifts.
+          {!user && (
+            <>
+              {' '}
+              <Link 
+                to="/login" 
+                className="text-primary font-medium hover:underline transition-colors"
+              >
+                Login
+              </Link>
+              {' '}to continue.
+            </>
+          )}
+        </p>
       </div>
     );
   }

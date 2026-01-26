@@ -1,12 +1,10 @@
 import React from 'react';
-import PageBanner from './PageBanner'; // Import the generalized banner
 import '../styles/Blog.css'; // Add a separate CSS file for styling
 
 function Blog() {
   return (
     <div>
       {/* PageBanner is placed outside the container for consistency */}
-      <PageBanner title="Messy hands, happy heart." />
       <div className="blog-container">
         <p className="blog-intro"></p>
         <ul className="blog-list">

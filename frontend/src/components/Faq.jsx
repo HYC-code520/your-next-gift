@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PageBanner from './PageBanner'; // Import the generalized banner
 import '../styles/Faq.css';
 
 function Faq() {
@@ -54,7 +53,6 @@ function Faq() {
 
   return (
     <div>
-      <PageBanner title="FAQ" className="faq-page-banner" />
       <div className="faq-container">
         <ul className="faq-list">
           {faqData.map((item, index) => (

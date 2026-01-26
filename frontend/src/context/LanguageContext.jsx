@@ -14,15 +14,15 @@ export const useLanguage = () => {
 const translations = {
   en: {
     // Navigation
-    home: 'HOME',
-    list: 'LIST',
-    form: 'FORM',
-    faq: 'FAQ',
-    about: 'ABOUT',
-    blog: 'BLOG',
-    birthdays: 'BIRTHDAYS',
-    myOrders: 'MY ORDERS',
-    admin: 'ADMIN',
+    home: 'Home',
+    list: 'Gift Gallery',
+    form: 'Form',
+    faq: 'Help Center',
+    about: 'About',
+    blog: 'Blog',
+    birthdays: 'Birthday Calendar',
+    myOrders: 'My Orders',
+    admin: 'Admin',
     cart: 'Cart',
     
     // Common
@@ -185,9 +185,9 @@ const translations = {
   zh: {
     // Navigation
     home: '首頁',
-    list: '清單',
+    list: '禮物畫廊',
     form: '表單',
-    faq: '常見問題',
+    faq: '幫助中心',
     about: '關於',
     blog: '部落格',
     birthdays: '生日日曆',

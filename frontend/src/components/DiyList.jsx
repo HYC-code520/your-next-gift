@@ -1,9 +1,8 @@
 import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
-import { Palette, Search, X } from 'lucide-react';
+import { Palette, Search, X, SlidersHorizontal } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import DiyCard from './DiyCard';
-import PageBanner from './PageBanner';
 import CategoryFilter from './CategoryFilter';
 import OrderWindowBanner from './OrderWindowBanner';
 import LoadingState from './LoadingState';
@@ -13,6 +12,7 @@ function DiyList() {
   const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
   // Filter projects by category and search query
   const filteredProjects = diyProjects.filter(project => {
@@ -37,42 +37,60 @@ function DiyList() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageBanner 
-        title={t('diyWishlistCentral')}
-        className="list-page-banner"
-      />
-      
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Order Window Banner */}
         <OrderWindowBanner />
         
-        {/* Search Bar */}
+        {/* Combined Search Bar and Filter */}
         <div className="flex justify-center mb-6">
-          <div className="relative w-full max-w-xl">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={language === 'en' ? 'Search projects by name, description, or materials...' : '搜尋專案名稱、描述或材料...'}
-              className="w-full pl-12 pr-10 py-3 bg-card border border-border rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+          <div className="relative w-full max-w-xl flex gap-2">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={language === 'en' ? 'Search projects...' : '搜尋專案...'}
+                className="w-full pl-12 pr-10 py-3 bg-card border border-black dark:border-white rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Filter Toggle Button */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`flex items-center gap-2 px-4 py-3 rounded-full border border-black dark:border-white transition-all whitespace-nowrap ${
+                showFilters || selectedCategory !== 'all'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-card hover:bg-muted'
+              }`}
+            >
+              <SlidersHorizontal className="w-5 h-5" />
+              {language === 'en' ? 'Filter' : '篩選'}
+              {selectedCategory !== 'all' && (
+                <span className="ml-1 w-2 h-2 rounded-full bg-current"></span>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Category Filter */}
-        <CategoryFilter 
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-        />
+        {/* Category Filter - Collapsible */}
+        {showFilters && (
+          <div className="mb-6 animate-in slide-in-from-top duration-200">
+            <CategoryFilter 
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+            />
+          </div>
+        )}
 
         {/* Results count */}
         {(searchQuery || selectedCategory !== 'all') && (

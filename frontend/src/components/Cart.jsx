@@ -3,7 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { ShoppingCart, CreditCard, Lock, Lightbulb, AlertCircle } from 'lucide-react';
-import PageBanner from './PageBanner';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
@@ -26,7 +25,6 @@ function Cart() {
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-background">
-        <PageBanner title={language === 'en' ? 'Your Cart' : '購物車'} />
         <div className="max-w-4xl mx-auto px-4 py-20 animate-fade-in">
           <Card className="text-center py-20">
             <CardContent className="pt-6">
@@ -51,7 +49,6 @@ function Cart() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageBanner title={language === 'en' ? `Your Cart (${cart.length} ${cart.length === 1 ? 'gift' : 'gifts'})` : `購物車 (${cart.length} 個禮物)`} />
       <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}

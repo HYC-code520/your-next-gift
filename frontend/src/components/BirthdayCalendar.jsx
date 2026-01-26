@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar as CalendarIcon, Plus, Edit2, Trash2, Gift, Cake, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
-import PageBanner from './PageBanner';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import '../styles/BirthdayCalendar.css';
@@ -198,7 +197,6 @@ function BirthdayCalendar() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageBanner title="Birthday Calendar 🎂" />
       
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Login reminder for admin features */}

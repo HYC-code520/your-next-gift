@@ -1,5 +1,4 @@
 import React from 'react';
-import PageBanner from './PageBanner'; // Import the generalized banner
 import '../styles/About.css'; // Import the CSS file for styling
 import aboutImage from '../Image/aboutme.png';
 
@@ -7,7 +6,6 @@ import aboutImage from '../Image/aboutme.png';
 function About() {
   return (
     <div>
-      <PageBanner title="The DIY Life Chose Me"  />
       <div className="about-container">
         <img
           src={aboutImage} // Use the imported image

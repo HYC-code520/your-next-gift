@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import PageBanner from './PageBanner';
 import OrdersManager from './admin/OrdersManager';
 import AdditionalRequestsManager from './admin/AdditionalRequestsManager';
 import BirthdaysManager from './admin/BirthdaysManager';
@@ -114,11 +113,10 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <PageBanner title={t('adminDashboard')} />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Tab Navigation */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+        <div className="flex justify-center gap-2 mb-8 overflow-x-auto pb-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (

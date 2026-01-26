@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import '../App.css';
-import Banner from './Banner';
 import NavBar from './NavBar';
 import AnnouncementBar from './AnnouncementBar';
 import Footer from './Footer';
@@ -47,7 +46,6 @@ function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* <AnnouncementBar /> */}
-      <Banner />
       <NavBar />
       <div className={`flex-1 main-content ${isHomePage ? 'home-page' : ''}`}>
         <Outlet

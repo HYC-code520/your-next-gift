@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
-import PageBanner from './PageBanner';
 import '../styles/Search.css';
 
 function Search() {
@@ -34,7 +33,6 @@ function Search() {
 
   return (
     <div>
-      <PageBanner title="Search Projects" className="search-page-banner" />
       <div className="search-container">
         {/* Search Input Section */}
         <div className="search-input-section">

@@ -1,14 +1,24 @@
+/* Navbar Wrapper - Sticky at top */
+.navbar-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: hsl(var(--background));
+  z-index: 100;
+  transition: box-shadow 0.3s ease;
+}
+
 /* Navbar Container */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   height: 70px;
   background: transparent;
-  padding: 0 2rem;
+  padding: 0;
   z-index: 50;
   position: relative;
 }
@@ -20,47 +30,75 @@
 /* Navbar Links */
 .navbar-links {
   display: flex;
-  gap: 2rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
   align-items: center;
+  justify-content: space-evenly;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+  max-width: 1400px;
+  gap: 2rem;
 }
 
 .navbar-links li {
   display: flex;
   align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Make the center item (MADE BY ARIEL) have specific width for the arch */
+.navbar-links li:nth-child(3) {
+  flex: 0 0 auto;
+}
+
+/* Arch text effect for HANDMADE BY ARIEL */
+.nav-link-arch {
+  position: relative;
+  display: inline-block;
+}
+
+.arch-svg {
+  width: 280px;
+  height: 55px;
+  overflow: visible;
+}
+
+.arch-text-svg {
+  fill: #000000;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  word-spacing: 15px;
+  font-family: 'Fredoka', 'Quicksand', 'Nunito', 'Comfortaa', 'Varela Round', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.dark .arch-text-svg {
+  fill: #000000;
+}
+
+.nav-link-arch:hover .arch-text-svg {
+  fill: #88A2FF;
+}
+
+/* Remove underline for arch text */
+.nav-link-arch::after {
+  display: none;
 }
 
 .nav-link {
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #333;
-  padding: 0.5rem 0;
+  font-weight: 500;
+  color: #6B7280;
+  padding: 0.5rem 0.75rem;
   line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   transition: all 0.3s ease;
   white-space: nowrap;
   position: relative;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: #88A2FF;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .nav-link:hover {
@@ -72,7 +110,7 @@
 }
 
 .dark .nav-link {
-  color: #C0E0FF;
+  color: #9CA3AF;
 }
 
 .dark .nav-link:hover {
