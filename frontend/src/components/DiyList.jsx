@@ -5,17 +5,16 @@ import { useLanguage } from '../context/LanguageContext';
 import DiyCard from './DiyCard';
 import CategoryFilter from './CategoryFilter';
 import OrderWindowBanner from './OrderWindowBanner';
-import LoadingState from './LoadingState';
 
 function DiyList() {
-  const { diyProjects, isLoading } = useOutletContext();
+  const { diyProjects } = useOutletContext();
   const { t, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
   // Filter projects by category and search query
-  const filteredProjects = diyProjects.filter(project => {
+  const filteredProjects = (diyProjects || []).filter(project => {
     // Category filter
     const matchesCategory = selectedCategory === 'all' 
       || (project.categories && project.categories.includes(selectedCategory));
@@ -29,11 +28,6 @@ function DiyList() {
     
     return matchesCategory && matchesSearch;
   });
-
-  // Show cute loading state
-  if (isLoading || diyProjects.length === 0) {
-    return <LoadingState />;
-  }
 
   return (
     <div className="min-h-screen bg-background">

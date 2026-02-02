@@ -40,7 +40,8 @@ function DiyCard({ diyProjectDetails }) {
   const { language } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageLoading, setImageLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true); // Start as loading
+  const [imageLoaded, setImageLoaded] = useState(false);
   const loadingTimerRef = useRef(null);
 
   // Get all images for this project
@@ -89,6 +90,7 @@ function DiyCard({ diyProjectDetails }) {
       clearTimeout(loadingTimerRef.current);
     }
     setImageLoading(false);
+    setImageLoaded(true);
   };
 
   return (
@@ -98,32 +100,25 @@ function DiyCard({ diyProjectDetails }) {
       onMouseLeave={handleMouseLeave}
     >
       <Link to={`/list/${diyProjectDetails.id}`}>
-        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-muted to-muted/50">
-          {/* Cute loading animation */}
-          {imageLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted/80 to-muted/60 backdrop-blur-sm z-10">
-              <div className="relative flex flex-col items-center gap-3">
-                {/* Bouncing gift icon */}
-                <Gift className="w-12 h-12 text-primary animate-bounce" />
-                {/* Pulsing dots */}
-                <div className="flex gap-1.5">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
-                </div>
-              </div>
+        <div className="relative aspect-square overflow-hidden bg-muted">
+          {/* Skeleton shimmer loading state */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-muted z-10">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" 
+                   style={{ backgroundSize: '200% 100%' }} />
             </div>
           )}
           
           <img
             src={currentImage}
             alt={diyProjectDetails.projectName}
-            className={`w-full h-full object-cover transition-all duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             loading="eager"
             onLoad={handleImageLoad}
             onError={(e) => {
               e.target.src = '/images/placeholder.png';
               setImageLoading(false);
+              setImageLoaded(true);
             }}
           />
           
@@ -131,7 +126,7 @@ function DiyCard({ diyProjectDetails }) {
           <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
 
           {/* Image indicator dots - always visible if multiple images */}
-          {hasMultipleImages && (
+          {hasMultipleImages && imageLoaded && (
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
               {projectImages.map((_, index) => (
                 <button

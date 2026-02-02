@@ -1,0 +1,86 @@
+/* Loading Screen - Fullscreen Overlay */
+.load-in-screen {
+  z-index: 9999;
+  background-color: hsl(var(--background));
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+  will-change: opacity;
+}
+
+.load-in-screen-exit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Progress Bar Container (Top of screen) */
+.load-in-indicator {
+  height: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+/* Progress Bar Filler */
+.indicator-filler {
+  background: #000000;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: none;
+  will-change: transform;
+}
+
+/* Brand Wrapper - Center Content */
+.load-in-brand-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.load-in-brand {
+  position: relative;
+  animation: fadeInScale 0.6s ease-out;
+}
+
+/* Logo Wrapper */
+.logo-wrapper {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+/* Logo Image - Small Size */
+.logo-image {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+/* No shimmer effect - solid color only */
+
+/* Dark mode adjustments */
+.dark .indicator-filler {
+  background: #FFFFFF;
+  box-shadow: none;
+}
