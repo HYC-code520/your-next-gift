@@ -52,6 +52,7 @@ export function useProjectManager() {
   };
 
   const handleAdd = () => {
+    console.log('🚀 handleAdd called');
     setIsAdding(true);
     setEditingProject(null);
     setFormData({
@@ -63,6 +64,7 @@ export function useProjectManager() {
       images: []
     });
     setShowModal(true);
+    console.log('✅ Modal should be showing now');
   };
 
   const handleCancel = () => {
