@@ -177,7 +177,7 @@ function DiyDetail() {
   const mainImage = selectedImage || allImages[0] || '/images/placeholder.png';
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Image Gallery */}

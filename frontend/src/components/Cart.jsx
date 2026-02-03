@@ -24,7 +24,7 @@ function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pt-8">
         <div className="max-w-4xl mx-auto px-4 py-20 animate-fade-in">
           <Card className="text-center py-20">
             <CardContent className="pt-6">
@@ -48,7 +48,7 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-8">
       <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}

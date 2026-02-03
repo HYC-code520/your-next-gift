@@ -196,7 +196,7 @@ function BirthdayCalendar() {
   const upcomingBirthdays = getUpcomingBirthdays();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-8">
       
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Login reminder for admin features */}
