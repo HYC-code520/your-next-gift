@@ -221,13 +221,13 @@ function DiyDetail() {
           </div>
 
           {/* Right: Project Info & Customization */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Project Info */}
             <div>
-              <h1 className="text-4xl font-bold mb-4">{project.projectName}</h1>
-              <p className="text-lg text-muted-foreground mb-4">{project.description}</p>
+              <h1 className="text-3xl font-bold mb-2">{project.projectName}</h1>
+              <p className="text-base text-muted-foreground mb-3">{project.description}</p>
               
-              <div className="flex gap-6 text-sm text-muted-foreground">
+              <div className="flex gap-4 text-sm text-muted-foreground">
                 <div>
                   <span className="font-semibold">Time:</span> {project.estimatedTime}
                 </div>
@@ -241,22 +241,22 @@ function DiyDetail() {
 
             {/* Customization Section */}
             <Card className="border-primary/30">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
                   <Sparkles className="w-5 h-5 text-primary" />
                   Customize Your Gift
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 {/* Color Selection */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-3">
+                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
                     <Palette className="w-4 h-4" />
                     Choose Colors (select multiple)
                   </label>
                   
                   {/* Preset Colors Grid */}
-                  <div className="grid grid-cols-6 gap-2 mb-3">
+                  <div className="grid grid-cols-6 gap-2 mb-2">
                     {presetColors.map((color) => (
                       <button
                         key={color.hex}
@@ -327,8 +327,8 @@ function DiyDetail() {
 
                   {/* Selected Colors Display */}
                   {customization.colors.length > 0 && (
-                    <div className="mt-3">
-                      <p className="text-xs text-muted-foreground mb-2">
+                    <div className="mt-2">
+                      <p className="text-xs text-muted-foreground mb-1.5">
                         Selected ({customization.colors.length}):
                       </p>
                       <div className="flex flex-wrap gap-2">
@@ -362,7 +362,7 @@ function DiyDetail() {
 
                 {/* Size Selection */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-3">
+                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
                     <Ruler className="w-4 h-4" />
                     Choose Size
                   </label>
@@ -371,7 +371,7 @@ function DiyDetail() {
                       <button
                         key={size}
                         onClick={() => setCustomization(prev => ({ ...prev, size }))}
-                        className={`px-4 py-3 rounded-lg border-2 font-medium transition-all ${
+                        className={`px-3 py-2 rounded-lg border-2 font-medium transition-all text-sm ${
                           customization.size === size
                             ? 'border-primary bg-primary/10 text-primary'
                             : 'border-border hover:border-primary/50'
@@ -385,7 +385,7 @@ function DiyDetail() {
 
                 {/* Personalization */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-3">
+                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
                     <Type className="w-4 h-4" />
                     Add Personalization (optional)
                   </label>
@@ -397,7 +397,7 @@ function DiyDetail() {
                       personalization: e.target.value 
                     }))}
                     placeholder="Name, initials, date, or quote..."
-                    className="w-full px-4 py-3 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm"
                     maxLength={50}
                   />
                   <p className="text-xs text-muted-foreground mt-1">
@@ -407,7 +407,7 @@ function DiyDetail() {
 
                 {/* Special Requests */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-3">
+                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
                     <MessageSquare className="w-4 h-4" />
                     Special Requests or Notes (optional)
                   </label>
@@ -418,8 +418,8 @@ function DiyDetail() {
                       specialRequests: e.target.value 
                     }))}
                     placeholder="Any special requests or modifications..."
-                    className="w-full px-4 py-3 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
-                    rows="4"
+                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none text-sm"
+                    rows="3"
                     maxLength={500}
                   />
                   <p className="text-xs text-muted-foreground mt-1">
