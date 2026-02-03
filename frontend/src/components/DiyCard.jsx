@@ -95,7 +95,7 @@ function DiyCard({ diyProjectDetails }) {
 
   return (
     <Card 
-      className="overflow-hidden hover:shadow-lg transition-all duration-300 group animate-fade-in border border-black dark:border-white"
+      className="overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in border border-border/40 hover:border-primary/30"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

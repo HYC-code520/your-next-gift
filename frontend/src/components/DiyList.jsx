@@ -46,7 +46,7 @@ function DiyList() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={language === 'en' ? 'Search projects...' : '搜尋專案...'}
-                className="w-full pl-12 pr-10 py-3 bg-card border border-black dark:border-white rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
+                className="w-full pl-12 pr-10 py-3 bg-card border border-border rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
               />
               {searchQuery && (
                 <button
@@ -61,10 +61,10 @@ function DiyList() {
             {/* Filter Toggle Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-3 rounded-full border border-black dark:border-white transition-all whitespace-nowrap ${
+              className={`flex items-center gap-2 px-4 py-3 rounded-full border transition-all whitespace-nowrap ${
                 showFilters || selectedCategory !== 'all'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-card hover:bg-muted'
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-card hover:bg-muted border-border'
               }`}
             >
               <SlidersHorizontal className="w-5 h-5" />
