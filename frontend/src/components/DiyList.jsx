@@ -30,7 +30,7 @@ function DiyList() {
   });
 
   return (
-    <div className="min-h-screen bg-background pt-8">
+    <div className="min-h-screen bg-background">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Order Window Banner */}
         <OrderWindowBanner />
