@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
-import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle } from 'lucide-react';
+import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import '../styles/DiyDetail.css';
@@ -179,6 +179,15 @@ function DiyDetail() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/list')}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6 group"
+        >
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <span className="font-medium">{language === 'en' ? 'Back to Gallery' : '返回畫廊'}</span>
+        </button>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-center">
           {/* Left: Image Gallery */}
           <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
