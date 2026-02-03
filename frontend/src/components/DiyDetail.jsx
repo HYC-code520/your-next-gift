@@ -366,7 +366,7 @@ function DiyDetail() {
                     <Ruler className="w-4 h-4" />
                     Choose Size
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-4 gap-2">
                     {sizeOptions.map((size) => (
                       <button
                         key={size}
