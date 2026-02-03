@@ -71,7 +71,10 @@
   }
   body {
     @apply bg-background text-foreground transition-colors duration-300;
-    font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', 'Quicksand', 'Nunito', 'Comfortaa', 'Varela Round', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
