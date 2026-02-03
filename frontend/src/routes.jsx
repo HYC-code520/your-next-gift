@@ -9,6 +9,8 @@ import Home from './components/Home'; // Import the Home component
 import Search from './components/Search';
 import DiyDetail from './components/DiyDetail'; // Import the new DiyDetail component
 import Login from './components/Login'; // Import Login component
+import ForgotPassword from './components/ForgotPassword'; // Import Forgot Password component
+import ResetPassword from './components/ResetPassword'; // Import Reset Password component
 import AdminDashboard from './components/AdminDashboard'; // Import Admin Dashboard
 import Cart from './components/Cart'; // Import Cart component
 import BirthdayCalendar from './components/BirthdayCalendar'; // Import Birthday Calendar
@@ -86,6 +88,14 @@ const routes = [
       {
         path: 'login', // Route for admin login
         element: <Login />
+      },
+      {
+        path: 'forgot-password', // Route for forgot password
+        element: <ForgotPassword />
+      },
+      {
+        path: 'reset-password', // Route for reset password
+        element: <ResetPassword />
       },
       {
         path: 'admin', // Route for admin dashboard (protected)

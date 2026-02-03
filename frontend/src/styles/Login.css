@@ -1,14 +1,18 @@
 .login-container {
   max-width: 500px;
-  margin: 50px auto;
+  margin: 100px auto 50px;
   padding: 20px;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-card {
   background: white;
   border-radius: 12px;
   padding: 40px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .login-card h2 {
@@ -101,6 +105,38 @@
   margin-bottom: 20px;
 }
 
+.info-message {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #1976d2;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-message p {
+  margin: 0;
+}
+
+.forgot-password-link {
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.forgot-password-link a {
+  color: #4a90e2;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password-link a:hover {
+  color: #357abd;
+  text-decoration: underline;
+}
+
 .toggle-mode {
   margin-top: 20px;
   text-align: center;
@@ -124,6 +160,8 @@
 @media (max-width: 600px) {
   .login-container {
     padding: 10px;
+    margin: 60px auto 30px;
+    min-height: calc(100vh - 120px);
   }
 
   .login-card {
