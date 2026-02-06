@@ -16,8 +16,21 @@ function NavBar() {
   const cartCount = getCartCount();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const menuButtonRef = useRef(null);
+
+  // Calculate dropdown position when menu opens
+  useEffect(() => {
+    if (showHamburgerMenu && menuButtonRef.current) {
+      const rect = menuButtonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + 8, // 8px below the button
+        right: window.innerWidth - rect.right
+      });
+    }
+  }, [showHamburgerMenu]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -25,7 +38,10 @@ function NavBar() {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowUserMenu(false);
       }
-      if (hamburgerRef.current && !hamburgerRef.current.contains(event.target)) {
+      // Check if click is outside both the button and the dropdown
+      const dropdownEl = document.querySelector('.dropdown-menu');
+      if (hamburgerRef.current && !hamburgerRef.current.contains(event.target) &&
+          (!dropdownEl || !dropdownEl.contains(event.target))) {
         setShowHamburgerMenu(false);
       }
     };
@@ -116,6 +132,7 @@ function NavBar() {
               {/* Hamburger Menu Button */}
               <div className="relative" ref={hamburgerRef}>
                 <button
+                  ref={menuButtonRef}
                   onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}
                   className="flex items-center justify-center text-gray-500 hover:text-primary transition-colors p-1"
                   title="Menu"
@@ -129,7 +146,10 @@ function NavBar() {
 
                 {/* Hamburger Dropdown Menu - rendered via portal to avoid z-index issues */}
                 {showHamburgerMenu && createPortal(
-                  <div className="dropdown-menu fixed right-4 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]">
+                  <div
+                    className="dropdown-menu fixed w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]"
+                    style={{ top: menuPosition.top, right: menuPosition.right }}
+                  >
 
                     {/* Mobile Navigation Links - only show on mobile */}
                     <div className="mobile-nav-section py-1 border-b border-gray-200 dark:border-gray-700">
