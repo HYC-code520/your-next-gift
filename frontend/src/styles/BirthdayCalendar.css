@@ -58,8 +58,8 @@
 }
 
 .calendar-day.today {
-  background: hsl(var(--primary) / 0.1);
-  border: 2px solid hsl(var(--primary));
+  background: #CCE5FF;
+  border: 2px solid #88A2FF;
 }
 
 .calendar-day.has-birthday {
@@ -75,7 +75,7 @@
 }
 
 .calendar-day.today .day-number {
-  color: hsl(var(--primary));
+  color: #253A82;
   font-weight: 700;
   font-size: 1rem;
 }
