@@ -1,13 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
-import { Calendar as CalendarIcon, Plus, Edit2, Trash2, Gift, Cake, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus, Edit2, Trash2, Gift, Cake, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import '../styles/BirthdayCalendar.css';
 
 function BirthdayCalendar() {
   const { user } = useAuth();
+  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+
+  // Check if current user can edit a birthday
+  const canEditBirthday = (birthday) => {
+    if (!user) return false;
+
+    // Admin-seeded birthdays (no user_id) - only admin can edit
+    if (!birthday.user_id) {
+      return user.email === ADMIN_EMAIL;
+    }
+
+    // User-added birthdays - only the owner can edit
+    return birthday.user_id === user.id;
+  };
+
   const [birthdays, setBirthdays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -15,7 +30,7 @@ function BirthdayCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [formData, setFormData] = useState({
     name: '',
-    birthday: '',
+    date: '',
     notes: ''
   });
 
@@ -61,7 +76,7 @@ function BirthdayCalendar() {
         if (error) throw error;
       }
 
-      setFormData({ name: '', birthday: '', notes: '' });
+      setFormData({ name: '', date: '', notes: '' });
       setShowForm(false);
       setEditingId(null);
       fetchBirthdays();
@@ -74,7 +89,7 @@ function BirthdayCalendar() {
   const handleEdit = (birthday) => {
     setFormData({
       name: birthday.name,
-      birthday: birthday.birthday,
+      date: birthday.date,
       notes: birthday.notes || ''
     });
     setEditingId(birthday.id);
@@ -109,7 +124,7 @@ function BirthdayCalendar() {
   const getBirthdaysForDate = (day) => {
     const month = currentDate.getMonth() + 1;
     return birthdays.filter(b => {
-      const [year, bMonth, bDay] = b.birthday.split('-').map(Number);
+      const [year, bMonth, bDay] = b.date.split('-').map(Number);
       return bMonth === month && bDay === day;
     });
   };
@@ -158,13 +173,15 @@ function BirthdayCalendar() {
           {dayBirthdays.length > 0 && (
             <div className="birthday-indicators">
               {dayBirthdays.map((birthday, idx) => (
-                <div 
-                  key={birthday.id} 
-                  className="birthday-marker"
+                <div
+                  key={birthday.id}
+                  className={`birthday-marker group ${canEditBirthday(birthday) ? 'cursor-pointer' : ''}`}
                   title={birthday.name}
+                  onClick={canEditBirthday(birthday) ? () => handleEdit(birthday) : undefined}
                 >
                   <Cake className="w-4 h-4" />
                   <span className="birthday-name">{birthday.name}</span>
+                  {canEditBirthday(birthday) && <Edit2 className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-60" />}
                 </div>
               ))}
             </div>
@@ -183,10 +200,10 @@ function BirthdayCalendar() {
 
     return birthdays
       .map(b => {
-        const [year, month, day] = b.birthday.split('-').map(Number);
+        const [year, month, day] = b.date.split('-').map(Number);
         const birthdayThisYear = new Date(today.getFullYear(), month - 1, day);
         const daysUntil = Math.ceil((birthdayThisYear - today) / (1000 * 60 * 60 * 24));
-        
+
         return { ...b, daysUntil, month, day };
       })
       .filter(b => b.daysUntil >= 0 && b.daysUntil <= 30)
@@ -199,43 +216,48 @@ function BirthdayCalendar() {
     <div className="flex-1 bg-background pt-8">
       
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Login reminder for admin features */}
-        {!user && (
-          <Card className="mb-6 border-primary/30 bg-primary/5">
-            <CardContent className="pt-6">
-              <p className="text-sm text-muted-foreground text-center">
-                <Lock className="w-4 h-4 inline mr-2" />
-                Login to add, edit, or delete birthdays
-              </p>
-            </CardContent>
-          </Card>
-        )}
 
         {/* Upcoming Birthdays Section */}
         {upcomingBirthdays.length > 0 && (
-          <Card className="mb-8 border-primary/50 bg-gradient-to-r from-primary/10 to-primary/5">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Cake className="w-6 h-6" />
-                Upcoming Birthdays (Next 30 Days)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {upcomingBirthdays.map(birthday => (
-                  <div key={birthday.id} className="flex items-center gap-3 p-4 bg-card rounded-lg border">
-                    <Gift className="w-8 h-8 text-primary" />
-                    <div className="flex-1">
-                      <p className="font-semibold">{birthday.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {birthday.daysUntil === 0 ? '🎉 Today!' : `In ${birthday.daysUntil} day${birthday.daysUntil !== 1 ? 's' : ''}`}
-                      </p>
+          <div className="mb-8 text-center">
+            <h3 className="text-sm font-medium text-muted-foreground mb-3">Coming up</h3>
+            <div className="flex flex-wrap justify-center gap-2">
+              {upcomingBirthdays.map(birthday => (
+                <div
+                  key={birthday.id}
+                  className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                    birthday.daysUntil === 0
+                      ? 'bg-primary text-primary-foreground'
+                      : birthday.daysUntil <= 7
+                        ? 'bg-primary/10 text-foreground'
+                        : 'bg-muted text-muted-foreground'
+                  }`}
+                >
+                  <span className="font-medium">{birthday.name}</span>
+                  <span className="opacity-70">
+                    {birthday.daysUntil === 0 ? '🎂' : `${birthday.daysUntil}d`}
+                  </span>
+                  {/* Edit/Delete on hover - only for owner */}
+                  {canEditBirthday(birthday) && (
+                    <div className="hidden group-hover:flex items-center gap-1 ml-1">
+                      <button
+                        onClick={() => handleEdit(birthday)}
+                        className="opacity-60 hover:opacity-100"
+                      >
+                        <Edit2 className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(birthday.id)}
+                        className="opacity-60 hover:opacity-100 hover:text-destructive"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         {/* Calendar View Header */}
@@ -246,8 +268,14 @@ function BirthdayCalendar() {
         {/* Add/Edit Form - Only for logged in users */}
         {user && showForm && (
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className="relative">
               <CardTitle>{editingId ? 'Edit Birthday' : 'Add New Birthday'}</CardTitle>
+              <button
+                onClick={() => { setShowForm(false); setEditingId(null); setFormData({ name: '', date: '', notes: '' }); }}
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -265,8 +293,8 @@ function BirthdayCalendar() {
                   <label className="block text-sm font-medium mb-2">Birthday *</label>
                   <input
                     type="date"
-                    value={formData.birthday}
-                    onChange={(e) => setFormData({ ...formData, birthday: e.target.value })}
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     className="w-full px-4 py-2 bg-input border border-border rounded-md"
                     required
                   />
@@ -291,7 +319,7 @@ function BirthdayCalendar() {
                     onClick={() => {
                       setShowForm(false);
                       setEditingId(null);
-                      setFormData({ name: '', birthday: '', notes: '' });
+                      setFormData({ name: '', date: '', notes: '' });
                     }}
                   >
                     Cancel
@@ -336,6 +364,15 @@ function BirthdayCalendar() {
                     <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-5 h-5" />
                   </button>
+                  {user && (
+                    <button
+                      onClick={() => setShowForm(true)}
+                      className="px-4 py-2 rounded-lg bg-[hsl(150,60%,85%)] text-[hsl(231,44%,28%)] hover:bg-[hsl(150,60%,80%)] transition-all font-medium flex items-center gap-1"
+                    >
+                      <Plus className="w-5 h-5" />
+                      <span className="hidden sm:inline">Add</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </CardHeader>
@@ -355,59 +392,6 @@ function BirthdayCalendar() {
           </Card>
         )}
 
-        {/* Birthday List */}
-        {birthdays.length > 0 && (
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle>All Birthdays</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {birthdays
-                  .sort((a, b) => {
-                    const [, aMonth, aDay] = a.birthday.split('-').map(Number);
-                    const [, bMonth, bDay] = b.birthday.split('-').map(Number);
-                    if (aMonth !== bMonth) return aMonth - bMonth;
-                    return aDay - bDay;
-                  })
-                  .map(birthday => {
-                    const [year, month, day] = birthday.birthday.split('-').map(Number);
-                    return (
-                      <div key={birthday.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
-                        <div className="flex items-center gap-3">
-                          <Cake className="w-5 h-5 text-primary" />
-                          <div>
-                            <p className="font-semibold">{birthday.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {monthNames[month - 1]} {day}
-                              {birthday.notes && ` • ${birthday.notes}`}
-                            </p>
-                          </div>
-                        </div>
-                        {/* Edit/Delete buttons - Only for logged in users */}
-                        {user && (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(birthday)}
-                              className="text-primary hover:text-primary/80 transition-colors p-2"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(birthday.id)}
-                              className="text-destructive hover:text-destructive/80 transition-colors p-2"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );

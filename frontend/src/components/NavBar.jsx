@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../lib/supabaseClient';
-import { Sun, Moon, ShoppingCart, Lock, Search, Languages, LogOut, User, ChevronDown, Menu, X, Bell } from 'lucide-react';
+import { Sun, Moon, ShoppingCart, Lock, Search, Languages, LogOut, User, ChevronDown, Menu, X, Bell, HelpCircle } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import '../styles/NavBar.css';
 
@@ -100,11 +100,24 @@ function NavBar() {
               {t('list')}
             </NavLink>
           </li>
-          <li className="nav-item-desktop">
-            <NavLink to="/faq" className="nav-link">
-              {t('faq')}
-            </NavLink>
-          </li>
+          {isAdmin ? (
+            <li className="nav-item-desktop">
+              <NavLink to="/admin" className="nav-link relative">
+                {t('admin')}
+                {pendingOrdersCount > 0 && (
+                  <span className="absolute -top-1 -right-3 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                    {pendingOrdersCount}
+                  </span>
+                )}
+              </NavLink>
+            </li>
+          ) : (
+            <li className="nav-item-desktop">
+              <NavLink to="/faq" className="nav-link">
+                {t('faq')}
+              </NavLink>
+            </li>
+          )}
 
           {/* Logo - always visible */}
           <li className="nav-item-logo">
@@ -126,18 +139,6 @@ function NavBar() {
               {t('birthdays')}
             </NavLink>
           </li>
-          {isAdmin && (
-            <li className="nav-item-desktop">
-              <NavLink to="/admin" className="nav-link relative">
-                {t('admin')}
-                {pendingOrdersCount > 0 && (
-                  <span className="absolute -top-1 -right-3 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                    {pendingOrdersCount}
-                  </span>
-                )}
-              </NavLink>
-            </li>
-          )}
 
           {/* Cart and Menu Icons Container - always visible */}
           <li className="nav-item-icons">
@@ -249,19 +250,12 @@ function NavBar() {
                           </NavLink>
                           {isAdmin && (
                             <NavLink
-                              to="/admin"
-                              className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                              to="/faq"
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                               onClick={() => setShowHamburgerMenu(false)}
                             >
-                              <span className="flex items-center gap-2.5">
-                                <Lock className="w-4 h-4" />
-                                {t('admin')}
-                              </span>
-                              {pendingOrdersCount > 0 && (
-                                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
-                                  {pendingOrdersCount} new
-                                </span>
-                              )}
+                              <HelpCircle className="w-4 h-4" />
+                              {t('faq')}
                             </NavLink>
                           )}
                         </div>

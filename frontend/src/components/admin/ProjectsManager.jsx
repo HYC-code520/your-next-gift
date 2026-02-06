@@ -31,8 +31,6 @@ function ProjectsManager() {
     );
   }
 
-  console.log('📊 ProjectsManager render - showModal:', showModal, 'isAdding:', isAdding);
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -40,10 +38,7 @@ function ProjectsManager() {
         <h3 className="text-lg font-semibold">
           {t('allProjects')} ({projects.length})
         </h3>
-        <Button onClick={() => {
-          console.log('🔘 Add button clicked');
-          handleAdd();
-        }}>
+        <Button onClick={handleAdd}>
           <Plus className="w-4 h-4 mr-2" />
           {t('addProject')}
         </Button>

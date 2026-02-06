@@ -35,11 +35,8 @@ function ProjectModal({
   }, [isOpen, onCancel]);
 
   if (!isOpen) {
-    console.log('❌ Modal is closed (isOpen=false)');
     return null;
   }
-
-  console.log('✅ Modal is rendering! isOpen=', isOpen, 'isAdding=', isAdding);
 
   return (
     <Portal>

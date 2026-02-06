@@ -1,9 +1,36 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useLanguage } from '../../context/LanguageContext';
-import { Package, Calendar, User, Mail, Palette, Ruler, Type, MessageSquare, ChevronDown } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { ChevronRight } from 'lucide-react';
+
+// Local image map for projects
+const localImageMap = {
+  1: '/images/Wavy-photo-frame-coverphoto.PNG',
+  2: '/images/dog-pizza.JPG',
+  3: '/images/customize-twistt-sticks-pet-bouquet.png',
+  4: '/images/Flower-balloon.PNG',
+  5: '/images/7-11-coverphoto-1.PNG',
+  6: '/images/weaved-black-crossbody-bag.PNG',
+  9: '/images/Cookie-cusion.JPG',
+  10: '/images/Ham-hideout.PNG',
+  11: '/images/cat-hideout1.png',
+  12: '/images/AH-DAI-pen-holder.PNG',
+  14: '/images/flower-box-with-jellycat.JPG',
+  15: '/images/Fuji-Mountain-weaved-bag.png',
+  16: '/images/icecream-cake.JPG',
+  17: '/images/Kawaii-twisty-sticks-keychain.PNG',
+  18: '/images/Miffy-clock2.png',
+  19: '/images/twistysticks-flower.PNG',
+  20: '/images/Chiikawa-frame2.png',
+  21: '/images/Crossbodybag-1.JPG',
+  22: '/images/Cat-bow-frame.png',
+  23: '/images/double-frame-clay-frame.PNG',
+  24: '/images/Fancy-fruit-basket1.png',
+  25: '/images/2nd-shape-wavy-mirror-frame.JPG',
+  26: '/images/white-weaving-handbag.png',
+  27: '/images/cat-pizza01.png',
+  28: '/images/custom-pet-inscense-stick-holder-01.PNG',
+};
 
 function OrdersManager() {
   const { t } = useLanguage();
@@ -51,241 +78,201 @@ function OrdersManager() {
         .eq('id', orderId);
 
       if (error) throw error;
-      
-      // Refresh orders
       fetchOrders();
-      alert(t('orderUpdated'));
     } catch (error) {
       console.error('Error updating order:', error);
-      alert('Error updating order status');
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusStyle = (status) => {
     switch (status) {
-      case 'pending':
-        return 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 border-yellow-500/30';
-      case 'in_progress':
-        return 'bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30';
-      case 'completed':
-        return 'bg-green-500/20 text-green-700 dark:text-green-300 border-green-500/30';
-      case 'cancelled':
-        return 'bg-red-500/20 text-red-700 dark:text-red-300 border-red-500/30';
-      default:
-        return 'bg-gray-500/20 text-gray-700 dark:text-gray-300 border-gray-500/30';
+      case 'pending': return 'text-amber-600 dark:text-amber-400';
+      case 'in_progress': return 'text-blue-600 dark:text-blue-400';
+      case 'completed': return 'text-green-600 dark:text-green-400';
+      case 'cancelled': return 'text-muted-foreground';
+      default: return 'text-muted-foreground';
     }
   };
 
-  const filteredOrders = filterStatus === 'all' 
-    ? orders 
+  const filteredOrders = filterStatus === 'all'
+    ? orders
     : orders.filter(order => order.status === filterStatus);
+
+  // Create a map of order IDs to sequential numbers (oldest = 001)
+  const orderNumberMap = {};
+  [...orders].sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+    .forEach((order, index) => {
+      orderNumberMap[order.id] = String(index + 1).padStart(3, '0');
+    });
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="py-12 text-center text-muted-foreground text-sm">
+        Loading...
       </div>
     );
   }
 
+  const filters = [
+    { id: 'all', label: 'All' },
+    { id: 'pending', label: 'Pending' },
+    { id: 'in_progress', label: 'In Progress' },
+    { id: 'completed', label: 'Completed' },
+    { id: 'cancelled', label: 'Cancelled' }
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Filter Bar */}
-      <div className="flex gap-2 flex-wrap">
-        <Button
-          variant={filterStatus === 'all' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setFilterStatus('all')}
-        >
-          {t('allStatuses')}
-        </Button>
-        <Button
-          variant={filterStatus === 'pending' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setFilterStatus('pending')}
-        >
-          {t('pending')}
-        </Button>
-        <Button
-          variant={filterStatus === 'in_progress' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setFilterStatus('in_progress')}
-        >
-          {t('inProgress')}
-        </Button>
-        <Button
-          variant={filterStatus === 'completed' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setFilterStatus('completed')}
-        >
-          {t('completed')}
-        </Button>
-        <Button
-          variant={filterStatus === 'cancelled' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setFilterStatus('cancelled')}
-        >
-          {t('cancelled')}
-        </Button>
+      {/* Filters - pill style like Linear */}
+      <div className="flex gap-2">
+        {filters.map((filter) => (
+          <button
+            key={filter.id}
+            onClick={() => setFilterStatus(filter.id)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              filterStatus === filter.id
+                ? 'bg-foreground text-background'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+            }`}
+          >
+            {filter.label}
+          </button>
+        ))}
       </div>
 
-      {/* Orders List */}
+      {/* Orders Table */}
       {filteredOrders.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-            <p className="text-muted-foreground">{t('noOrders')}</p>
-          </CardContent>
-        </Card>
+        <p className="text-muted-foreground text-sm py-8">{t('noOrders')}</p>
       ) : (
-        <div className="space-y-4">
+        <div className="border border-border/50 rounded-lg overflow-hidden">
+          {/* Header */}
+          <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-muted/30 text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            <div className="col-span-4">Order</div>
+            <div className="col-span-3">Customer</div>
+            <div className="col-span-2">Date</div>
+            <div className="col-span-2">Status</div>
+            <div className="col-span-1"></div>
+          </div>
+
+          {/* Rows */}
           {filteredOrders.map((order) => (
-            <Card key={order.id} className="overflow-hidden">
-              <CardHeader className="bg-muted/50">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <CardTitle className="text-lg flex items-center gap-3">
-                      {t('orderDetails')} #{order.id.slice(0, 8)}
-                      {order.birthday_year && (
-                        <span className="text-sm font-normal bg-purple-500/20 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full">
-                          🎂 {order.birthday_year} Birthday
-                        </span>
-                      )}
-                    </CardTitle>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        {order.user_name || order.user_email}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Mail className="w-4 h-4" />
-                        {order.user_email}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {new Date(order.created_at).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(order.status)}`}>
-                      {t(order.status)}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
-                    >
-                      <ChevronDown className={`w-5 h-5 transition-transform ${expandedOrder === order.id ? 'rotate-180' : ''}`} />
-                    </Button>
-                  </div>
+            <div key={order.id} className="border-t border-border/50">
+              {/* Row */}
+              <div
+                className="grid grid-cols-12 gap-4 px-4 py-3 items-center cursor-pointer hover:bg-muted/20 transition-colors"
+                onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+              >
+                <div className="col-span-4">
+                  <p className="text-sm font-medium">#{orderNumberMap[order.id]}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {order.order_items?.length || 0} item{order.order_items?.length !== 1 ? 's' : ''}
+                    {order.birthday_year && ` · ${order.birthday_year} birthday`}
+                  </p>
                 </div>
-              </CardHeader>
+                <div className="col-span-3">
+                  <p className="text-sm truncate">{order.user_email}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(order.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="col-span-2">
+                  <span className={`text-sm font-medium ${getStatusStyle(order.status)}`}>
+                    {t(order.status)}
+                  </span>
+                </div>
+                <div className="col-span-1 flex justify-end">
+                  <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${expandedOrder === order.id ? 'rotate-90' : ''}`} />
+                </div>
+              </div>
 
+              {/* Expanded Details */}
               {expandedOrder === order.id && (
-                <CardContent className="pt-6">
-                  {/* Order Items */}
-                  <div className="space-y-4 mb-6">
-                    <h4 className="font-semibold">{t('totalItems')}: {order.order_items?.length || 0}</h4>
+                <div className="px-4 pb-4 bg-muted/10">
+                  <div className="pl-4 border-l-2 border-border/50 space-y-4 py-4">
+                    {/* Items */}
                     {order.order_items?.map((item, index) => (
-                      <div key={index} className="border rounded-lg p-4 space-y-3">
-                        <div className="flex gap-4">
-                          {item.project_image && (
-                            <img 
-                              src={item.project_image} 
-                              alt={item.project_name}
-                              className="w-20 h-20 object-cover rounded"
-                            />
-                          )}
-                          <div className="flex-1">
-                            <h5 className="font-medium">{item.project_name}</h5>
-                            <p className="text-sm text-muted-foreground">{item.project_description}</p>
-                          </div>
-                        </div>
-
-                        {/* Customization Details */}
-                        {item.customization && (
-                          <div className="bg-muted/50 rounded-lg p-3 space-y-2">
-                            <h6 className="font-medium text-sm flex items-center gap-2">
-                              <Palette className="w-4 h-4" />
-                              {t('customization')}
-                            </h6>
-                            
-                            {item.customization.colors && item.customization.colors.length > 0 && (
-                              <div className="flex items-center gap-2 text-sm">
-                                <span className="text-muted-foreground">{t('colors')}:</span>
-                                <div className="flex gap-1">
-                                  {item.customization.colors.map((color, i) => (
-                                    <div
-                                      key={i}
-                                      className="w-6 h-6 rounded border border-border"
-                                      style={{ backgroundColor: color }}
-                                      title={color}
-                                    />
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            
-                            {item.customization.size && (
-                              <div className="flex items-center gap-2 text-sm">
-                                <Ruler className="w-4 h-4 text-muted-foreground" />
-                                <span className="text-muted-foreground">{t('size')}:</span>
-                                <span>{item.customization.size}</span>
-                              </div>
-                            )}
-                            
-                            {item.customization.personalization && (
-                              <div className="flex items-center gap-2 text-sm">
-                                <Type className="w-4 h-4 text-muted-foreground" />
-                                <span className="text-muted-foreground">{t('personalization')}:</span>
-                                <span>{item.customization.personalization}</span>
-                              </div>
-                            )}
-                            
-                            {item.customization.specialRequests && (
-                              <div className="flex items-start gap-2 text-sm">
-                                <MessageSquare className="w-4 h-4 text-muted-foreground mt-0.5" />
-                                <div>
-                                  <span className="text-muted-foreground">{t('specialRequests')}:</span>
-                                  <p className="mt-1">{item.customization.specialRequests}</p>
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                      <div key={index} className="flex gap-4">
+                        {(localImageMap[item.project_id] || item.project_image) && (
+                          <img
+                            src={localImageMap[item.project_id] || item.project_image}
+                            alt={item.project_name}
+                            className="w-14 h-14 object-cover rounded"
+                          />
                         )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium">
+                            {item.project_name}
+                            {item.quantity > 1 && (
+                              <span className="text-muted-foreground font-normal"> × {item.quantity}</span>
+                            )}
+                          </p>
+
+                          {/* Customization */}
+                          {item.customization && Object.keys(item.customization).length > 0 && (
+                            <div className="mt-2 space-y-1.5 text-xs text-muted-foreground">
+                              {item.customization.petPhotoUrl && (
+                                <div>
+                                  <span className="text-foreground">Pet photo:</span>
+                                  <img
+                                    src={item.customization.petPhotoUrl}
+                                    alt="Pet"
+                                    className="mt-1 w-20 h-20 object-cover rounded"
+                                  />
+                                </div>
+                              )}
+                              {item.customization.colors?.length > 0 && (
+                                <div className="flex items-center gap-2">
+                                  <span>Colors:</span>
+                                  <div className="flex gap-1">
+                                    {item.customization.colors.map((color, i) => (
+                                      <div
+                                        key={i}
+                                        className="w-4 h-4 rounded-full border border-border"
+                                        style={{ backgroundColor: color }}
+                                      />
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {item.customization.size && (
+                                <p><span className="text-foreground">Size:</span> {item.customization.size}</p>
+                              )}
+                              {item.customization.personalization && (
+                                <p><span className="text-foreground">Text:</span> "{item.customization.personalization}"</p>
+                              )}
+                              {item.customization.specialRequests && (
+                                <p><span className="text-foreground">Note:</span> {item.customization.specialRequests}</p>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
-                  </div>
 
-                  {/* Birthday Date */}
-                  {order.birthday_date && (
-                    <div className="mb-6 p-3 bg-primary/10 rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-5 h-5 text-primary" />
-                        <span className="font-medium">{t('birthdayDate')}:</span>
-                        <span>{new Date(order.birthday_date).toLocaleDateString()}</span>
-                      </div>
+                    {/* Status Update */}
+                    <div className="flex items-center gap-3 pt-3 border-t border-border/30">
+                      <span className="text-xs text-muted-foreground">Update status:</span>
+                      <select
+                        value={order.status}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          updateOrderStatus(order.id, e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-xs px-2 py-1.5 bg-background border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
                     </div>
-                  )}
-
-                  {/* Status Update */}
-                  <div className="flex items-center gap-3">
-                    <label className="font-medium">{t('orderStatus')}:</label>
-                    <select
-                      value={order.status}
-                      onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                      className="px-3 py-2 bg-input border border-border rounded-md"
-                    >
-                      <option value="pending">{t('pending')}</option>
-                      <option value="in_progress">{t('inProgress')}</option>
-                      <option value="completed">{t('completed')}</option>
-                      <option value="cancelled">{t('cancelled')}</option>
-                    </select>
                   </div>
-                </CardContent>
+                </div>
               )}
-            </Card>
+            </div>
           ))}
         </div>
       )}

@@ -19,24 +19,18 @@ export const AuthProvider = ({ children }) => {
   // Check if user is admin
   const checkAdminStatus = async (userId) => {
     try {
-      console.log('🔍 Checking admin status for user:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', userId)
         .single();
-      
-      console.log('📊 Admin check result:', { data, error });
-      
+
       if (!error && data?.role === 'admin') {
-        console.log('✅ User is admin!');
         setIsAdmin(true);
       } else {
-        console.log('❌ User is NOT admin. Role:', data?.role, 'Error:', error);
         setIsAdmin(false);
       }
     } catch (error) {
-      console.error('❌ Error checking admin status:', error);
       setIsAdmin(false);
     }
   };
