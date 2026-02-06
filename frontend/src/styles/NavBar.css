@@ -12,13 +12,13 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
   height: 70px;
   background: transparent;
-  padding: 0 2rem;
+  padding: 0;
   z-index: 50;
   position: relative;
 }
@@ -27,32 +27,30 @@
   background: transparent;
 }
 
-/* Navbar Left Side */
-.navbar-left {
+/* Navbar Links */
+.navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: space-evenly;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+  max-width: 1400px;
+  gap: 2rem;
 }
 
-/* Navbar Right Side */
-.navbar-right {
+.navbar-links li {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: center;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
-/* Logo - absolutely centered */
-.nav-item-logo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Icons container */
-.nav-item-icons {
-  display: flex;
-  align-items: center;
+/* Make the center item (MADE BY ARIEL) have specific width for the arch */
+.navbar-links li:nth-child(3) {
+  flex: 0 0 auto;
 }
 
 /* Arch text effect for HANDMADE BY ARIEL */
@@ -422,18 +420,6 @@
     display: none !important;
   }
 
-  /* Hide left and right nav containers on mobile */
-  .navbar-left {
-    display: none;
-  }
-
-  .navbar-right {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
   /* Show mobile nav section in hamburger */
   .mobile-nav-section {
     display: block;
@@ -446,6 +432,23 @@
     position: relative;
   }
 
+  .navbar-links {
+    justify-content: flex-end;
+    gap: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Logo - absolutely centered on mobile */
+  .nav-item-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .arch-svg {
     width: 200px;
     height: 45px;
@@ -455,10 +458,12 @@
     font-size: 20px;
   }
 
-  /* Icons container */
+  /* Icons container - right side */
   .nav-item-icons {
-    position: static;
-    transform: none;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
