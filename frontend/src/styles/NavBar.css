@@ -620,3 +620,35 @@
   border: none !important;
   box-shadow: none !important;
 }
+
+/* Dropdown Menu Positioning */
+.dropdown-menu {
+  top: 75px; /* Default: navbar height (70px) + 5px spacing */
+}
+
+@media (max-width: 1199px) and (min-width: 901px) {
+  .dropdown-menu {
+    top: 75px;
+  }
+}
+
+@media (max-width: 900px) {
+  .dropdown-menu {
+    top: 65px; /* navbar height (60px) + 5px */
+  }
+}
+
+@media (max-width: 600px) {
+  .dropdown-menu {
+    top: 60px; /* navbar height (55px) + 5px */
+  }
+}
+
+@media (max-width: 400px) {
+  .dropdown-menu {
+    top: 55px; /* navbar height (50px) + 5px */
+    right: 0.5rem;
+    width: calc(100vw - 1rem);
+    max-width: 280px;
+  }
+}

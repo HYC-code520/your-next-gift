@@ -128,7 +128,7 @@ function NavBar() {
 
                 {/* Hamburger Dropdown Menu */}
                 {showHamburgerMenu && (
-                  <div className="fixed right-4 top-16 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]">
+                  <div className="dropdown-menu fixed right-4 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]">
 
                     {/* Mobile Navigation Links - only show on mobile */}
                     <div className="mobile-nav-section py-1 border-b border-gray-200 dark:border-gray-700">
