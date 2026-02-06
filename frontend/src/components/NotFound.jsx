@@ -11,8 +11,8 @@ function NotFound() {
 
   return (
     <div className="flex-1 bg-background flex items-center justify-center p-6">
-      <Card className="max-w-2xl w-full text-center animate-fade-in">
-        <CardContent className="pt-12 pb-12">
+      <Card className="max-w-2xl w-full animate-fade-in">
+        <CardContent className="pt-12 pb-12 flex flex-col items-center text-center">
           {/* 404 Animation */}
           <div className="mb-8">
             <div className="text-[150px] font-bold text-primary/20 leading-none">
@@ -29,26 +29,14 @@ function NotFound() {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              onClick={() => navigate('/')}
-              size="lg"
-              variant="default"
-              className="w-full sm:w-auto"
-            >
-              <Home className="w-5 h-5 mr-2" />
-              {t('goHome')}
-            </Button>
-            <Button 
-              onClick={() => navigate('/list')}
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto"
-            >
-              <Search className="w-5 h-5 mr-2" />
-              {t('browseDIY')}
-            </Button>
-          </div>
+          <Button
+            onClick={() => navigate('/')}
+            size="lg"
+            variant="default"
+          >
+            <Home className="w-5 h-5 mr-2" />
+            {t('goHome')}
+          </Button>
 
           {/* Helpful Links */}
           <div className="mt-12 pt-8 border-t border-border">

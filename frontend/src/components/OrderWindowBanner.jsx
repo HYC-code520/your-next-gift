@@ -50,13 +50,13 @@ function OrderWindowBanner() {
 
   if (canOrder) {
     return (
-      <div className="bg-sky-500/10 border border-sky-500/30 p-5 mb-6 rounded-xl animate-in fade-in duration-300">
+      <div className="bg-[#CCE5FF]/30 border border-[#CCE5FF] p-5 mb-6 rounded-xl animate-in fade-in duration-300">
         <div className="flex flex-col items-center text-center gap-2">
-          <CheckCircle className="w-8 h-8 text-sky-600" />
-          <p className="font-semibold text-sky-900 dark:text-sky-100 text-lg">
+          <CheckCircle className="w-8 h-8 text-[#4A90A4]" />
+          <p className="font-semibold text-[#1a3a4a] dark:text-[#CCE5FF] text-lg">
             You're ready to order your birthday gift!
           </p>
-          <p className="text-sm text-sky-700 dark:text-sky-300">
+          <p className="text-sm text-[#3a6a7a] dark:text-[#a8d4e6]">
             {message}
           </p>
         </div>
