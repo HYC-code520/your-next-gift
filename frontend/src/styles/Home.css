@@ -11,8 +11,8 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    min-height: calc(100vh - 64px); /* Account for navbar */
-    min-height: calc(100dvh - 64px); /* Dynamic viewport height for mobile */
+    height: calc(100vh - 140px); /* Account for navbar (~70px) + footer (~70px) */
+    height: calc(100dvh - 140px); /* Dynamic viewport height for mobile */
     margin: 0;
     position: relative;
     z-index: 5;
@@ -146,8 +146,13 @@
 
 /* Tablet and below */
 @media (max-width: 768px) {
+    .slideshow {
+        height: calc(100vh - 130px); /* navbar (~60px) + footer (~70px) */
+        height: calc(100dvh - 130px);
+    }
+
     .slide-content {
-        margin-top: 10vh;
+        margin-top: 5vh;
         padding: 16px;
     }
 
@@ -159,12 +164,12 @@
 /* Mobile */
 @media (max-width: 480px) {
     .slideshow {
-        min-height: calc(100vh - 56px);
-        min-height: calc(100dvh - 56px);
+        height: calc(100vh - 115px); /* Smaller navbar (~55px) + footer (~60px) */
+        height: calc(100dvh - 115px);
     }
 
     .slide-content {
-        margin-top: 5vh;
+        margin-top: 0;
         padding: 12px;
         max-width: 95%;
     }
@@ -187,12 +192,12 @@
 /* Landscape mobile */
 @media (max-height: 500px) and (orientation: landscape) {
     .slideshow {
-        min-height: 100vh;
-        min-height: 100dvh;
+        height: calc(100vh - 100px);
+        height: calc(100dvh - 100px);
     }
 
     .slide-content {
-        margin-top: 2vh;
+        margin-top: 0;
     }
 
     .slide-content h1 {
@@ -202,10 +207,11 @@
 
     .slide-content p {
         font-size: clamp(0.8rem, 2vw, 1rem);
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
     }
 
     .gift-gallery-btn {
-        padding: 10px 24px;
+        padding: 8px 20px;
+        min-height: 36px;
     }
 }
