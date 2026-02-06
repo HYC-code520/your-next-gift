@@ -413,6 +413,35 @@
   display: none;
 }
 
+/* Small desktop / large tablet: 901px - 1199px - Center the logo */
+@media (max-width: 1199px) and (min-width: 901px) {
+  .navbar {
+    position: relative;
+  }
+
+  .navbar-links {
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  /* Logo - absolutely centered */
+  .nav-item-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .arch-svg {
+    width: 240px;
+    height: 50px;
+  }
+
+  .arch-text-svg {
+    font-size: 22px;
+  }
+}
+
 /* Tablet and Mobile: Hide desktop nav links, show mobile nav in menu */
 @media (max-width: 900px) {
   /* Hide desktop nav links */
