@@ -41,49 +41,41 @@ function NavBar() {
   return (
     <div className="navbar-wrapper">
       <nav className="navbar">
-        <ul className="navbar-links">
-          {/* Desktop nav links - hidden on mobile */}
-          <li className="nav-item-desktop">
-            <NavLink to="/list" className="nav-link">
-              {t('list')}
-            </NavLink>
-          </li>
-          <li className="nav-item-desktop">
-            <NavLink to="/faq" className="nav-link">
-              {t('faq')}
-            </NavLink>
-          </li>
+        {/* Left side - Desktop nav links */}
+        <div className="navbar-left">
+          <NavLink to="/list" className="nav-link nav-item-desktop">
+            {t('list')}
+          </NavLink>
+          <NavLink to="/faq" className="nav-link nav-item-desktop">
+            {t('faq')}
+          </NavLink>
+        </div>
 
-          {/* Logo - always visible */}
-          <li className="nav-item-logo">
-            <NavLink to="/" className="nav-link nav-link-arch">
-              <svg viewBox="0 0 280 80" className="arch-svg">
-                <path id="arch-curve" d="M 10,75 Q 140,10 270,75" fill="transparent" />
-                <text className="arch-text-svg">
-                  <textPath href="#arch-curve" startOffset="50%" textAnchor="middle">
-                    MADE   BY   ARIEL
-                  </textPath>
-                </text>
-              </svg>
-            </NavLink>
-          </li>
+        {/* Center - Logo (always visible) */}
+        <NavLink to="/" className="nav-link nav-link-arch nav-item-logo">
+          <svg viewBox="0 0 280 80" className="arch-svg">
+            <path id="arch-curve" d="M 10,75 Q 140,10 270,75" fill="transparent" />
+            <text className="arch-text-svg">
+              <textPath href="#arch-curve" startOffset="50%" textAnchor="middle">
+                MADE   BY   ARIEL
+              </textPath>
+            </text>
+          </svg>
+        </NavLink>
 
-          {/* Desktop nav links - hidden on mobile */}
-          <li className="nav-item-desktop">
-            <NavLink to="/birthdays" className="nav-link">
-              {t('birthdays')}
-            </NavLink>
-          </li>
+        {/* Right side - Desktop nav links + Icons */}
+        <div className="navbar-right">
+          <NavLink to="/birthdays" className="nav-link nav-item-desktop">
+            {t('birthdays')}
+          </NavLink>
           {isAdmin && (
-            <li className="nav-item-desktop">
-              <NavLink to="/admin" className="nav-link">
-                {t('admin')}
-              </NavLink>
-            </li>
+            <NavLink to="/admin" className="nav-link nav-item-desktop">
+              {t('admin')}
+            </NavLink>
           )}
 
           {/* Cart and Menu Icons Container - always visible */}
-          <li className="nav-item-icons">
+          <div className="nav-item-icons">
             <div className="flex items-center gap-3">
               {/* Shopping Cart */}
               <NavLink
@@ -257,8 +249,8 @@ function NavBar() {
                 )}
               </div>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
     </div>
   );
