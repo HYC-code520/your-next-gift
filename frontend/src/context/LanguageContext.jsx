@@ -22,6 +22,7 @@ const translations = {
     blog: 'Blog',
     birthdays: 'Birthday Calendar',
     myOrders: 'My Orders',
+    profile: 'Profile',
     admin: 'Admin',
     cart: 'Cart',
     
@@ -192,6 +193,7 @@ const translations = {
     blog: '部落格',
     birthdays: '生日日曆',
     myOrders: '我的訂單',
+    profile: '個人資料',
     admin: '管理員',
     cart: '購物車',
     

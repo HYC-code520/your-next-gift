@@ -112,7 +112,7 @@ function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 bg-background">
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Tab Navigation */}

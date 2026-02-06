@@ -57,18 +57,21 @@ function AppLayout() {
 
   // Handle page transitions - use useLayoutEffect to prevent flash
   useLayoutEffect(() => {
+    // Always scroll to top on route change
+    window.scrollTo(0, 0);
+
     if (!isInitialLoad) {
       // Immediately set transitioning state before paint
       setIsPageTransitioning(true);
       setShouldFadeIn(false);
-      
+
       // Loading animation for page transitions (1 second)
       const timer = setTimeout(() => {
         setIsPageTransitioning(false);
         // Trigger fade-in immediately when loading screen exits
         setTimeout(() => setShouldFadeIn(true), 50);
       }, 1000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [location.pathname, isInitialLoad]);
@@ -84,9 +87,9 @@ function AppLayout() {
       <div className="flex flex-col min-h-screen">
         {/* <AnnouncementBar /> */}
         <NavBar />
-        <div 
-          className={`flex-1 main-content ${isHomePage ? 'home-page' : ''}`}
-          style={{ 
+        <div
+          className={`flex-1 flex flex-col main-content ${isHomePage ? 'home-page' : ''}`}
+          style={{
             visibility: (isPageTransitioning || isLoading) ? 'hidden' : 'visible',
             opacity: shouldFadeIn ? 1 : 0,
             transform: shouldFadeIn ? 'translateY(0)' : 'translateY(30px)',

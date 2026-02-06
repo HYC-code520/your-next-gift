@@ -9,22 +9,37 @@ function OrderWindowBanner() {
 
   if (!userBirthday) {
     return (
-      <div className="mb-6 p-3 bg-primary/5 border border-primary/20 rounded-lg text-center">
-        <p className="text-sm text-foreground">
-          Please set your birthday to order birthday gifts.
-          {!user && (
-            <>
-              {' '}
-              <Link 
-                to="/login" 
-                className="text-primary font-medium hover:underline transition-colors"
-              >
-                Login
-              </Link>
-              {' '}to continue.
-            </>
-          )}
-        </p>
+      <div className="mb-6 p-5 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+        <div className="flex flex-col items-center text-center gap-2">
+          <AlertCircle className="w-8 h-8 text-amber-600" />
+          <p className="font-semibold text-amber-900 dark:text-amber-100 text-lg">
+            Set your birthday to get started
+          </p>
+          <p className="text-sm text-amber-700 dark:text-amber-300">
+            {user ? (
+              <>
+                Go to your{' '}
+                <Link
+                  to="/profile"
+                  className="text-amber-800 dark:text-amber-200 font-semibold underline hover:no-underline transition-colors"
+                >
+                  Profile
+                </Link>
+                {' '}to add your birthday.
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-amber-800 dark:text-amber-200 font-semibold underline hover:no-underline transition-colors"
+                >
+                  Login
+                </Link>
+                {' '}to continue.
+              </>
+            )}
+          </p>
+        </div>
       </div>
     );
   }
@@ -35,34 +50,30 @@ function OrderWindowBanner() {
 
   if (canOrder) {
     return (
-      <div className="bg-green-500/10 border-l-4 border-green-500 p-4 mb-6 rounded-r-lg animate-in slide-in-from-left duration-300">
-        <div className="flex items-start gap-3">
-          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="font-semibold text-green-900 dark:text-green-100">
-              Order Window Open! 🎉
-            </p>
-            <p className="text-sm text-green-800 dark:text-green-200 mt-1">
-              {message}
-            </p>
-          </div>
+      <div className="bg-sky-500/10 border border-sky-500/30 p-5 mb-6 rounded-xl animate-in fade-in duration-300">
+        <div className="flex flex-col items-center text-center gap-2">
+          <CheckCircle className="w-8 h-8 text-sky-600" />
+          <p className="font-semibold text-sky-900 dark:text-sky-100 text-lg">
+            You're ready to order your birthday gift!
+          </p>
+          <p className="text-sm text-sky-700 dark:text-sky-300">
+            {message}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-blue-500/10 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg">
-      <div className="flex items-start gap-3">
-        <Calendar className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="font-semibold text-blue-900 dark:text-blue-100">
-            Order Window Status
-          </p>
-          <p className="text-sm text-blue-800 dark:text-blue-200 mt-1">
-            {message}
-          </p>
-        </div>
+    <div className="bg-blue-500/10 border border-blue-500/30 p-5 mb-6 rounded-xl">
+      <div className="flex flex-col items-center text-center gap-2">
+        <Calendar className="w-8 h-8 text-blue-600" />
+        <p className="font-semibold text-blue-900 dark:text-blue-100 text-lg">
+          Order Window Status
+        </p>
+        <p className="text-sm text-blue-700 dark:text-blue-300">
+          {message}
+        </p>
       </div>
     </div>
   );

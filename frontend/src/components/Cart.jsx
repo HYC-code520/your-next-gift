@@ -24,15 +24,14 @@ function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-background pt-8">
-        <div className="max-w-4xl mx-auto px-4 py-20 animate-fade-in">
-          <Card className="text-center py-20">
-            <CardContent className="pt-6">
-              <ShoppingCart className="w-32 h-32 mx-auto mb-6 animate-pulse text-primary" />
-              <h2 className="text-3xl font-bold mb-3">
+      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md animate-fade-in">
+          <Card className="text-center">
+            <CardContent className="py-12 flex flex-col items-center justify-center">
+              <h2 className="text-2xl font-bold mb-3">
                 {language === 'en' ? 'Your cart is empty' : '購物車是空的'}
               </h2>
-              <p className="text-muted-foreground mb-8 text-lg">
+              <p className="text-muted-foreground mb-8 text-base">
                 {language === 'en' ? 'Browse our amazing DIY projects and find your perfect gift!' : '瀏覽我們的 DIY 專案，找到你的完美禮物！'}
               </p>
               <Link to="/list">
@@ -48,7 +47,7 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-8">
+    <div className="flex-1 bg-background pt-8">
       <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { Home, Search, AlertCircle } from 'lucide-react';
+import { Home, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import '../styles/NotFound.css';
@@ -10,15 +10,14 @@ function NotFound() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+    <div className="flex-1 bg-background flex items-center justify-center p-6">
       <Card className="max-w-2xl w-full text-center animate-fade-in">
         <CardContent className="pt-12 pb-12">
           {/* 404 Animation */}
-          <div className="relative mb-8">
+          <div className="mb-8">
             <div className="text-[150px] font-bold text-primary/20 leading-none">
               404
             </div>
-            <AlertCircle className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 text-primary animate-pulse" />
           </div>
 
           {/* Error Message */}

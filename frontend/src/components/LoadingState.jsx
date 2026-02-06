@@ -5,7 +5,7 @@ function LoadingState() {
   const { t, language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="flex-1 bg-background flex items-center justify-center">
       <div className="text-center max-w-md px-6">
         {/* Animated gift icon */}
         <div className="relative mb-8">

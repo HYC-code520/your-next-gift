@@ -203,7 +203,10 @@ export const CartProvider = ({ children }) => {
     // Validate birthday year window (only for non-additional requests)
     if (user && !project.customization?.isAdditionalRequest) {
       if (!userBirthday) {
-        alert('Please set your birthday in your profile before ordering a gift.');
+        const goToProfile = window.confirm('Please set your birthday in your profile before ordering a gift.\n\nClick OK to go to your profile settings.');
+        if (goToProfile) {
+          window.location.href = '/profile';
+        }
         return;
       }
       
@@ -424,6 +427,7 @@ export const CartProvider = ({ children }) => {
     userBirthday,
     orderWindowInfo,
     existingOrders,
+    refreshUserBirthday: loadUserBirthdayAndOrders,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

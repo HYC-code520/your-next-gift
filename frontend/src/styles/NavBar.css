@@ -372,35 +372,137 @@
     flex-wrap: nowrap;
     overflow-x: auto;
   }
-  
+
   .navbar-links {
     gap: 0.2rem;
     max-width: calc(100% - 160px);
   }
-  
+
   .nav-link {
     padding: 0.25rem 0.4rem;
     font-size: 0.65rem;
     min-width: 30px;
     border-radius: 6px;
   }
-  
+
   .home-link {
     width: 70px;
     font-size: 0.65rem;
   }
-  
+
   .home-container {
     margin-right: 0.3rem;
   }
-  
+
   .search-nav-link {
     padding: 5px;
   }
-  
+
   .search-nav-icon {
     width: 22px;
     height: 22px;
+  }
+}
+
+/* =============================================== */
+/* MOBILE RESPONSIVE - Hide/Show Nav Items        */
+/* =============================================== */
+
+/* Mobile nav section in hamburger - hidden on desktop */
+.mobile-nav-section {
+  display: none;
+}
+
+/* Tablet and Mobile: Hide desktop nav links, show mobile nav in menu */
+@media (max-width: 900px) {
+  /* Hide desktop nav links */
+  .nav-item-desktop {
+    display: none !important;
+  }
+
+  /* Show mobile nav section in hamburger */
+  .mobile-nav-section {
+    display: block;
+  }
+
+  /* Adjust navbar layout for mobile */
+  .navbar {
+    height: 60px;
+    padding: 0 1rem;
+  }
+
+  .navbar-links {
+    justify-content: space-between;
+    gap: 0;
+    padding: 0 0.5rem;
+  }
+
+  /* Logo adjustments for mobile */
+  .nav-item-logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .arch-svg {
+    width: 200px;
+    height: 45px;
+  }
+
+  .arch-text-svg {
+    font-size: 20px;
+  }
+
+  /* Icons container */
+  .nav-item-icons {
+    flex: 0 0 auto;
+  }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 600px) {
+  .navbar {
+    height: 55px;
+    padding: 0 0.75rem;
+  }
+
+  .arch-svg {
+    width: 160px;
+    height: 40px;
+  }
+
+  .arch-text-svg {
+    font-size: 17px;
+  }
+
+  .nav-item-icons .flex {
+    gap: 0.5rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .navbar {
+    height: 50px;
+    padding: 0 0.5rem;
+  }
+
+  .arch-svg {
+    width: 140px;
+    height: 35px;
+  }
+
+  .arch-text-svg {
+    font-size: 15px;
+  }
+
+  .nav-item-icons .flex {
+    gap: 0.25rem;
+  }
+
+  .nav-item-icons .w-6 {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 

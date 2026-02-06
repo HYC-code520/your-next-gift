@@ -151,7 +151,7 @@ export function getOrderWindowMessage(birthdayDate, existingOrders = []) {
   
   if (check.canOrder) {
     return {
-      message: `Order your ${currentYear} birthday gift! (Available until ${formatDate(check.window.endDate)})`,
+      message: `Order by ${formatDate(check.window.endDate)}`,
       canOrder: true,
       birthdayYear: currentYear
     };

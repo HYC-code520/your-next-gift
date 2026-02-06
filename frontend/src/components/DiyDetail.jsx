@@ -65,7 +65,7 @@ function DiyDetail() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex-1 bg-background flex items-center justify-center">
         <p className="text-xl">Project not found!</p>
       </div>
     );
@@ -177,7 +177,7 @@ function DiyDetail() {
   const mainImage = selectedImage || allImages[0] || '/images/placeholder.png';
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
         {/* Back Button */}
         <button

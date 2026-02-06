@@ -14,6 +14,7 @@ import ResetPassword from './components/ResetPassword'; // Import Reset Password
 import AdminDashboard from './components/AdminDashboard'; // Import Admin Dashboard
 import Cart from './components/Cart'; // Import Cart component
 import BirthdayCalendar from './components/BirthdayCalendar'; // Import Birthday Calendar
+import Profile from './components/Profile'; // Import Profile page
 import NotFound from './components/NotFound'; // Import 404 page
 
 // Admin Route Protection Component
@@ -96,6 +97,10 @@ const routes = [
       {
         path: 'reset-password', // Route for reset password
         element: <ResetPassword />
+      },
+      {
+        path: 'profile', // Route for user profile
+        element: <Profile />
       },
       {
         path: 'admin', // Route for admin dashboard (protected)
