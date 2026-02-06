@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Sun, Moon, ShoppingCart, Lock, Search, Languages, LogOut, User, ChevronDown, Menu, X } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
+import { Sun, Moon, ShoppingCart, Lock, Search, Languages, LogOut, User, ChevronDown, Menu, X, Bell } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import '../styles/NavBar.css';
 
@@ -17,9 +18,43 @@ function NavBar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
+  const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
   const menuButtonRef = useRef(null);
+
+  // Fetch pending orders count for admin
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const fetchPendingOrders = async () => {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('id')
+        .eq('status', 'pending');
+
+      if (!error && data) {
+        setPendingOrdersCount(data.length);
+      }
+    };
+
+    fetchPendingOrders();
+
+    // Subscribe to realtime changes on orders table
+    const subscription = supabase
+      .channel('orders-changes')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        () => {
+          fetchPendingOrders();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [isAdmin]);
 
   // Calculate dropdown position when menu opens
   useEffect(() => {
@@ -93,8 +128,13 @@ function NavBar() {
           </li>
           {isAdmin && (
             <li className="nav-item-desktop">
-              <NavLink to="/admin" className="nav-link">
+              <NavLink to="/admin" className="nav-link relative">
                 {t('admin')}
+                {pendingOrdersCount > 0 && (
+                  <span className="absolute -top-1 -right-3 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                    {pendingOrdersCount}
+                  </span>
+                )}
               </NavLink>
             </li>
           )}
@@ -210,11 +250,18 @@ function NavBar() {
                           {isAdmin && (
                             <NavLink
                               to="/admin"
-                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                              className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                               onClick={() => setShowHamburgerMenu(false)}
                             >
-                              <Lock className="w-4 h-4" />
-                              {t('admin')}
+                              <span className="flex items-center gap-2.5">
+                                <Lock className="w-4 h-4" />
+                                {t('admin')}
+                              </span>
+                              {pendingOrdersCount > 0 && (
+                                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                                  {pendingOrdersCount} new
+                                </span>
+                              )}
                             </NavLink>
                           )}
                         </div>
