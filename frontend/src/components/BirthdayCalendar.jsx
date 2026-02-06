@@ -238,22 +238,9 @@ function BirthdayCalendar() {
           </Card>
         )}
 
-        {/* Add Birthday Button - Only for logged in users */}
-        <div className="mb-6 flex justify-between items-center">
+        {/* Calendar View Header */}
+        <div className="mb-6">
           <h2 className="text-2xl font-bold">Calendar View</h2>
-          {user && (
-            <Button
-              onClick={() => {
-                setShowForm(!showForm);
-                setEditingId(null);
-                setFormData({ name: '', birthday: '', notes: '' });
-              }}
-              variant="default"
-            >
-              <Plus className="w-5 h-5 mr-2" />
-              Add Birthday
-            </Button>
-          )}
         </div>
 
         {/* Add/Edit Form - Only for logged in users */}
