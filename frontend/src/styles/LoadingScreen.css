@@ -1,6 +1,6 @@
 /* Loading Screen - Fullscreen Overlay */
 .load-in-screen {
-  z-index: 9999;
+  z-index: 99999;
   background-color: hsl(var(--background));
   justify-content: center;
   align-items: center;
