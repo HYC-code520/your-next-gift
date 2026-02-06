@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
 function Footer() {
@@ -15,6 +16,14 @@ function Footer() {
             <Heart className="w-4 h-4 text-pink-400 fill-pink-400" />
             {language === 'en' ? 'by Ariel' : '由 Ariel 製作'}
           </p>
+
+          {/* Style Guide Link */}
+          <Link
+            to="/style-guide"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {language === 'en' ? 'Style Guide' : '風格指南'}
+          </Link>
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">

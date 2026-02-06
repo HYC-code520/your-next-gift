@@ -49,7 +49,7 @@ const translations = {
     cartEmpty: 'Your cart is empty',
     browseProjects: 'Browse our amazing DIY projects and start creating!',
     exploreProjects: 'Explore Projects',
-    proceedToCheckout: 'Proceed to Checkout',
+    proceedToCheckout: 'Confirm Your Gift',
     loginToCheckout: 'Login to Checkout',
     continueShopping: '← Continue Shopping',
     loginToSaveCart: 'Login to save your cart and submit your request!',

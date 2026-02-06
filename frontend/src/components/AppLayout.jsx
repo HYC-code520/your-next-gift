@@ -93,7 +93,9 @@ function AppLayout() {
             visibility: (isPageTransitioning || isLoading) ? 'hidden' : 'visible',
             opacity: shouldFadeIn ? 1 : 0,
             transform: shouldFadeIn ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 0.5s ease-out, transform 0.5s ease-out'
+            transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+            position: 'relative',
+            zIndex: 1
           }}
         >
           <Outlet

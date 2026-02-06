@@ -15,6 +15,9 @@ import AdminDashboard from './components/AdminDashboard'; // Import Admin Dashbo
 import Cart from './components/Cart'; // Import Cart component
 import BirthdayCalendar from './components/BirthdayCalendar'; // Import Birthday Calendar
 import Profile from './components/Profile'; // Import Profile page
+import MyOrders from './components/MyOrders'; // Import My Orders page
+import Checkout from './components/Checkout'; // Import Checkout page
+import StyleGuide from './components/StyleGuide'; // Import Style Guide page
 import NotFound from './components/NotFound'; // Import 404 page
 
 // Admin Route Protection Component
@@ -83,6 +86,10 @@ const routes = [
         element: <Cart />
       },
       {
+        path: 'checkout', // Checkout page
+        element: <Checkout />
+      },
+      {
         path: 'birthdays', // Birthday calendar page
         element: <BirthdayCalendar />
       },
@@ -103,8 +110,16 @@ const routes = [
         element: <Profile />
       },
       {
+        path: 'my-orders', // Route for user's orders
+        element: <MyOrders />
+      },
+      {
         path: 'admin', // Route for admin dashboard (protected)
         element: <AdminRoute><AdminDashboard /></AdminRoute>
+      },
+      {
+        path: 'style-guide', // Route for style guide
+        element: <StyleGuide />
       },
       {
         path: '*', // Catch-all route for 404

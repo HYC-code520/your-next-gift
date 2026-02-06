@@ -2,7 +2,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { ShoppingCart, CreditCard, Lock, Lightbulb, AlertCircle } from 'lucide-react';
+import { ShoppingCart, Gift, Lock, Lightbulb, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
@@ -210,7 +210,7 @@ function Cart() {
                     size="lg"
                   >
                     {user ? (
-                      <><CreditCard className="w-5 h-5 mr-2 inline" /> {language === 'en' ? 'Proceed to Checkout' : '前往結帳'}</>
+                      <><Gift className="w-5 h-5 mr-2 inline" /> {language === 'en' ? 'Confirm Your Gift' : '確認您的禮物'}</>
                     ) : (
                       <><Lock className="w-5 h-5 mr-2 inline" /> {language === 'en' ? 'Login to Checkout' : '登入結帳'}</>
                     )}
