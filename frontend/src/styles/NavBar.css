@@ -429,19 +429,21 @@
   .navbar {
     height: 60px;
     padding: 0 1rem;
+    position: relative;
   }
 
   .navbar-links {
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 0;
     padding: 0 0.5rem;
   }
 
-  /* Logo adjustments for mobile */
+  /* Logo - absolutely centered on mobile */
   .nav-item-logo {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .arch-svg {
