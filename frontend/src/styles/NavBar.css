@@ -413,15 +413,30 @@
   display: none;
 }
 
-/* Small desktop / large tablet: 901px - 1199px - Center the logo */
+/* Small desktop / large tablet: 901px - 1199px - Center the logo, hide desktop links */
 @media (max-width: 1199px) and (min-width: 901px) {
+  /* Hide desktop nav links */
+  .nav-item-desktop {
+    display: none !important;
+  }
+
+  /* Show mobile nav section in hamburger */
+  .mobile-nav-section {
+    display: block;
+  }
+
   .navbar {
     position: relative;
+    padding: 0 1rem;
   }
 
   .navbar-links {
-    justify-content: space-between;
-    padding: 0 1rem;
+    justify-content: flex-end;
+    gap: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
 
   /* Logo - absolutely centered */
@@ -439,6 +454,14 @@
 
   .arch-text-svg {
     font-size: 22px;
+  }
+
+  /* Icons container - right side */
+  .nav-item-icons {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
