@@ -436,6 +436,7 @@
     justify-content: flex-end;
     gap: 0;
     padding: 0 0.5rem;
+    width: 100%;
   }
 
   /* Logo - absolutely centered on mobile */
@@ -455,9 +456,10 @@
     font-size: 20px;
   }
 
-  /* Icons container */
+  /* Icons container - right side */
   .nav-item-icons {
     flex: 0 0 auto;
+    margin-left: auto;
   }
 }
 
