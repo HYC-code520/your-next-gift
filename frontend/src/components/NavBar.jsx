@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
@@ -126,8 +127,8 @@ function NavBar() {
                   )}
                 </button>
 
-                {/* Hamburger Dropdown Menu */}
-                {showHamburgerMenu && (
+                {/* Hamburger Dropdown Menu - rendered via portal to avoid z-index issues */}
+                {showHamburgerMenu && createPortal(
                   <div className="dropdown-menu fixed right-4 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]">
 
                     {/* Mobile Navigation Links - only show on mobile */}
@@ -253,7 +254,8 @@ function NavBar() {
                         </div>
                       </>
                     )}
-                  </div>
+                  </div>,
+                  document.body
                 )}
               </div>
             </div>
