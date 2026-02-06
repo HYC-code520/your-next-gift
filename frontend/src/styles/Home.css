@@ -8,7 +8,7 @@
 .slideshow {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* Push content to bottom */
     flex-direction: column;
     width: 100%;
     height: calc(100vh - 140px); /* Account for navbar (~70px) + footer (~70px) */
@@ -17,6 +17,7 @@
     position: relative;
     z-index: 5;
     overflow: hidden;
+    padding-bottom: 10%; /* Space from bottom */
 }
 
 .slideshow-image {
@@ -44,7 +45,6 @@
     text-align: center;
     padding: 20px;
     max-width: 90%;
-    margin-top: 15vh;
 }
 
 .slide-content h1 {
@@ -149,10 +149,10 @@
     .slideshow {
         height: calc(100vh - 130px); /* navbar (~60px) + footer (~70px) */
         height: calc(100dvh - 130px);
+        padding-bottom: 8%;
     }
 
     .slide-content {
-        margin-top: 5vh;
         padding: 16px;
     }
 
@@ -166,10 +166,10 @@
     .slideshow {
         height: calc(100vh - 115px); /* Smaller navbar (~55px) + footer (~60px) */
         height: calc(100dvh - 115px);
+        padding-bottom: 6%;
     }
 
     .slide-content {
-        margin-top: 0;
         padding: 12px;
         max-width: 95%;
     }
@@ -194,10 +194,7 @@
     .slideshow {
         height: calc(100vh - 100px);
         height: calc(100dvh - 100px);
-    }
-
-    .slide-content {
-        margin-top: 0;
+        padding-bottom: 5%;
     }
 
     .slide-content h1 {
