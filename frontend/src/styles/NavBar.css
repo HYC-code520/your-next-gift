@@ -435,8 +435,10 @@
   .navbar-links {
     justify-content: flex-end;
     gap: 0;
-    padding: 0 0.5rem;
+    padding: 0;
     width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
 
   /* Logo - absolutely centered on mobile */
@@ -458,8 +460,10 @@
 
   /* Icons container - right side */
   .nav-item-icons {
-    flex: 0 0 auto;
-    margin-left: auto;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
