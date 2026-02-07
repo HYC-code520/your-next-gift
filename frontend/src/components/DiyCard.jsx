@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
-import { Sparkles, Eye, Loader2, Gift } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Sparkles, Eye, Loader2, Gift, Heart } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { useLanguage } from '../context/LanguageContext';
+import { supabase } from '../lib/supabaseClient';
 
 // Map project IDs to image arrays (images are in public/images/)
 // Now supports multiple images for hover slideshow!
@@ -42,7 +43,24 @@ function DiyCard({ diyProjectDetails }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoading, setImageLoading] = useState(true); // Start as loading
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const loadingTimerRef = useRef(null);
+
+  // Fetch likes count
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const { count } = await supabase
+          .from('likes')
+          .select('*', { count: 'exact', head: true })
+          .eq('project_id', parseInt(diyProjectDetails.id));
+        setLikesCount(count || 0);
+      } catch (error) {
+        // Ignore - table might not exist yet
+      }
+    };
+    fetchLikes();
+  }, [diyProjectDetails.id]);
 
   // Get all images for this project
   const projectImages = localImageMap[diyProjectDetails.id] || ['/images/placeholder.png'];
@@ -140,6 +158,14 @@ function DiyCard({ diyProjectDetails }) {
                   aria-label={`View image ${index + 1}`}
                 />
               ))}
+            </div>
+          )}
+
+          {/* Likes count badge */}
+          {likesCount > 0 && imageLoaded && (
+            <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full bg-black/40 backdrop-blur-sm text-white text-xs z-10">
+              <Heart className="w-3 h-3 fill-current" />
+              <span>{likesCount}</span>
             </div>
           )}
         </div>

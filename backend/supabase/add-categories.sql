@@ -26,8 +26,14 @@ UPDATE diy_projects SET categories = ARRAY['Pet'] WHERE id IN (2, 27);
 UPDATE diy_projects SET categories = ARRAY['Pet', 'Bouquet'] WHERE id = 3;
 
 -- 🖼️ Photo Frame (3 projects)
-UPDATE diy_projects SET categories = ARRAY['Photo Frame'] WHERE id IN (20, 22, 23);
--- Chiikawa Character Frame, Cat Bow Friendship Frame, Always With You Double Frame
+UPDATE diy_projects SET categories = ARRAY['Photo Frame'] WHERE id IN (20, 23);
+-- Chiikawa Character Frame, Always With You Double Frame
+
+-- ID 22: Photo Frame + Pet (Cat Bow Friendship Frame)
+UPDATE diy_projects SET categories = ARRAY['Photo Frame', 'Pet'] WHERE id = 22;
+
+-- ID 28: Pet + Decor (Custom Pet Incense Stick Holder)
+UPDATE diy_projects SET categories = ARRAY['Pet', 'Decor'] WHERE id = 28;
 
 -- 🏠 Decor (7 projects) - ID 18 already set above with Wood
 UPDATE diy_projects SET categories = ARRAY['Decor'] WHERE id IN (5, 8, 12, 14, 17);

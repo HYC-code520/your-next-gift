@@ -55,12 +55,13 @@ html {
   color: #888;
 }
 
-/* Main Content */
+/* Main Content - offset for fixed navbar */
 .main-content {
-  padding-top: 1px; /* Adjust to match the new banner height */
+  padding-top: 70px;
 }
 
-/* No padding for the Home page */
-.main-content.home-page {
-  padding-top: 0;
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 60px;
+  }
 }

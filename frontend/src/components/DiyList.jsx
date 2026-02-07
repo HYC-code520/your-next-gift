@@ -4,7 +4,6 @@ import { Palette, Search, X, SlidersHorizontal } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import DiyCard from './DiyCard';
 import CategoryFilter from './CategoryFilter';
-import OrderWindowBanner from './OrderWindowBanner';
 
 function DiyList() {
   const { diyProjects } = useOutletContext();
@@ -32,12 +31,9 @@ function DiyList() {
   return (
     <div className="flex-1 bg-background">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
-        {/* Order Window Banner */}
-        <OrderWindowBanner />
-        
         {/* Combined Search Bar and Filter */}
         <div className="flex justify-center mb-6">
-          <div className="relative w-full max-w-xl flex gap-2">
+          <div className="relative w-full flex gap-2">
             {/* Search Input */}
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />

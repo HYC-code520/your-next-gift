@@ -1,12 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle, ArrowLeft } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
+import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle, ArrowLeft, Gift, LogIn, Heart, Camera, Upload, Loader2, Eye, Info } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card } from './ui/card';
 import '../styles/DiyDetail.css';
+
+const RoomVisualizer = lazy(() => import('./room-visualizer/RoomVisualizer'));
 
 // Map project IDs to image paths (images are in public/images/)
 // Now supports arrays for multiple angles!
@@ -42,12 +46,14 @@ function DiyDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { diyProjects } = useOutletContext();
-  const { addToCart, hasItems, replaceCart, addAsAdditionalRequest, cart } = useCart();
+  const { addToCart, hasItems, replaceCart, addAsAdditionalRequest, cart, orderWindowInfo, userBirthday } = useCart();
+  const { user } = useAuth();
   const { t, language } = useLanguage();
   
   const [selectedImage, setSelectedImage] = useState(null);
   const [added, setAdded] = useState(false);
-  
+  const [showRoomVisualizer, setShowRoomVisualizer] = useState(false);
+
   // Modal state for "already have item in cart"
   const [showCartModal, setShowCartModal] = useState(false);
   const [additionalReason, setAdditionalReason] = useState('');
@@ -58,10 +64,94 @@ function DiyDetail() {
     colors: [],
     size: '',
     personalization: '',
-    specialRequests: ''
+    specialRequests: '',
+    petPhotoUrl: ''
   });
 
+  // Pet photo upload state
+  const [petPhotoFile, setPetPhotoFile] = useState(null);
+  const [petPhotoPreview, setPetPhotoPreview] = useState(null);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
+  // Projects that support pet photo customization
+  const petPhotoProjects = ['3', '22', '28']; // Twisty Sticks Pet Bouquet, Cat Bow Frame, Pet Incense Holder
+  const supportsPetPhoto = petPhotoProjects.includes(id);
+
+
+  // Like state
+  const [likesCount, setLikesCount] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
+
+  // Color picker state (must be before any early returns to satisfy Rules of Hooks)
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customColorInput, setCustomColorInput] = useState('#FF6B6B');
+
   const project = diyProjects.find((project) => project.id === id);
+
+  // Fetch likes on mount
+  useEffect(() => {
+    if (id) {
+      fetchLikes();
+    }
+  }, [id, user]);
+
+  const fetchLikes = async () => {
+    try {
+      // Get total likes count
+      const { count } = await supabase
+        .from('likes')
+        .select('*', { count: 'exact', head: true })
+        .eq('project_id', parseInt(id));
+
+      setLikesCount(count || 0);
+
+      // Check if current user has liked
+      if (user) {
+        const { data } = await supabase
+          .from('likes')
+          .select('id')
+          .eq('project_id', parseInt(id))
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        setHasLiked(!!data);
+      }
+    } catch (error) {
+      // Ignore errors (table might not exist yet)
+    }
+  };
+
+  const toggleLike = async () => {
+    if (!user || likeLoading) return;
+
+    setLikeLoading(true);
+    try {
+      if (hasLiked) {
+        // Unlike
+        await supabase
+          .from('likes')
+          .delete()
+          .eq('project_id', parseInt(id))
+          .eq('user_id', user.id);
+
+        setHasLiked(false);
+        setLikesCount(prev => Math.max(0, prev - 1));
+      } else {
+        // Like
+        await supabase
+          .from('likes')
+          .insert({ project_id: parseInt(id), user_id: user.id });
+
+        setHasLiked(true);
+        setLikesCount(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    } finally {
+      setLikeLoading(false);
+    }
+  };
 
   if (!project) {
     return (
@@ -81,15 +171,7 @@ function DiyDetail() {
     { name: 'Lavender', hex: '#B8A8F0' },
     { name: 'White', hex: '#FFFFFF' },
     { name: 'Black', hex: '#000000' },
-    { name: 'Coral', hex: '#FF7F7F' },
-    { name: 'Mint', hex: '#98FF98' },
-    { name: 'Peach', hex: '#FFCBA4' },
-    { name: 'Teal', hex: '#008080' },
   ];
-
-  // State for custom color picker
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const [customColorInput, setCustomColorInput] = useState('#FF6B6B');
 
   // Size options
   const sizeOptions = ['Small', 'Medium', 'Large', 'Custom'];
@@ -123,12 +205,79 @@ function DiyDetail() {
     }));
   };
 
-  const handleAddToCart = () => {
+  // Handle pet photo selection
+  const handlePetPhotoSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert(language === 'en' ? 'Please select an image file' : '請選擇圖片檔案');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert(language === 'en' ? 'Image must be less than 5MB' : '圖片必須小於 5MB');
+      return;
+    }
+
+    setPetPhotoFile(file);
+    setPetPhotoPreview(URL.createObjectURL(file));
+  };
+
+  // Upload pet photo to Supabase Storage
+  const uploadPetPhoto = async () => {
+    if (!petPhotoFile || !user) return null;
+
+    setUploadingPhoto(true);
+    try {
+      const fileExt = petPhotoFile.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+      const { data, error } = await supabase.storage
+        .from('pet-photos')
+        .upload(fileName, petPhotoFile);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('pet-photos')
+        .getPublicUrl(fileName);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading pet photo:', error);
+      alert(language === 'en' ? 'Failed to upload photo' : '上傳照片失敗');
+      return null;
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  // Remove pet photo
+  const handleRemovePetPhoto = () => {
+    setPetPhotoFile(null);
+    setPetPhotoPreview(null);
+    setCustomization(prev => ({ ...prev, petPhotoUrl: '' }));
+  };
+
+  const handleAddToCart = async () => {
+    // Upload pet photo if selected
+    let finalCustomization = { ...customization };
+    if (petPhotoFile && supportsPetPhoto) {
+      const photoUrl = await uploadPetPhoto();
+      if (photoUrl) {
+        finalCustomization.petPhotoUrl = photoUrl;
+      }
+    }
+
     const projectWithCustomization = {
       ...project,
-      customization: customization
+      customization: finalCustomization
     };
-    
+
     // Check if cart already has items
     if (hasItems()) {
       // Show modal to ask user what they want to do
@@ -165,16 +314,38 @@ function DiyDetail() {
   };
 
   const hasCustomization = () => {
-    return customization.colors.length > 0 || 
-           customization.size || 
-           customization.personalization || 
-           customization.specialRequests;
+    return customization.colors.length > 0 ||
+           customization.size ||
+           customization.personalization ||
+           customization.specialRequests ||
+           petPhotoPreview;
   };
 
   // Get local images array for this project
   const localImages = localImageMap[id] || [];
   const allImages = localImages.length > 0 ? localImages : (project.images || []);
   const mainImage = selectedImage || allImages[0] || '/images/placeholder.png';
+
+  // When room visualizer is open, replace the whole page content
+  if (showRoomVisualizer) {
+    return (
+      <div className="flex-1 bg-background">
+        <Suspense fallback={
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
+          </div>
+        }>
+          <RoomVisualizer
+            isOpen={showRoomVisualizer}
+            onClose={() => setShowRoomVisualizer(false)}
+            projectId={id}
+            projectName={project.projectName}
+            images={allImages}
+          />
+        </Suspense>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 bg-background">
@@ -188,9 +359,9 @@ function DiyDetail() {
           <span className="font-medium">{language === 'en' ? 'Back to Gallery' : '返回畫廊'}</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-8 items-start">
           {/* Left: Image Gallery */}
-          <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <div className="space-y-4 lg:sticky lg:top-24">
             <Card className="overflow-hidden">
               <img
                 src={mainImage}
@@ -227,50 +398,129 @@ function DiyDetail() {
                 ))}
               </div>
             )}
+
+            {/* Room Visualizer Button */}
+            <button
+                onClick={() => setShowRoomVisualizer(true)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-primary/40 text-primary hover:border-primary hover:bg-primary/5 transition-all text-sm font-medium"
+              >
+                <Eye className="w-4 h-4" />
+                {language === 'en' ? 'See it in your room' : '看看它在你的房間裡的樣子'}
+              </button>
           </div>
 
           {/* Right: Project Info & Customization */}
-          <div className="space-y-4">
-            {/* Project Info */}
-            <div>
-              <h1 className="text-3xl font-bold mb-2">{project.projectName}</h1>
-              <p className="text-base text-muted-foreground mb-3">{project.description}</p>
-              
-              <div className="flex gap-4 text-sm text-muted-foreground">
-                <div>
-                  <span className="font-semibold">Time:</span> {project.estimatedTime}
-                </div>
-                {project.materials && (
+          <div>
+            <Card className="overflow-hidden">
+              {/* Project Info */}
+              <div className="text-center px-5 pt-5 pb-4">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-1">{project.projectName}</h1>
+                <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
+
+                <div className="flex justify-center gap-4 text-xs text-muted-foreground">
                   <div>
-                    <span className="font-semibold">Materials:</span> {project.materials.join(', ')}
+                    <span className="font-semibold">Time:</span> {project.estimatedTime}
+                  </div>
+                  {project.materials && (
+                    <div>
+                      <span className="font-semibold">Materials:</span> {project.materials.join(', ')}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  onClick={toggleLike}
+                  disabled={!user || likeLoading}
+                  className={`mt-3 inline-flex items-center gap-1.5 text-xs transition-all ${
+                    hasLiked
+                      ? 'text-red-500'
+                      : 'text-muted-foreground hover:text-red-400'
+                  } ${!user ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  title={!user ? (language === 'en' ? 'Log in to favorite' : '登入後即可收藏') : ''}
+                >
+                  <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}`} />
+                  {hasLiked
+                    ? (language === 'en' ? `Favorited (${likesCount})` : `已收藏 (${likesCount})`)
+                    : (language === 'en' ? `Favorite this item (${likesCount})` : `收藏此商品 (${likesCount})`)}
+                </button>
+              </div>
+
+              {/* Customization Section */}
+              <div className="border-t border-border px-5 pt-4 pb-1">
+                <h3 className="flex items-center gap-2 text-sm font-bold mb-3">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  Customize Your Gift
+                </h3>
+              </div>
+              <div className="space-y-3 px-5 pb-5">
+                {/* Pet Photo Upload - Only for pet-related projects */}
+                {supportsPetPhoto && (
+                  <div className="pb-3 border-b border-border">
+                    <label className="flex items-center gap-2 text-xs font-semibold mb-2">
+                      <Camera className="w-3.5 h-3.5" />
+                      {language === 'en' ? 'Upload Your Pet\'s Photo' : '上傳你的寵物照片'}
+                      <span className="relative group">
+                        <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+                        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs font-normal text-white bg-gray-800 dark:bg-gray-700 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50">
+                          {language === 'en'
+                            ? 'Upload a clear photo and we\'ll customize the gift to look like your pet!'
+                            : '上傳清晰照片，我們會將禮物客製成寵物的樣子！'}
+                        </span>
+                      </span>
+                    </label>
+
+                    {!petPhotoPreview ? (
+                      <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-border rounded-xl cursor-pointer hover:border-primary/50 hover:bg-muted/50 transition-all">
+                        <Upload className="w-6 h-6 text-muted-foreground mb-1" />
+                        <span className="text-sm text-muted-foreground">
+                          {language === 'en' ? 'Click to upload photo' : '點擊上傳照片'}
+                        </span>
+                        <span className="text-xs text-muted-foreground mt-1">
+                          JPG, PNG (max 5MB)
+                        </span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePetPhotoSelect}
+                          className="hidden"
+                        />
+                      </label>
+                    ) : (
+                      <div className="relative">
+                        <img
+                          src={petPhotoPreview}
+                          alt="Pet preview"
+                          className="w-full h-28 object-cover rounded-xl"
+                        />
+                        <button
+                          onClick={handleRemovePetPhoto}
+                          className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        <div className="absolute bottom-2 left-2 px-2 py-1 bg-green-500/90 rounded-full text-white text-xs flex items-center gap-1">
+                          <Check className="w-3 h-3" />
+                          {language === 'en' ? 'Photo ready' : '照片已準備好'}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            </div>
 
-            {/* Customization Section */}
-            <Card className="border-primary/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  Customize Your Gift
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
                 {/* Color Selection */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <Palette className="w-4 h-4" />
-                    Choose Colors (select multiple)
+                  <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                    <Palette className="w-3.5 h-3.5" />
+                    Colors
                   </label>
-                  
+
                   {/* Preset Colors Grid */}
-                  <div className="grid grid-cols-6 gap-2 mb-2">
+                  <div className="grid grid-cols-8 gap-1.5 mb-1.5">
                     {presetColors.map((color) => (
                       <button
                         key={color.hex}
                         onClick={() => handleColorToggle(color.hex)}
-                        className={`relative aspect-square rounded-xl border-2 transition-all hover:scale-110 ${
+                        className={`relative aspect-square rounded-lg border-2 transition-all hover:scale-110 ${
                           customization.colors.includes(color.hex)
                             ? 'border-primary ring-2 ring-primary/30 scale-105'
                             : 'border-border hover:border-primary/50'
@@ -279,9 +529,9 @@ function DiyDetail() {
                         title={color.name}
                       >
                         {customization.colors.includes(color.hex) && (
-                          <Check className={`absolute inset-0 m-auto w-5 h-5 drop-shadow-lg ${
-                            ['#FFFFFF', '#E2EDA3', '#CCE5FF', '#98FF98', '#FFCBA4'].includes(color.hex) 
-                              ? 'text-gray-700' 
+                          <Check className={`absolute inset-0 m-auto w-3.5 h-3.5 drop-shadow-lg ${
+                            ['#FFFFFF', '#E2EDA3', '#CCE5FF', '#98FF98', '#FFCBA4'].includes(color.hex)
+                              ? 'text-gray-700'
                               : 'text-white'
                           }`} />
                         )}
@@ -290,15 +540,13 @@ function DiyDetail() {
                   </div>
 
                   {/* Custom Color Picker Button */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setShowColorPicker(!showColorPicker)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-dashed border-border hover:border-primary/50 transition-all text-sm text-muted-foreground hover:text-foreground"
-                    >
-                      <Plus className="w-4 h-4" />
-                      Add Custom Color
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setShowColorPicker(!showColorPicker)}
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Plus className="w-3 h-3" />
+                    Custom color
+                  </button>
 
                   {/* Custom Color Picker */}
                   {showColorPicker && (
@@ -371,16 +619,16 @@ function DiyDetail() {
 
                 {/* Size Selection */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <Ruler className="w-4 h-4" />
-                    Choose Size
+                  <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                    <Ruler className="w-3.5 h-3.5" />
+                    Size
                   </label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-4 gap-1.5">
                     {sizeOptions.map((size) => (
                       <button
                         key={size}
                         onClick={() => setCustomization(prev => ({ ...prev, size }))}
-                        className={`px-3 py-2 rounded-lg border-2 font-medium transition-all text-sm ${
+                        className={`px-2 py-1.5 rounded-lg border-2 font-medium transition-all text-xs ${
                           customization.size === size
                             ? 'border-primary bg-primary/10 text-primary'
                             : 'border-border hover:border-primary/50'
@@ -388,86 +636,140 @@ function DiyDetail() {
                       >
                         {size}
                       </button>
-          ))}
-        </div>
-      </div>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Personalization */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <Type className="w-4 h-4" />
-                    Add Personalization (optional)
+                  <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                    <Type className="w-3.5 h-3.5" />
+                    Personalization
                   </label>
                   <input
                     type="text"
                     value={customization.personalization}
-                    onChange={(e) => setCustomization(prev => ({ 
-                      ...prev, 
-                      personalization: e.target.value 
+                    onChange={(e) => setCustomization(prev => ({
+                      ...prev,
+                      personalization: e.target.value
                     }))}
                     placeholder="Name, initials, date, or quote..."
-                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm"
+                    className="w-full px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs"
                     maxLength={50}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {customization.personalization.length}/50 characters
-                  </p>
                 </div>
 
                 {/* Special Requests */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <MessageSquare className="w-4 h-4" />
-                    Special Requests or Notes (optional)
+                  <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    Notes
                   </label>
                   <textarea
                     value={customization.specialRequests}
-                    onChange={(e) => setCustomization(prev => ({ 
-                      ...prev, 
-                      specialRequests: e.target.value 
+                    onChange={(e) => setCustomization(prev => ({
+                      ...prev,
+                      specialRequests: e.target.value
                     }))}
-                    placeholder="Any special requests or modifications..."
-                    className="w-full px-3 py-2 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none text-sm"
-                    rows="3"
+                    placeholder="Any special requests..."
+                    className="w-full px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none text-xs"
+                    rows="2"
                     maxLength={500}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {customization.specialRequests.length}/500 characters
-                  </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Add to Cart Button */}
-            <div className="space-y-3">
-              <Button
-                onClick={handleAddToCart}
-                size="lg"
-                className="w-full"
-                variant={added ? "secondary" : "default"}
-              >
-                {added ? (
-                  <><Check className="w-5 h-5 mr-2" /> Added to Cart!</>
-                ) : (
-                  <><ShoppingCart className="w-5 h-5 mr-2" /> Add to Cart</>
-                )}
-              </Button>
-              
-              {hasCustomization() && (
-                <p className="text-sm text-center text-primary">
-                  ✨ Your customization will be saved with this item
-                </p>
+              {/* Add to Cart Button - Different states based on user */}
+              <div className="border-t border-border px-5 py-4 space-y-2">
+              {!user ? (
+                /* Not logged in */
+                <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
+                  <p className="font-medium text-foreground text-sm mb-2">
+                    {language === 'en'
+                      ? 'Hey friend! Log in to claim your free birthday gift'
+                      : '嗨朋友！登入領取你的免費生日禮物'}
+                  </p>
+                  <Link to="/login">
+                    <Button size="lg" className="w-full">
+                      <LogIn className="w-5 h-5 mr-2" />
+                      {language === 'en' ? 'Log In' : '登入'}
+                    </Button>
+                  </Link>
+                </div>
+              ) : !userBirthday ? (
+                /* Logged in but no birthday set */
+                <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
+                  <p className="font-medium text-foreground text-sm mb-2">
+                    {language === 'en'
+                      ? 'Set your birthday to claim your free gift!'
+                      : '設定生日以領取免費禮物！'}
+                  </p>
+                  <Link to="/profile">
+                    <Button size="lg" className="w-full">
+                      {language === 'en' ? 'Set Birthday' : '設定生日'}
+                    </Button>
+                  </Link>
+                </div>
+              ) : orderWindowInfo?.canOrder ? (
+                /* Can order - show normal button */
+                <>
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    className="w-full"
+                    variant={added ? "secondary" : "default"}
+                    disabled={uploadingPhoto}
+                  >
+                    {uploadingPhoto ? (
+                      <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> {language === 'en' ? 'Uploading...' : '上傳中...'}</>
+                    ) : added ? (
+                      <><Check className="w-5 h-5 mr-2" /> Added to Cart!</>
+                    ) : (
+                      <><Gift className="w-5 h-5 mr-2" /> {language === 'en' ? 'Add Birthday Gift' : '加入生日禮物'}</>
+                    )}
+                  </Button>
+
+                  {hasCustomization() && (
+                    <p className="text-sm text-center text-primary">
+                      ✨ {language === 'en' ? 'Your customization will be saved with this item' : '你的客製化選項將與此項目一起保存'}
+                    </p>
+                  )}
+
+
+                </>
+              ) : (
+                /* Already ordered or window closed */
+                <div className="space-y-3">
+                  <div className="text-center p-4 bg-muted rounded-xl">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {orderWindowInfo?.message || (language === 'en' ? 'Birthday gift not available' : '生日禮物暫時不可用')}
+                    </p>
+                  </div>
+
+                  {/* Buy for Others option */}
+                  <div className="text-center p-4 bg-primary/5 rounded-xl border border-primary/20">
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {language === 'en'
+                        ? 'Want to buy this as a gift for someone else?'
+                        : '想買這個送給別人嗎？'}
+                    </p>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => window.location.href = 'mailto:ariel40927@gmail.com?subject=Gift Purchase Inquiry&body=Hi Ariel, I would like to purchase: ' + project.projectName}
+                    >
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      {language === 'en' ? 'Contact to Buy' : '聯繫購買'}
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {language === 'en' ? 'Coming soon: Online purchase option' : '即將推出：線上購買選項'}
+                    </p>
+                  </div>
+                </div>
               )}
-              
-              <Button
-                onClick={() => navigate('/cart')}
-                size="lg"
-                variant="outline"
-                className="w-full"
-              >
-                View Cart & Checkout
-              </Button>
-            </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

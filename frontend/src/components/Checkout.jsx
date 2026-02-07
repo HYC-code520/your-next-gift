@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../lib/supabaseClient';
-import { Gift, CreditCard, Check, ArrowLeft, Palette, Ruler, Type, MessageSquare, Sparkles, Lock } from 'lucide-react';
+import { Gift, CreditCard, Check, ArrowLeft, Palette, Ruler, Type, MessageSquare, Sparkles, Lock, Camera } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
@@ -95,11 +95,19 @@ function Checkout() {
         customization: item.customization || {},
       }));
 
-      const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItems);
+      console.log('Inserting order items:', orderItems);
 
-      if (itemsError) throw itemsError;
+      const { data: insertedItems, error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems)
+        .select();
+
+      if (itemsError) {
+        console.error('Order items insert error:', itemsError);
+        throw itemsError;
+      }
+
+      console.log('Inserted items:', insertedItems);
 
       // Clear the cart
       await clearCart();
@@ -130,13 +138,13 @@ function Checkout() {
                 ? "Your gift request has been sent. We'll start working on it soon!"
                 : '您的禮物請求已送出，我們會盡快開始製作！'}
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/my-orders">
+            <div className="flex flex-col gap-3 w-full">
+              <Link to="/my-orders" className="mx-auto">
                 <Button size="lg">
                   {language === 'en' ? 'View My Orders' : '查看我的訂單'}
                 </Button>
               </Link>
-              <Link to="/list">
+              <Link to="/list" className="mx-auto">
                 <Button size="lg" variant="outline">
                   {language === 'en' ? 'Back to Gallery' : '返回畫廊'}
                 </Button>
@@ -189,6 +197,17 @@ function Checkout() {
                       {/* Customization Details */}
                       {item.customization && (
                         <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                          {item.customization.petPhotoUrl && (
+                            <div className="flex items-center gap-2">
+                              <Camera className="w-3 h-3" />
+                              <span>{language === 'en' ? 'Pet photo attached' : '已附寵物照片'}</span>
+                              <img
+                                src={item.customization.petPhotoUrl}
+                                alt="Pet"
+                                className="w-8 h-8 rounded object-cover"
+                              />
+                            </div>
+                          )}
                           {item.customization.colors?.length > 0 && (
                             <div className="flex items-center gap-2">
                               <Palette className="w-3 h-3" />

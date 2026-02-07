@@ -53,6 +53,7 @@ json-server
 
 # Supabase Edge Functions (deployed separately via supabase CLI)
 backend/supabase/functions/
+supabase/functions/
 
 # Files that might contain secrets
 **/setup-*-notification.sql

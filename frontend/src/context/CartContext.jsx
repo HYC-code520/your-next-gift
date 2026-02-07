@@ -48,7 +48,7 @@ export const CartProvider = ({ children }) => {
         // Fetch user's existing orders with birthday_year
         const { data: orders, error: ordersError } = await supabase
           .from('orders')
-          .select('id, birthday_year, created_at')
+          .select('id, birthday_year, status, created_at')
           .eq('user_id', user.id)
           .not('birthday_year', 'is', null);
         

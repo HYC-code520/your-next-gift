@@ -97,9 +97,9 @@ export function canOrderForBirthdayYear(birthdayDate, birthdayYear, existingOrde
     };
   }
   
-  // Check if user already ordered for this birthday year
+  // Check if user already ordered for this birthday year (exclude cancelled orders)
   const hasOrderedForYear = existingOrders.some(
-    order => order.birthday_year === birthdayYear
+    order => order.birthday_year === birthdayYear && order.status !== 'cancelled'
   );
   
   if (hasOrderedForYear) {

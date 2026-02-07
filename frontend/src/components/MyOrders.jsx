@@ -3,10 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../lib/supabaseClient';
-import { Package, Clock, CheckCircle, XCircle, ChevronDown, ChevronUp, Calendar, Palette, Ruler, Type, MessageSquare } from 'lucide-react';
+import { ChevronDown, ChevronUp, Palette, Ruler, Type, MessageSquare, Minus, Plus, Trash2, Camera } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
 
 function MyOrders() {
   const { user, loading: authLoading } = useAuth();
@@ -15,6 +13,11 @@ function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedOrder, setExpandedOrder] = useState(null);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [editedItems, setEditedItems] = useState([]);
+  const [editedNotes, setEditedNotes] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -26,7 +29,6 @@ function MyOrders() {
 
   const fetchOrders = async () => {
     try {
-      // Fetch orders with their items
       const { data: ordersData, error: ordersError } = await supabase
         .from('orders')
         .select(`
@@ -38,6 +40,12 @@ function MyOrders() {
 
       if (ordersError) throw ordersError;
       setOrders(ordersData || []);
+
+      // Auto-expand the first pending order
+      const pendingOrder = ordersData?.find(o => o.status === 'pending');
+      if (pendingOrder && !expandedOrder) {
+        setExpandedOrder(pendingOrder.id);
+      }
     } catch (error) {
       console.error('Error fetching orders:', error);
     } finally {
@@ -45,62 +53,160 @@ function MyOrders() {
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'pending':
-        return <Clock className="w-5 h-5 text-amber-500" />;
-      case 'in_progress':
-        return <Package className="w-5 h-5 text-blue-500" />;
-      case 'completed':
-        return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case 'cancelled':
-        return <XCircle className="w-5 h-5 text-red-500" />;
-      default:
-        return <Clock className="w-5 h-5 text-gray-500" />;
+  const startEditing = (order) => {
+    if (order.status !== 'pending') {
+      alert(language === 'en' ? 'Only pending orders can be edited' : '只能編輯待處理的訂單');
+      return;
+    }
+    setEditingOrder(order.id);
+    setExpandedOrder(order.id);
+    setEditedItems([...order.order_items]);
+    setEditedNotes(order.notes || '');
+  };
+
+  const cancelEditing = () => {
+    setEditingOrder(null);
+    setEditedItems([]);
+    setEditedNotes('');
+  };
+
+  const updateItemQuantity = (itemId, newQuantity) => {
+    if (newQuantity <= 0) {
+      removeItem(itemId);
+      return;
+    }
+    setEditedItems(prev =>
+      prev.map(item =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const removeItem = (itemId) => {
+    if (editedItems.length <= 1) {
+      alert(language === 'en' ? 'Cannot remove the last item. Cancel the order instead.' : '無法移除最後一項。請改為取消訂單。');
+      return;
+    }
+    setEditedItems(prev => prev.filter(item => item.id !== itemId));
+  };
+
+  const saveOrderChanges = async (orderId) => {
+    setSaving(true);
+    try {
+      const originalOrder = orders.find(o => o.id === orderId);
+
+      const { error: orderError } = await supabase
+        .from('orders')
+        .update({
+          notes: editedNotes || null,
+          total_items: editedItems.length,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', orderId);
+
+      if (orderError) throw orderError;
+
+      const currentItemIds = editedItems.map(i => i.id);
+      const removedItemIds = originalOrder.order_items
+        .filter(i => !currentItemIds.includes(i.id))
+        .map(i => i.id);
+
+      if (removedItemIds.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('order_items')
+          .delete()
+          .in('id', removedItemIds);
+
+        if (deleteError) throw deleteError;
+      }
+
+      for (const item of editedItems) {
+        const originalItem = originalOrder.order_items.find(i => i.id === item.id);
+        if (originalItem && originalItem.quantity !== item.quantity) {
+          const { error: updateError } = await supabase
+            .from('order_items')
+            .update({ quantity: item.quantity })
+            .eq('id', item.id);
+
+          if (updateError) throw updateError;
+        }
+      }
+
+      await fetchOrders();
+      cancelEditing();
+      alert(language === 'en' ? 'Order updated successfully!' : '訂單更新成功！');
+    } catch (error) {
+      console.error('Error saving order:', error);
+      alert(language === 'en' ? 'Failed to save changes' : '保存失敗');
+    } finally {
+      setSaving(false);
     }
   };
 
-  const getStatusBadge = (status) => {
-    const styles = {
-      pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-      in_progress: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-      completed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-    };
+  const cancelOrder = async (orderId) => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({
+          status: 'cancelled',
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      await fetchOrders();
+      setShowCancelConfirm(null);
+      cancelEditing();
+      alert(language === 'en' ? 'Order cancelled' : '訂單已取消');
+    } catch (error) {
+      console.error('Error cancelling order:', error);
+      alert(language === 'en' ? 'Failed to cancel order' : '取消失敗');
+    }
+  };
+
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-amber-500';
+      case 'in_progress':
+        return 'bg-blue-500';
+      case 'completed':
+        return 'bg-green-500';
+      case 'cancelled':
+        return 'bg-gray-400';
+      default:
+        return 'bg-gray-400';
+    }
+  };
+
+  const getStatusText = (status) => {
     const labels = {
       pending: language === 'en' ? 'Pending' : '待處理',
       in_progress: language === 'en' ? 'In Progress' : '製作中',
       completed: language === 'en' ? 'Completed' : '已完成',
       cancelled: language === 'en' ? 'Cancelled' : '已取消',
     };
-    return (
-      <span className={`px-3 py-1 rounded-full text-sm font-medium ${styles[status] || styles.pending}`}>
-        {labels[status] || status}
-      </span>
-    );
+    return labels[status] || status;
   };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(language === 'en' ? 'en-US' : 'zh-TW', {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
     });
   };
 
-  // Separate active orders (pending/in_progress) from history (completed/cancelled)
   const activeOrders = orders.filter(o => o.status === 'pending' || o.status === 'in_progress');
   const orderHistory = orders.filter(o => o.status === 'completed' || o.status === 'cancelled');
 
   if (authLoading || loading) {
     return (
       <div className="flex-1 bg-background flex items-center justify-center py-12">
-        <div className="text-center">
-          <Package className="w-16 h-16 mx-auto mb-4 animate-pulse text-primary" />
-          <p className="text-muted-foreground">
-            {language === 'en' ? 'Loading orders...' : '載入訂單中...'}
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          {language === 'en' ? 'Loading...' : '載入中...'}
+        </p>
       </div>
     );
   }
@@ -108,192 +214,296 @@ function MyOrders() {
   if (orders.length === 0) {
     return (
       <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <Card className="text-center">
-            <CardContent className="py-12 flex flex-col items-center justify-center">
-              <h2 className="text-2xl font-bold mb-3">
-                {language === 'en' ? 'No orders yet' : '還沒有訂單'}
-              </h2>
-              <p className="text-muted-foreground mb-8 text-base">
-                {language === 'en'
-                  ? 'Browse our gift gallery and place your first order!'
-                  : '瀏覽禮物畫廊並下第一個訂單！'}
-              </p>
-              <Link to="/list">
-                <Button size="lg" className="px-12">
-                  {language === 'en' ? 'Browse Gifts' : '瀏覽禮物'}
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+        <div className="text-center">
+          <h2 className="text-xl font-medium mb-2">
+            {language === 'en' ? 'No orders yet' : '還沒有訂單'}
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            {language === 'en' ? 'Browse our gallery and place your first order' : '瀏覽畫廊並下第一個訂單'}
+          </p>
+          <Link to="/list">
+            <Button>{language === 'en' ? 'Browse Gifts' : '瀏覽禮物'}</Button>
+          </Link>
         </div>
       </div>
     );
   }
 
-  const renderOrderCard = (order, isActive = false) => {
+  const renderOrderCard = (order) => {
     const isExpanded = expandedOrder === order.id;
+    const isEditing = editingOrder === order.id;
+    const itemsToDisplay = isEditing ? editedItems : order.order_items;
+    const isPending = order.status === 'pending';
 
     return (
-      <Card
+      <div
         key={order.id}
-        className={`overflow-hidden ${isActive ? 'border-primary/50 bg-primary/5' : ''}`}
+        className={`border-b border-border last:border-b-0 ${isEditing ? 'bg-primary/5' : ''}`}
       >
-        <CardHeader className="pb-3">
+        {/* Order Header */}
+        <div
+          className="py-4 cursor-pointer"
+          onClick={() => !isEditing && setExpandedOrder(isExpanded ? null : order.id)}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {getStatusIcon(order.status)}
+              {/* Status dot */}
+              <span className={`w-2 h-2 rounded-full ${getStatusStyle(order.status)}`} />
               <div>
-                <CardTitle className="text-lg">
+                <span className="font-medium">
                   {order.birthday_year
                     ? (language === 'en' ? `${order.birthday_year} Birthday Gift` : `${order.birthday_year} 生日禮物`)
                     : (language === 'en' ? 'Gift Order' : '禮物訂單')
                   }
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
+                </span>
+                <span className="text-muted-foreground text-sm ml-3">
                   {formatDate(order.created_at)}
-                </p>
+                </span>
               </div>
             </div>
-            {getStatusBadge(order.status)}
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">
+                {getStatusText(order.status)}
+              </span>
+              {isExpanded ? (
+                <ChevronUp className="w-4 h-4 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-muted-foreground" />
+              )}
+            </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          {/* Order Summary */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-muted-foreground">
-              {order.total_items} {language === 'en' ? (order.total_items === 1 ? 'item' : 'items') : '項'}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
-              className="flex items-center gap-1"
-            >
-              {isExpanded
-                ? (language === 'en' ? 'Hide Details' : '隱藏詳情')
-                : (language === 'en' ? 'View Details' : '查看詳情')
-              }
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </Button>
-          </div>
+        </div>
 
-          {/* Expanded Order Items */}
-          {isExpanded && order.order_items && (
-            <div className="space-y-4 pt-4 border-t border-border">
-              {order.order_items.map((item) => (
-                <div key={item.id} className="flex gap-4 p-3 bg-muted/50 rounded-lg">
-                  {/* Item Image */}
-                  <div className="flex-shrink-0">
-                    <img
-                      src={item.project_image || '/images/placeholder.png'}
-                      alt={item.project_name}
-                      className="w-20 h-20 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.target.src = '/images/placeholder.png';
-                      }}
-                    />
-                  </div>
+        {/* Expanded Content */}
+        {isExpanded && (
+          <div className="pb-4">
+            {/* Items */}
+            <div className="space-y-3 mb-4">
+              {(!itemsToDisplay || itemsToDisplay.length === 0) ? (
+                <p className="text-sm text-muted-foreground py-2">
+                  {language === 'en' ? 'No items found.' : '找不到項目。'}
+                </p>
+              ) : itemsToDisplay.map((item) => (
+                <div key={item.id} className="flex gap-3 p-3 bg-muted/30 rounded-lg">
+                  <img
+                    src={item.project_image || '/images/placeholder.png'}
+                    alt={item.project_name}
+                    className="w-16 h-16 object-cover rounded"
+                    onError={(e) => { e.target.src = '/images/placeholder.png'; }}
+                  />
+                  <div className="flex-grow min-w-0">
+                    <h4 className="font-medium text-sm">{item.project_name}</h4>
 
-                  {/* Item Details */}
-                  <div className="flex-grow">
-                    <h4 className="font-semibold mb-1">{item.project_name}</h4>
-                    {item.project_description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-                        {item.project_description}
-                      </p>
-                    )}
-
-                    {/* Customization Details */}
+                    {/* Customization */}
                     {item.customization && (
-                      <div className="space-y-1 text-xs">
+                      <div className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+                        {item.customization.petPhotoUrl && (
+                          <div className="flex items-center gap-1.5">
+                            <Camera className="w-3 h-3" />
+                            <span>{language === 'en' ? 'Pet photo' : '寵物照片'}</span>
+                            <img
+                              src={item.customization.petPhotoUrl}
+                              alt="Pet"
+                              className="w-6 h-6 rounded object-cover"
+                            />
+                          </div>
+                        )}
                         {item.customization.colors?.length > 0 && (
-                          <div className="flex items-center gap-2">
-                            <Palette className="w-3 h-3 text-muted-foreground" />
-                            <div className="flex gap-1">
+                          <div className="flex items-center gap-1.5">
+                            <Palette className="w-3 h-3" />
+                            <div className="flex gap-0.5">
                               {item.customization.colors.map((color, i) => (
-                                <div
+                                <span
                                   key={i}
-                                  className="w-4 h-4 rounded-full border border-border"
+                                  className="w-3 h-3 rounded-full border border-border"
                                   style={{ backgroundColor: color }}
-                                  title={color}
                                 />
                               ))}
                             </div>
                           </div>
                         )}
                         {item.customization.size && (
-                          <div className="flex items-center gap-2">
-                            <Ruler className="w-3 h-3 text-muted-foreground" />
+                          <div className="flex items-center gap-1.5">
+                            <Ruler className="w-3 h-3" />
                             <span>{item.customization.size}</span>
                           </div>
                         )}
                         {item.customization.personalization && (
-                          <div className="flex items-center gap-2">
-                            <Type className="w-3 h-3 text-muted-foreground" />
-                            <span>"{item.customization.personalization}"</span>
+                          <div className="flex items-center gap-1.5">
+                            <Type className="w-3 h-3" />
+                            <span className="truncate">"{item.customization.personalization}"</span>
                           </div>
                         )}
                         {item.customization.specialRequests && (
-                          <div className="flex items-center gap-2">
-                            <MessageSquare className="w-3 h-3 text-muted-foreground" />
-                            <span className="line-clamp-1">{item.customization.specialRequests}</span>
+                          <div className="flex items-center gap-1.5">
+                            <MessageSquare className="w-3 h-3" />
+                            <span className="truncate">{item.customization.specialRequests}</span>
                           </div>
                         )}
                       </div>
                     )}
+
+                    {/* Quantity */}
+                    <div className="mt-2 flex items-center gap-2 text-sm">
+                      {isEditing ? (
+                        <div className="flex items-center gap-1">
+                          <button
+                            className="w-6 h-6 flex items-center justify-center rounded border border-border hover:bg-muted"
+                            onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="w-6 text-center">{item.quantity}</span>
+                          <button
+                            className="w-6 h-6 flex items-center justify-center rounded border border-border hover:bg-muted"
+                            onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">
+                          {language === 'en' ? `Qty: ${item.quantity}` : `數量: ${item.quantity}`}
+                        </span>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Remove button */}
+                  {isEditing && (
+                    <button
+                      className="self-start p-1.5 text-muted-foreground hover:text-red-500"
+                      onClick={() => removeItem(item.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
-          )}
-        </CardContent>
-      </Card>
+
+            {/* Notes */}
+            {isEditing && (
+              <div className="mb-4">
+                <textarea
+                  value={editedNotes}
+                  onChange={(e) => setEditedNotes(e.target.value)}
+                  placeholder={language === 'en' ? 'Add notes for Ariel...' : '給 Ariel 的備註...'}
+                  className="w-full p-3 text-sm border border-border rounded-lg bg-background resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+                  rows={2}
+                />
+              </div>
+            )}
+
+            {!isEditing && order.notes && (
+              <p className="text-sm text-muted-foreground mb-4">
+                {language === 'en' ? 'Notes: ' : '備註: '}{order.notes}
+              </p>
+            )}
+
+            {/* Actions */}
+            {isPending && (
+              <div className="flex gap-2 pt-2">
+                {isEditing ? (
+                  <>
+                    <button
+                      onClick={() => saveOrderChanges(order.id)}
+                      disabled={saving}
+                      className="text-sm font-medium text-primary hover:underline disabled:opacity-50"
+                    >
+                      {saving ? (language === 'en' ? 'Saving...' : '保存中...') : (language === 'en' ? 'Save' : '保存')}
+                    </button>
+                    <span className="text-muted-foreground">·</span>
+                    <button
+                      onClick={cancelEditing}
+                      disabled={saving}
+                      className="text-sm text-muted-foreground hover:underline disabled:opacity-50"
+                    >
+                      {language === 'en' ? 'Cancel' : '取消'}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => startEditing(order)}
+                      className="text-sm text-muted-foreground hover:text-foreground hover:underline"
+                    >
+                      {language === 'en' ? 'Edit' : '編輯'}
+                    </button>
+                    <span className="text-muted-foreground">·</span>
+                    <button
+                      onClick={() => setShowCancelConfirm(order.id)}
+                      className="text-sm text-muted-foreground hover:text-red-500 hover:underline"
+                    >
+                      {language === 'en' ? 'Cancel order' : '取消訂單'}
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Cancel Confirmation Modal */}
+        {showCancelConfirm === order.id && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-card p-6 rounded-lg shadow-lg max-w-sm mx-4">
+              <h3 className="font-medium mb-2">
+                {language === 'en' ? 'Cancel this order?' : '取消此訂單？'}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                {language === 'en' ? 'This cannot be undone.' : '此操作無法撤銷。'}
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setShowCancelConfirm(null)}
+                  className="text-sm text-muted-foreground hover:underline"
+                >
+                  {language === 'en' ? 'Keep' : '保留'}
+                </button>
+                <button
+                  onClick={() => cancelOrder(order.id)}
+                  className="text-sm text-red-500 hover:underline"
+                >
+                  {language === 'en' ? 'Cancel order' : '取消訂單'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     );
   };
 
   return (
-    <div className="flex-1 bg-background">
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">
+    <div className="flex-1 bg-background px-4">
+      <div className="w-full max-w-2xl mx-auto pt-[15vh] pb-12">
+        <h1 className="text-2xl font-medium mb-6">
           {language === 'en' ? 'My Orders' : '我的訂單'}
         </h1>
 
-        {/* Active Orders Section */}
-        {activeOrders.length > 0 && (
-          <div className="mb-10">
-            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Package className="w-5 h-5 text-primary" />
-              {language === 'en' ? 'Current Order' : '目前訂單'}
-            </h2>
-            <div className="space-y-4">
-              {activeOrders.map((order) => renderOrderCard(order, true))}
+        {/* All orders in one clean list */}
+        <div className="bg-card border border-border rounded-lg divide-y divide-border">
+          {activeOrders.length > 0 && (
+            <div className="px-4">
+              {activeOrders.map((order) => renderOrderCard(order))}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Order History Section */}
-        {orderHistory.length > 0 && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-muted-foreground" />
-              {language === 'en' ? 'Order History' : '訂單歷史'}
-            </h2>
-            <div className="space-y-4">
-              {orderHistory.map((order) => renderOrderCard(order, false))}
+          {orderHistory.length > 0 && activeOrders.length > 0 && (
+            <div className="px-4 py-2">
+              <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                {language === 'en' ? 'Past orders' : '歷史訂單'}
+              </span>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* If only active orders exist */}
-        {activeOrders.length > 0 && orderHistory.length === 0 && (
-          <p className="text-center text-muted-foreground mt-8">
-            {language === 'en'
-              ? 'Your completed orders will appear here.'
-              : '您完成的訂單將顯示在這裡。'
-            }
-          </p>
-        )}
+          {orderHistory.length > 0 && (
+            <div className="px-4">
+              {orderHistory.map((order) => renderOrderCard(order))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

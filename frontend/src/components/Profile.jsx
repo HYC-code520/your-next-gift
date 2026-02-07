@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
-import { User, Calendar, Save, Check } from 'lucide-react';
+import { User, Calendar, Save, Check, Lock } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
@@ -16,6 +16,7 @@ function Profile() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [hasOrders, setHasOrders] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -27,6 +28,7 @@ function Profile() {
 
   const fetchProfile = async () => {
     try {
+      // Fetch profile
       const { data, error } = await supabase
         .from('profiles')
         .select('birthday')
@@ -39,6 +41,18 @@ function Profile() {
 
       if (data?.birthday) {
         setBirthday(data.birthday);
+      }
+
+      // Check if user has any non-cancelled orders
+      const { data: orders, error: ordersError } = await supabase
+        .from('orders')
+        .select('id')
+        .eq('user_id', user.id)
+        .neq('status', 'cancelled')
+        .limit(1);
+
+      if (!ordersError && orders && orders.length > 0) {
+        setHasOrders(true);
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -117,18 +131,26 @@ function Profile() {
               {/* Birthday */}
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  <Calendar className="w-4 h-4 inline mr-2" />
+                  {hasOrders ? <Lock className="w-4 h-4 inline mr-2" /> : <Calendar className="w-4 h-4 inline mr-2" />}
                   Your Birthday
                 </label>
                 <input
                   type="date"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
-                  className="w-full px-4 py-3 bg-input border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  disabled={hasOrders}
+                  className={`w-full px-4 py-3 border border-border rounded-lg ${
+                    hasOrders
+                      ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                      : 'bg-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'
+                  }`}
                   required
                 />
                 <p className="text-sm text-muted-foreground mt-2">
-                  Your birthday is used to determine your gift ordering window. You can order a gift within 2 months before your birthday.
+                  {hasOrders
+                    ? 'Birthday is locked after placing an order. Contact Ariel if you need to change it.'
+                    : 'Your birthday determines when you can order your free gift.'
+                  }
                 </p>
               </div>
 
@@ -145,20 +167,22 @@ function Profile() {
                 </div>
               )}
 
-              <Button
-                type="submit"
-                disabled={saving}
-                className="w-full"
-              >
-                {saving ? (
-                  'Saving...'
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Profile
-                  </>
-                )}
-              </Button>
+              {!hasOrders && (
+                <Button
+                  type="submit"
+                  disabled={saving}
+                  className="w-full"
+                >
+                  {saving ? (
+                    'Saving...'
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4 mr-2" />
+                      Save Profile
+                    </>
+                  )}
+                </Button>
+              )}
             </form>
           </CardContent>
         </Card>

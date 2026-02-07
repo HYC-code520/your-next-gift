@@ -19,6 +19,19 @@ import MyOrders from './components/MyOrders'; // Import My Orders page
 import Checkout from './components/Checkout'; // Import Checkout page
 import StyleGuide from './components/StyleGuide'; // Import Style Guide page
 import NotFound from './components/NotFound'; // Import 404 page
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
+
+// Error boundary wrapper that keeps navbar and footer
+function ErrorLayout() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <NavBar />
+      <NotFound />
+      <Footer />
+    </div>
+  );
+}
 
 // Admin Route Protection Component
 function AdminRoute({ children }) {
@@ -51,7 +64,7 @@ const routes = [
   {
     path: '/',
     element: <AppLayout />,
-    errorElement: <NotFound />, // Custom 404 page for errors
+    errorElement: <ErrorLayout />, // Custom 404 page with navbar
     children: [
       {
         path: '', // Root path ("/") handled by the Home component

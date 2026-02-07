@@ -1,11 +1,13 @@
-/* Navbar Wrapper - Sticky at top */
+/* Navbar Wrapper - Fixed at top */
 .navbar-wrapper {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   background: hsl(var(--background));
   z-index: 9999;
   transition: box-shadow 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Navbar Container */
@@ -74,7 +76,7 @@
 }
 
 .dark .arch-text-svg {
-  fill: #000000;
+  fill: #FFFFFF;
 }
 
 .nav-link-arch:hover .arch-text-svg {
