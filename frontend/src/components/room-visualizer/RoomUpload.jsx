@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { Upload, X, ArrowRight } from 'lucide-react';
+import { Upload, X, ArrowRight, Camera } from 'lucide-react';
 import { Button } from '../ui/button';
 
 // Auto-compress and resize any image to keep canvas performant
@@ -32,7 +32,7 @@ const compressImage = (file, maxDim = 2000) => {
   });
 };
 
-function RoomUpload({ productPreviewUrl, onUpload }) {
+function RoomUpload({ productPreviewUrl, onUpload, onUseCamera }) {
   const { language } = useLanguage();
   const [preview, setPreview] = useState(null);
   const [processing, setProcessing] = useState(false);
@@ -135,6 +135,30 @@ function RoomUpload({ productPreviewUrl, onUpload }) {
           >
             <X className="w-4 h-4" />
           </button>
+        </div>
+      )}
+
+      {/* Divider + Use Camera option */}
+      {!preview && (
+        <div className="mt-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">
+              {language === 'en' ? 'or' : '或'}
+            </span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="flex justify-center">
+            <Button size="lg" onClick={onUseCamera}>
+              <Camera className="w-4 h-4 mr-2" />
+              {language === 'en' ? 'Use Camera' : '使用相機'}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-2">
+            {language === 'en'
+              ? 'See the product in your room with live camera'
+              : '用即時相機在你的房間中預覽產品'}
+          </p>
         </div>
       )}
 

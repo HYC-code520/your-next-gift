@@ -6,6 +6,7 @@ import ImageCropper from './ImageCropper';
 import BgRemoval from './BgRemoval';
 import RoomUpload from './RoomUpload';
 import CanvasEditor from './CanvasEditor';
+import CameraPreview from './CameraPreview';
 import '../../styles/RoomVisualizer.css';
 
 const STEPS = ['pick-image', 'crop', 'bg-removal', 'room-upload', 'canvas'];
@@ -22,6 +23,7 @@ function RoomVisualizer({ isOpen, onClose, projectId, projectName, images }) {
   const [transparentBlob, setTransparentBlob] = useState(null);
   const [transparentPreviewUrl, setTransparentPreviewUrl] = useState(null);
   const [roomImageUrl, setRoomImageUrl] = useState(null);
+  const [useCameraMode, setUseCameraMode] = useState(false);
 
   // Cleanup object URLs on unmount or close
   const cleanup = useCallback(() => {
@@ -38,6 +40,7 @@ function RoomVisualizer({ isOpen, onClose, projectId, projectName, images }) {
       setTransparentBlob(null);
       setTransparentPreviewUrl(null);
       setRoomImageUrl(null);
+      setUseCameraMode(false);
     }
   }, [isOpen]);
 
@@ -172,10 +175,18 @@ function RoomVisualizer({ isOpen, onClose, projectId, projectName, images }) {
         )}
 
         {step === 'room-upload' && transparentPreviewUrl && (
-          <RoomUpload
-            productPreviewUrl={transparentPreviewUrl}
-            onUpload={handleRoomUpload}
-          />
+          useCameraMode ? (
+            <CameraPreview
+              productPreviewUrl={transparentPreviewUrl}
+              onBack={() => setUseCameraMode(false)}
+            />
+          ) : (
+            <RoomUpload
+              productPreviewUrl={transparentPreviewUrl}
+              onUpload={handleRoomUpload}
+              onUseCamera={() => setUseCameraMode(true)}
+            />
+          )
         )}
 
         {step === 'canvas' && transparentBlob && roomImageUrl && (
