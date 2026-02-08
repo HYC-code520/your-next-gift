@@ -23,30 +23,58 @@
     padding-bottom: 10%; /* Space from bottom */
 }
 
-/* Dark mode home: extend slideshow behind navbar/footer */
-.dark body.home-page .slideshow {
+/* Extend slideshow behind navbar/footer for both modes */
+body.home-page .slideshow {
     height: 100vh;
     height: 100dvh;
     margin-top: -70px; /* Pull up behind navbar */
     padding-top: 70px; /* Keep content below navbar */
 }
 
-.slideshow-image {
-    position: absolute;
+/* Light mode: layered GIFs - fixed to cover full viewport */
+.slideshow-light-bg {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    z-index: 0;
 }
 
-.slideshow-video {
+.light-gif {
     position: absolute;
+}
+
+/* Bottom layer: element GIF - full screen cover */
+.light-gif-element {
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 1;
+}
+
+/* Middle layer: grain texture - full screen cover */
+.light-gif-grain {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+/* Top layer: text GIF - centered */
+.light-gif-text {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    min-width: 700px;
+    height: auto;
+    object-fit: contain;
+    z-index: 3;
 }
 
 /* Dark mode: layered GIFs - fixed to cover full viewport including behind navbar/footer */
