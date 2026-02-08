@@ -10,7 +10,13 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import '../styles/DiyDetail.css';
 
-const RoomVisualizer = lazy(() => import('./room-visualizer/RoomVisualizer'));
+const RoomVisualizer = lazy(() =>
+  import('./room-visualizer/RoomVisualizer').catch(() => {
+    // Chunk may be stale after a new deployment — reload to get fresh assets
+    window.location.reload();
+    return { default: () => null };
+  })
+);
 
 // Map project IDs to image paths (images are in public/images/)
 // Now supports arrays for multiple angles!
