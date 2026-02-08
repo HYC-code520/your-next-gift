@@ -60,7 +60,7 @@ function StyleGuide() {
   const { language } = useLanguage();
 
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-2 text-center">
           {language === 'en' ? 'Style Guide' : '風格指南'}

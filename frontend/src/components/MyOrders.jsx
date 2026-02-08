@@ -203,7 +203,7 @@ function MyOrders() {
 
   if (authLoading || loading) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center py-12">
+      <div className="flex-1 flex items-center justify-center py-12">
         <p className="text-muted-foreground">
           {language === 'en' ? 'Loading...' : '載入中...'}
         </p>
@@ -213,7 +213,7 @@ function MyOrders() {
 
   if (orders.length === 0) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="text-center">
           <h2 className="text-xl font-medium mb-2">
             {language === 'en' ? 'No orders yet' : '還沒有訂單'}
@@ -476,7 +476,7 @@ function MyOrders() {
   };
 
   return (
-    <div className="flex-1 bg-background px-4">
+    <div className="flex-1 px-4">
       <div className="w-full max-w-2xl mx-auto pt-[15vh] pb-12">
         <h1 className="text-2xl font-medium mb-6">
           {language === 'en' ? 'My Orders' : '我的訂單'}

@@ -213,7 +213,7 @@ function BirthdayCalendar() {
   const upcomingBirthdays = getUpcomingBirthdays();
 
   return (
-    <div className="flex-1 bg-background pt-8">
+    <div className="flex-1 pt-8">
       
       <div className="max-w-7xl mx-auto px-6 py-8">
 

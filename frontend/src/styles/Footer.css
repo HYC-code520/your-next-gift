@@ -5,11 +5,14 @@
     padding: 80px 20px; /* Increased padding for taller height */
 }
 
-/* Home page dark mode: transparent footer */
-.dark body.home-page footer {
+/* Home page: transparent footer on top of animation */
+body.home-page .footer,
+body.home-page footer {
     background-color: transparent !important;
     background: transparent !important;
     border-color: transparent !important;
+    position: relative;
+    z-index: 3;
 }
 
 .footer-content {

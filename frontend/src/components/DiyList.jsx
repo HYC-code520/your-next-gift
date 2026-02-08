@@ -29,7 +29,7 @@ function DiyList() {
   });
 
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1">
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Combined Search Bar and Filter */}
         <div className="flex justify-center mb-6">
@@ -42,7 +42,7 @@ function DiyList() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={language === 'en' ? 'Search projects...' : '搜尋專案...'}
-                className="w-full pl-12 pr-10 py-3 bg-card border border-border rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
+                className="w-full pl-12 pr-10 py-3 bg-card/60 backdrop-blur-md border border-border rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
               />
               {searchQuery && (
                 <button
@@ -60,7 +60,7 @@ function DiyList() {
               className={`flex items-center gap-2 px-4 py-3 rounded-full border transition-all whitespace-nowrap ${
                 showFilters || selectedCategory !== 'all'
                   ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-card hover:bg-muted border-border'
+                  : 'bg-card/60 backdrop-blur-md hover:bg-muted/60 border-border'
               }`}
             >
               <SlidersHorizontal className="w-5 h-5" />

@@ -155,7 +155,7 @@ function DiyDetail() {
 
   if (!project) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center">
         <p className="text-xl">Project not found!</p>
       </div>
     );
@@ -329,7 +329,7 @@ function DiyDetail() {
   // When room visualizer is open, replace the whole page content
   if (showRoomVisualizer) {
     return (
-      <div className="flex-1 bg-background">
+      <div className="flex-1">
         <Suspense fallback={
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 text-primary animate-spin" />
@@ -348,7 +348,7 @@ function DiyDetail() {
   }
 
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
         {/* Back Button */}
         <button

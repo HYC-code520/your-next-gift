@@ -1,6 +1,8 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import '../App.css';
+import bgUnderLayer from '../Image/Cartoon bg under layer.png';
+import bgAnimationTop from '../Image/Cartoon bg animation at top.gif';
 import NavBar from './NavBar';
 import AnnouncementBar from './AnnouncementBar';
 import Footer from './Footer';
@@ -84,7 +86,19 @@ function AppLayout() {
       {/* Loading Screen - Shows on initial load and page transitions */}
       <LoadingScreen isLoading={showLoadingScreen} />
       
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen" style={{ position: 'relative' }}>
+        <img
+          src={bgUnderLayer}
+          alt=""
+          className={`global-bg-under-layer${!isHomePage ? ' bg-faded' : ''}`}
+        />
+        {isHomePage && (
+          <img
+            src={bgAnimationTop}
+            alt=""
+            className="bg-animation-top"
+          />
+        )}
         {/* <AnnouncementBar /> */}
         <NavBar />
         <div
@@ -105,7 +119,7 @@ function AppLayout() {
             }}
           />
         </div>
-        <Footer />
+        <Footer isHomePage={isHomePage} />
       </div>
     </>
   );

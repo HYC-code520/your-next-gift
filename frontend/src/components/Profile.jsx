@@ -93,7 +93,7 @@ function Profile() {
 
   if (authLoading || loading) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center py-12">
+      <div className="flex-1 flex items-center justify-center py-12">
         <div className="text-center">
           <User className="w-16 h-16 mx-auto mb-4 animate-pulse text-primary" />
           <p className="text-muted-foreground">Loading profile...</p>
@@ -103,7 +103,7 @@ function Profile() {
   }
 
   return (
-    <div className="flex-1 bg-background flex items-center justify-center px-6 py-12">
+    <div className="flex-1 flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         <Card>
           <CardHeader>

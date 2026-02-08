@@ -55,6 +55,32 @@ html {
   color: #888;
 }
 
+/* Global background under layer */
+.global-bg-under-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Non-home pages: faded under layer */
+.global-bg-under-layer.bg-faded {
+  opacity: 0.5;
+}
+
+/* Dark mode: 15% opacity on all pages */
+.dark .global-bg-under-layer {
+  opacity: 0.15;
+}
+
+.dark .global-bg-under-layer.bg-faded {
+  opacity: 0.15;
+}
+
 /* Main Content - offset for fixed navbar */
 .main-content {
   padding-top: 70px;

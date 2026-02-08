@@ -10,7 +10,7 @@ function NotFound() {
   const { t } = useLanguage();
 
   return (
-    <div className="flex-1 bg-background flex items-center justify-center p-6">
+    <div className="flex-1 flex items-center justify-center p-6">
       <Card className="max-w-2xl w-full animate-fade-in">
         <CardContent className="pt-12 pb-12 flex flex-col items-center text-center">
           {/* 404 Animation */}

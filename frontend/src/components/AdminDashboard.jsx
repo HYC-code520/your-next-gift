@@ -145,7 +145,7 @@ function AdminDashboard() {
   ];
 
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Mobile Nav */}
         <div className="md:hidden flex gap-2 mb-6 overflow-x-auto pb-2">

@@ -76,7 +76,7 @@ function Login() {
   };
 
   return (
-    <div className="flex-1 flex bg-background py-8">
+    <div className="flex-1 flex py-8">
       <div className="login-container">
         <div className="login-card">
           <h2>{isSignUp ? 'Sign Up' : 'Sign In'}</h2>

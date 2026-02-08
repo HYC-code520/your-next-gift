@@ -20,7 +20,7 @@ function Checkout() {
   // Redirect if not logged in
   if (!user) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
         <Card className="w-full max-w-md text-center">
           <CardContent className="py-12">
             <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
@@ -44,7 +44,7 @@ function Checkout() {
   // Redirect if cart is empty
   if (cart.length === 0 && !submitted) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
         <Card className="w-full max-w-md text-center">
           <CardContent className="py-12">
             <h2 className="text-2xl font-bold mb-3">
@@ -124,7 +124,7 @@ function Checkout() {
   // Success state
   if (submitted) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
         <Card className="w-full max-w-md text-center">
           <CardContent className="py-12 flex flex-col items-center">
             <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
@@ -157,7 +157,7 @@ function Checkout() {
   }
 
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Back Button */}
         <button

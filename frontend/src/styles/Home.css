@@ -11,116 +11,45 @@
 .slideshow {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Push content to bottom */
+    justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: calc(100vh - 140px); /* Account for navbar (~70px) + footer (~70px) */
-    height: calc(100dvh - 140px); /* Dynamic viewport height for mobile */
+    height: calc(100vh - 140px);
+    height: calc(100dvh - 140px);
     margin: 0;
     position: relative;
     z-index: 5;
     overflow: hidden;
-    padding-bottom: 10%; /* Space from bottom */
 }
 
-/* Extend slideshow behind navbar/footer for both modes */
-body.home-page .slideshow {
-    height: 100vh;
-    height: 100dvh;
-    margin-top: -70px; /* Pull up behind navbar */
-    padding-top: 70px; /* Keep content below navbar */
+/* Light mode home page bg color */
+body.home-page {
+    background-color: #fffaee;
 }
 
-/* Light mode: layered GIFs - fixed to cover full viewport */
-.slideshow-light-bg {
+.dark body.home-page {
+    background-color: hsl(231 44% 12%);
+}
+
+/* Transparent so global bg under layer PNG shows through */
+.slideshow {
+    background-color: transparent;
+}
+
+.dark .slideshow {
+    background-color: transparent;
+}
+
+/* Background animation layer (home page only) - full viewport */
+.bg-animation-top {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.light-gif {
-    position: absolute;
-}
-
-/* Bottom layer: element GIF - full screen cover */
-.light-gif-element {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-}
-
-/* Middle layer: grain texture - full screen cover */
-.light-gif-grain {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 2;
-}
-
-/* Top layer: text GIF - centered */
-.light-gif-text {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    min-width: 700px;
+    min-width: 900px;
     height: auto;
-    object-fit: contain;
-    z-index: 3;
-}
-
-/* Dark mode: layered GIFs - fixed to cover full viewport including behind navbar/footer */
-.slideshow-dark-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.dark-gif {
-    position: absolute;
-}
-
-/* Bottom layer: element GIF - full screen cover */
-.dark-gif-element {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-}
-
-/* Middle layer: grain texture - full screen cover */
-.dark-gif-grain {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    pointer-events: none;
     z-index: 2;
-}
-
-/* Top layer: text GIF - centered, stays large on smaller screens */
-.dark-gif-text {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    min-width: 700px;
-    height: auto;
-    object-fit: contain;
-    z-index: 3;
 }
 
 .slide-content {
@@ -134,6 +63,18 @@ body.home-page .slideshow {
 
 .dark .slide-content {
     color: #ffffff;
+}
+
+/* Home page title image */
+.home-title-img {
+    width: clamp(200px, 50vw, 600px);
+    height: auto;
+    margin-bottom: 1.5rem;
+    pointer-events: none;
+}
+
+.dark .home-title-img {
+    filter: invert(1);
 }
 
 .slide-content h1 {
@@ -250,16 +191,14 @@ body.home-page .slideshow {
     .slideshow {
         height: calc(100vh - 140px);
         height: calc(100dvh - 140px);
-        padding-bottom: 8%;
     }
 }
 
 /* Tablet and below */
 @media (max-width: 768px) {
     .slideshow {
-        height: calc(100vh - 130px); /* navbar (~60px) + footer (~70px) */
+        height: calc(100vh - 130px);
         height: calc(100dvh - 130px);
-        padding-bottom: 8%;
     }
 
     .slide-content {
@@ -274,9 +213,8 @@ body.home-page .slideshow {
 /* Mobile */
 @media (max-width: 480px) {
     .slideshow {
-        height: calc(100vh - 115px); /* Smaller navbar (~55px) + footer (~60px) */
+        height: calc(100vh - 115px);
         height: calc(100dvh - 115px);
-        padding-bottom: 6%;
     }
 
     .slide-content {
@@ -304,7 +242,6 @@ body.home-page .slideshow {
     .slideshow {
         height: calc(100vh - 100px);
         height: calc(100dvh - 100px);
-        padding-bottom: 5%;
     }
 
     .slide-content h1 {

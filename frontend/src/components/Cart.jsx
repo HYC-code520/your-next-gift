@@ -24,7 +24,7 @@ function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="flex-1 bg-background flex items-center justify-center px-4 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md animate-fade-in">
           <Card className="text-center">
             <CardContent className="py-12 flex flex-col items-center justify-center">
@@ -47,7 +47,7 @@ function Cart() {
   }
 
   return (
-    <div className="flex-1 bg-background pt-8">
+    <div className="flex-1 pt-8">
       <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
