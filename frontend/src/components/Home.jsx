@@ -1,46 +1,85 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import '../styles/Home.css'; // Ensure the CSS file path is correct
-import videoHome from '../Image/video-home.mp4'; // Import the video
+import { useTheme } from '../context/ThemeContext';
+import '../styles/Home.css';
+import videoHome from '../Image/video-home.mp4';
+import bgElement from '../Image/bg element 01.gif';
+import bgGrain from '../Image/grain element under text.png';
+import bgText from '../Image/bg text.gif';
 
 function Home() {
+  const { theme } = useTheme();
   const videoRef = useRef(null);
+  const isDark = theme === 'dark';
 
+  // Tag body so navbar/footer can go transparent on home page
   useEffect(() => {
+    document.body.classList.add('home-page');
+    return () => document.body.classList.remove('home-page');
+  }, []);
+
+  // Light mode: play video once and stop
+  useEffect(() => {
+    if (isDark) return;
     const video = videoRef.current;
     if (video) {
-      // Play video once and stop at the last frame
+      video.currentTime = 0;
       video.play();
-      
+
       const handleEnded = () => {
         video.pause();
-        // Set to last frame
         video.currentTime = video.duration;
       };
-      
+
       video.addEventListener('ended', handleEnded);
-      
-      return () => {
-        video.removeEventListener('ended', handleEnded);
-      };
+      return () => video.removeEventListener('ended', handleEnded);
     }
-  }, []);
+  }, [isDark]);
 
   return (
     <div className="home-container">
       {/* Slideshow Section */}
       <div className="slideshow">
-        <video
-          ref={videoRef}
-          className="slideshow-video"
-          src={videoHome}
-          muted
-          playsInline
-        />
+        {/* Light mode: video */}
+        {!isDark && (
+          <video
+            ref={videoRef}
+            className="slideshow-video"
+            src={videoHome}
+            muted
+            playsInline
+          />
+        )}
+
+        {/* Dark mode: layered GIFs */}
+        {isDark && (
+          <div className="slideshow-dark-bg">
+            <img
+              src={bgElement}
+              alt=""
+              className="dark-gif dark-gif-element"
+            />
+            <img
+              src={bgGrain}
+              alt=""
+              className="dark-gif dark-gif-grain"
+            />
+            <img
+              src={bgText}
+              alt=""
+              className="dark-gif dark-gif-text"
+            />
+          </div>
+        )}
+
         <div className="slide-content">
-          <h1>Request your next<br />birthday gift</h1>
-          <p>Handmade and crafted with love, just for you!</p>
-          
+          {!isDark && (
+            <>
+              <h1>Request your next<br />birthday gift</h1>
+              <p>Handmade and crafted with love, just for you!</p>
+            </>
+          )}
+
           {/* Button to Gift Gallery */}
           <Link to="/list" className="gift-gallery-btn">
             View Gift Gallery

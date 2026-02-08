@@ -23,6 +23,14 @@
     padding-bottom: 10%; /* Space from bottom */
 }
 
+/* Dark mode home: extend slideshow behind navbar/footer */
+.dark body.home-page .slideshow {
+    height: 100vh;
+    height: 100dvh;
+    margin-top: -70px; /* Pull up behind navbar */
+    padding-top: 70px; /* Keep content below navbar */
+}
+
 .slideshow-image {
     position: absolute;
     top: 0;
@@ -41,6 +49,52 @@
     object-fit: cover;
 }
 
+/* Dark mode: layered GIFs - fixed to cover full viewport including behind navbar/footer */
+.slideshow-dark-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.dark-gif {
+    position: absolute;
+}
+
+/* Bottom layer: element GIF - full screen cover */
+.dark-gif-element {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* Middle layer: grain texture - full screen cover */
+.dark-gif-grain {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+/* Top layer: text GIF - centered, stays large on smaller screens */
+.dark-gif-text {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    min-width: 700px;
+    height: auto;
+    object-fit: contain;
+    z-index: 3;
+}
+
 .slide-content {
     position: relative;
     z-index: 10;
@@ -48,6 +102,10 @@
     text-align: center;
     padding: 20px;
     max-width: 90%;
+}
+
+.dark .slide-content {
+    color: #ffffff;
 }
 
 .slide-content h1 {
@@ -88,6 +146,18 @@
     border-color: #88A2FF;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(136, 162, 255, 0.4);
+}
+
+.dark .gift-gallery-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+.dark .gift-gallery-btn:hover {
+    background-color: #88A2FF;
+    border-color: #88A2FF;
+    color: #ffffff;
 }
 
 /* Touch devices - remove hover transform */

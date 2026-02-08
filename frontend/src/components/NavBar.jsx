@@ -133,7 +133,7 @@ function NavBar() {
             </NavLink>
           </li>
 
-          {/* Desktop nav links - hidden on mobile */}
+          {/* Desktop nav links - right side */}
           <li className="nav-item-desktop">
             <NavLink to="/birthdays" className="nav-link">
               {t('birthdays')}

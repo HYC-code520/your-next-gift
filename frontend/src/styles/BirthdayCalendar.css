@@ -79,6 +79,15 @@
   font-weight: 600;
 }
 
+.dark .calendar-day.today {
+  background: hsl(210, 20%, 18%);
+  border: 1px solid hsl(210, 15%, 28%);
+}
+
+.dark .calendar-day.today .day-number {
+  color: hsl(210, 25%, 65%);
+}
+
 /* Birthday Indicators */
 .birthday-indicators {
   display: flex;

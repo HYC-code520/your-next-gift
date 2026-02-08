@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import '../styles/LoadingScreen.css';
 
 function LoadingScreen({ isLoading, onComplete }) {
+  const { theme } = useTheme();
   const [progress, setProgress] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
   const startTimeRef = useRef(null);
@@ -91,9 +93,9 @@ function LoadingScreen({ isLoading, onComplete }) {
           <div className="flex flex-col items-center">
             {/* Logo Image */}
             <div className="logo-wrapper">
-              <img 
-                src="/logo-ariel.png" 
-                alt="Made by Ariel" 
+              <img
+                src={theme === 'dark' ? '/logo-ariel-white.png' : '/logo-ariel.png'}
+                alt="Made by Ariel"
                 className="logo-image"
               />
             </div>

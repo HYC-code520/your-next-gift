@@ -5,6 +5,13 @@
     padding: 80px 20px; /* Increased padding for taller height */
 }
 
+/* Home page dark mode: transparent footer */
+.dark body.home-page footer {
+    background-color: transparent !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
 .footer-content {
     max-width: 800px;
     margin: 0 auto;

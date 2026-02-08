@@ -6,8 +6,14 @@
   width: 100%;
   background: hsl(var(--background));
   z-index: 9999;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Home page dark mode: transparent navbar */
+.dark body.home-page .navbar-wrapper {
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Navbar Container */
@@ -28,17 +34,17 @@
   background: transparent;
 }
 
-/* Navbar Links */
+/* Navbar Links - 5-column grid on desktop */
 .navbar-links {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
-  justify-content: space-evenly;
   list-style: none;
   margin: 0 auto;
   padding: 0 1.5rem;
   width: 100%;
   max-width: 1400px;
-  gap: 2rem;
+  position: relative;
 }
 
 .navbar-links li {
@@ -46,13 +52,8 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  flex: 0 0 auto;
 }
 
-/* Make the center item (MADE BY ARIEL) have specific width for the arch */
-.navbar-links li:nth-child(3) {
-  flex: 0 0 auto;
-}
 
 /* Arch text effect for HANDMADE BY ARIEL */
 .nav-link-arch {
@@ -432,6 +433,7 @@
   }
 
   .navbar-links {
+    display: flex;
     justify-content: flex-end;
     gap: 0;
     padding: 0;
@@ -486,6 +488,7 @@
   }
 
   .navbar-links {
+    display: flex;
     justify-content: flex-end;
     gap: 0;
     padding: 0;
