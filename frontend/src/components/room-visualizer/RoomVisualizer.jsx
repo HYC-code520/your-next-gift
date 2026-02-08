@@ -102,7 +102,7 @@ function RoomVisualizer({ isOpen, onClose, projectId, projectName, images }) {
   if (!isOpen) return null;
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-70px)] bg-background">
+    <div className="flex flex-col min-h-[calc(100vh-70px)]">
       {/* Sub-header with steps */}
       <div className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto w-full px-6 flex items-center justify-center py-3 relative">

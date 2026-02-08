@@ -225,12 +225,12 @@ function BirthdayCalendar() {
               {upcomingBirthdays.map(birthday => (
                 <div
                   key={birthday.id}
-                  className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                  className={`group relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium shadow-md ${
                     birthday.daysUntil === 0
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-pink-200 dark:bg-pink-900 text-pink-900 dark:text-pink-100 border-2 border-pink-300 dark:border-pink-700'
                       : birthday.daysUntil <= 7
-                        ? 'bg-primary/10 text-foreground'
-                        : 'bg-muted text-muted-foreground'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100 border-2 border-blue-200 dark:border-blue-700'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-600'
                   }`}
                 >
                   <span className="font-medium">{birthday.name}</span>
