@@ -15,7 +15,7 @@ import AdminDashboard from './components/AdminDashboard'; // Import Admin Dashbo
 import Cart from './components/Cart'; // Import Cart component
 import BirthdayCalendar from './components/BirthdayCalendar'; // Import Birthday Calendar
 import Profile from './components/Profile'; // Import Profile page
-import MyOrders from './components/MyOrders'; // Import My Orders page
+// MyOrders is now merged into Profile page
 import Checkout from './components/Checkout'; // Import Checkout page
 import StyleGuide from './components/StyleGuide'; // Import Style Guide page
 import NotFound from './components/NotFound'; // Import 404 page
@@ -123,8 +123,8 @@ const routes = [
         element: <Profile />
       },
       {
-        path: 'my-orders', // Route for user's orders
-        element: <MyOrders />
+        path: 'my-orders', // Redirect to profile (orders are now in profile)
+        element: <Navigate to="/profile" replace />
       },
       {
         path: 'admin', // Route for admin dashboard (protected)

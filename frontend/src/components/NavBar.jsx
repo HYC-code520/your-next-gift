@@ -143,10 +143,10 @@ function NavBar() {
           {/* Cart and Menu Icons Container - always visible */}
           <li className="nav-item-icons">
             <div className="flex items-center gap-3">
-              {/* Shopping Cart */}
+              {/* Shopping Cart - hidden on mobile, shown in hamburger menu */}
               <NavLink
                 to="/cart"
-                className="relative text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
+                className="nav-icon-desktop relative text-gray-500 hover:text-primary transition-colors flex items-center justify-center"
                 title="View Cart"
               >
                 <ShoppingCart className="w-6 h-6" />
@@ -157,10 +157,10 @@ function NavBar() {
                 )}
               </NavLink>
 
-              {/* Theme Toggle Button */}
+              {/* Theme Toggle Button - hidden on mobile, shown in hamburger menu */}
               <button
                 onClick={toggleTheme}
-                className="flex items-center justify-center text-gray-500 hover:text-primary transition-colors p-1"
+                className="nav-icon-desktop flex items-center justify-center text-gray-500 hover:text-primary transition-colors p-1"
                 title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
               >
                 {theme === 'dark' ? (
@@ -185,149 +185,95 @@ function NavBar() {
                   )}
                 </button>
 
-                {/* Hamburger Dropdown Menu - rendered via portal to avoid z-index issues */}
+                {/* Hamburger Dropdown Menu */}
                 {showHamburgerMenu && createPortal(
                   <div
-                    className="dropdown-menu fixed w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999] dropdown-slide-in"
+                    className="dropdown-menu fixed w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-100 dark:border-gray-800 z-[99999] dropdown-slide-in py-1.5"
                     style={{ top: menuPosition.top, right: menuPosition.right }}
                   >
-
-                    {/* Mobile Navigation Links - only show on mobile */}
-                    <div className="mobile-nav-section py-1 border-b border-gray-200 dark:border-gray-700">
-                      <NavLink
-                        to="/list"
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={() => setShowHamburgerMenu(false)}
-                      >
+                    {/* Navigation */}
+                    <div className="mobile-nav-section">
+                      <NavLink to="/list" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
                         {t('list')}
                       </NavLink>
                       {isAdmin ? (
-                        <NavLink
-                          to="/admin"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                          onClick={() => setShowHamburgerMenu(false)}
-                        >
+                        <NavLink to="/admin" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
                           {t('admin')}
                           {pendingOrdersCount > 0 && (
-                            <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                            <span className="ml-auto bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                               {pendingOrdersCount}
                             </span>
                           )}
                         </NavLink>
                       ) : (
-                        <NavLink
-                          to="/faq"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                          onClick={() => setShowHamburgerMenu(false)}
-                        >
+                        <NavLink to="/faq" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
                           {t('faq')}
                         </NavLink>
                       )}
-                      <NavLink
-                        to="/birthdays"
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={() => setShowHamburgerMenu(false)}
-                      >
+                      <NavLink to="/birthdays" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
                         {t('birthdays')}
                       </NavLink>
                     </div>
 
-                    {/* User Section */}
-                    {user ? (
-                      <>
-                        <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
-                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate mb-0.5">
-                            {user.email}
-                          </p>
-                          {isAdmin && (
-                            <span className="inline-block text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
-                              Admin
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="py-1">
-                          <NavLink
-                            to="/profile"
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                            onClick={() => setShowHamburgerMenu(false)}
-                          >
-                            <User className="w-4 h-4" />
-                            {t('profile')}
-                          </NavLink>
-                          <NavLink
-                            to="/my-orders"
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                            onClick={() => setShowHamburgerMenu(false)}
-                          >
-                            <ShoppingCart className="w-4 h-4" />
-                            {t('myOrders')}
-                          </NavLink>
-                          {isAdmin && (
-                            <NavLink
-                              to="/faq"
-                              className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                              onClick={() => setShowHamburgerMenu(false)}
-                            >
-                              <HelpCircle className="w-4 h-4" />
-                              {t('faq')}
-                            </NavLink>
-                          )}
-                        </div>
-
-                        <div className="border-t border-gray-200 dark:border-gray-700"></div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="py-1">
-                          <NavLink
-                            to="/login"
-                            className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                            onClick={() => setShowHamburgerMenu(false)}
-                          >
-                            <User className="w-4 h-4" />
-                            {t('login')}
-                          </NavLink>
-                        </div>
-                        <div className="border-t border-gray-200 dark:border-gray-700"></div>
-                      </>
-                    )}
-
-                    {/* Language Toggle */}
-                    <div className="py-1">
-                      <button
-                        onClick={() => {
-                          toggleLanguage();
-                          setShowHamburgerMenu(false);
-                        }}
-                        className="w-full flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        <span className="flex items-center gap-2.5">
-                          <Languages className="w-4 h-4" />
-                          {t('language')}
-                        </span>
-                        <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded">
-                          {language === 'en' ? '中文' : 'EN'}
-                        </span>
-                      </button>
+                    {/* Cart (mobile only) */}
+                    <div className="mobile-nav-section">
+                      <NavLink to="/cart" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
+                        <ShoppingCart className="w-3.5 h-3.5" />
+                        {t('cart')}
+                        {cartCount > 0 && (
+                          <span className="ml-auto bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                            {cartCount}
+                          </span>
+                        )}
+                      </NavLink>
                     </div>
 
-                    {/* Logout Button */}
+                    <div className="my-1 border-t border-gray-100 dark:border-gray-800" />
+
+                    {/* Account */}
+                    {user ? (
+                      <>
+                        <NavLink to="/profile" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
+                          <User className="w-3.5 h-3.5" />
+                          {t('profile')}
+                        </NavLink>
+                        {isAdmin && (
+                          <NavLink to="/faq" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
+                            <HelpCircle className="w-3.5 h-3.5" />
+                            {t('faq')}
+                          </NavLink>
+                        )}
+                      </>
+                    ) : (
+                      <NavLink to="/login" className="menu-item" onClick={() => setShowHamburgerMenu(false)}>
+                        <User className="w-3.5 h-3.5" />
+                        {t('login')}
+                      </NavLink>
+                    )}
+
+                    <div className="my-1 border-t border-gray-100 dark:border-gray-800" />
+
+                    {/* Settings */}
+                    <button onClick={() => { toggleTheme(); setShowHamburgerMenu(false); }} className="mobile-nav-section menu-item w-full">
+                      {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                      {theme === 'dark' ? 'Light' : 'Dark'}
+                    </button>
+                    <button onClick={() => { toggleLanguage(); setShowHamburgerMenu(false); }} className="menu-item w-full">
+                      <Languages className="w-3.5 h-3.5" />
+                      {language === 'en' ? '中文' : 'EN'}
+                    </button>
+
+                    {/* Logout */}
                     {user && (
                       <>
-                        <div className="border-t border-gray-200 dark:border-gray-700"></div>
-                        <div className="py-1">
-                          <button
-                            onClick={() => {
-                              setShowHamburgerMenu(false);
-                              handleSignOut();
-                            }}
-                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                          >
-                            <LogOut className="w-4 h-4" />
-                            {t('logout')}
-                          </button>
-                        </div>
+                        <div className="my-1 border-t border-gray-100 dark:border-gray-800" />
+                        <button
+                          onClick={() => { setShowHamburgerMenu(false); handleSignOut(); }}
+                          className="menu-item w-full text-red-500 dark:text-red-400"
+                        >
+                          <LogOut className="w-3.5 h-3.5" />
+                          {t('logout')}
+                        </button>
                       </>
                     )}
                   </div>,

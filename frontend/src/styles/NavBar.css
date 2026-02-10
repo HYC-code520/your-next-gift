@@ -411,6 +411,11 @@
   display: none;
 }
 
+/* Cart/theme icons in navbar - hidden on mobile (moved to hamburger) */
+.nav-icon-desktop {
+  display: flex;
+}
+
 /* Small desktop / large tablet: 901px - 1199px - Center the logo, hide desktop links */
 @media (max-width: 1199px) and (min-width: 901px) {
   /* Hide desktop nav links */
@@ -468,6 +473,11 @@
 @media (max-width: 900px) {
   /* Hide desktop nav links */
   .nav-item-desktop {
+    display: none !important;
+  }
+
+  /* Hide cart/theme icons from navbar - they're in the hamburger menu */
+  .nav-icon-desktop {
     display: none !important;
   }
 
@@ -616,6 +626,34 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+/* Dropdown menu items - clean flat style */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: #374151;
+  transition: background 0.15s;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.dark .menu-item {
+  color: #d1d5db;
+}
+
+.dark .menu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Dropdown slide-in animation */
