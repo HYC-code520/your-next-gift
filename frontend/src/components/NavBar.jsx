@@ -201,13 +201,28 @@ function NavBar() {
                       >
                         {t('list')}
                       </NavLink>
-                      <NavLink
-                        to="/faq"
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        onClick={() => setShowHamburgerMenu(false)}
-                      >
-                        {t('faq')}
-                      </NavLink>
+                      {isAdmin ? (
+                        <NavLink
+                          to="/admin"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={() => setShowHamburgerMenu(false)}
+                        >
+                          {t('admin')}
+                          {pendingOrdersCount > 0 && (
+                            <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                              {pendingOrdersCount}
+                            </span>
+                          )}
+                        </NavLink>
+                      ) : (
+                        <NavLink
+                          to="/faq"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={() => setShowHamburgerMenu(false)}
+                        >
+                          {t('faq')}
+                        </NavLink>
+                      )}
                       <NavLink
                         to="/birthdays"
                         className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
