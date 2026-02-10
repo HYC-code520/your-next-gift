@@ -259,7 +259,6 @@
 @media (max-width: 899px) and (min-width: 768px) {
   .navbar {
     padding: 0 1rem;
-    height: 55px;
   }
   
   .navbar-links {
@@ -296,7 +295,6 @@
 @media (max-width: 767px) and (min-width: 576px) {
   .navbar {
     padding: 0 0.8rem;
-    height: 50px;
   }
   
   .navbar-links {
@@ -333,7 +331,6 @@
 @media (max-width: 575px) and (min-width: 480px) {
   .navbar {
     padding: 0 0.5rem;
-    height: 48px;
   }
   
   .navbar-links {
@@ -370,7 +367,6 @@
 @media (max-width: 479px) {
   .navbar {
     padding: 0 0.3rem;
-    height: 45px;
     flex-wrap: nowrap;
     overflow-x: auto;
   }
@@ -451,12 +447,12 @@
   }
 
   .arch-svg {
-    width: 240px;
-    height: 50px;
+    width: 280px;
+    height: 55px;
   }
 
   .arch-text-svg {
-    font-size: 22px;
+    font-size: 26px;
   }
 
   /* Icons container - right side */
@@ -482,7 +478,6 @@
 
   /* Adjust navbar layout for mobile */
   .navbar {
-    height: 60px;
     padding: 0 1rem;
     position: relative;
   }
@@ -506,12 +501,12 @@
   }
 
   .arch-svg {
-    width: 200px;
-    height: 45px;
+    width: 280px;
+    height: 55px;
   }
 
   .arch-text-svg {
-    font-size: 20px;
+    font-size: 26px;
   }
 
   /* Icons container - right side */
@@ -526,17 +521,16 @@
 /* Small tablets and large phones */
 @media (max-width: 600px) {
   .navbar {
-    height: 55px;
     padding: 0 0.75rem;
   }
 
   .arch-svg {
-    width: 160px;
-    height: 40px;
+    width: 280px;
+    height: 55px;
   }
 
   .arch-text-svg {
-    font-size: 17px;
+    font-size: 26px;
   }
 
   .nav-item-icons .flex {
@@ -547,17 +541,16 @@
 /* Small phones */
 @media (max-width: 400px) {
   .navbar {
-    height: 50px;
     padding: 0 0.5rem;
   }
 
   .arch-svg {
-    width: 140px;
-    height: 35px;
+    width: 280px;
+    height: 55px;
   }
 
   .arch-text-svg {
-    font-size: 15px;
+    font-size: 26px;
   }
 
   .nav-item-icons .flex {
@@ -655,19 +648,12 @@
 
 @media (max-width: 900px) {
   .dropdown-menu {
-    top: 65px; /* navbar height (60px) + 5px */
-  }
-}
-
-@media (max-width: 600px) {
-  .dropdown-menu {
-    top: 60px; /* navbar height (55px) + 5px */
+    top: 75px; /* navbar height (70px) + 5px */
   }
 }
 
 @media (max-width: 400px) {
   .dropdown-menu {
-    top: 55px; /* navbar height (50px) + 5px */
     right: 0.5rem;
     width: calc(100vw - 1rem);
     max-width: 280px;

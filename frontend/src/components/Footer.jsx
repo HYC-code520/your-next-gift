@@ -6,14 +6,12 @@ function Footer({ isHomePage }) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={`${isHomePage ? 'footer-home z-[3] dark:text-white' : 'relative z-[1]'} bg-white/20 dark:bg-white/[0.08] backdrop-blur-md`}>
-      <div className="max-w-[1400px] mx-auto px-6 py-4">
-        <p className={`text-sm flex items-center justify-center gap-1 ${isHomePage ? 'text-muted-foreground dark:text-white' : 'text-muted-foreground'}`}>
-          © {currentYear} Made with
-          <Heart className="w-3.5 h-3.5 text-pink-400 fill-pink-400" />
-          {language === 'en' ? 'by Ariel' : '由 Ariel'}
-        </p>
-      </div>
+    <footer className={`${isHomePage ? 'footer-home z-[3]' : 'relative z-[1]'} py-3`}>
+      <p className="text-xs flex items-center justify-center gap-1 text-black/40 dark:text-white/40">
+        © {currentYear} Made with
+        <Heart className="w-3 h-3 text-pink-400/60 fill-pink-400/60" />
+        {language === 'en' ? 'by Ariel' : '由 Ariel'}
+      </p>
     </footer>
   );
 }
