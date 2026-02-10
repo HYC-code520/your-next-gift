@@ -222,7 +222,7 @@ body.home-page {
         height: calc(100vh - 130px);
         height: calc(100dvh - 130px);
         justify-content: flex-start;
-        padding-top: 18dvh;
+        padding-top: 10dvh;
     }
 
     .slide-content {
@@ -232,6 +232,13 @@ body.home-page {
     .gift-gallery-btn {
         padding: 14px 28px;
     }
+
+    .footer-home {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
 }
 
 /* Mobile */
@@ -240,7 +247,7 @@ body.home-page {
         height: calc(100vh - 115px);
         height: calc(100dvh - 115px);
         justify-content: flex-start;
-        padding-top: 15dvh;
+        padding-top: 6dvh;
     }
 
     .slide-content {

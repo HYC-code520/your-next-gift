@@ -6,7 +6,7 @@ function Footer({ isHomePage }) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={`relative ${isHomePage ? 'z-[3] dark:text-white' : 'z-[1]'} bg-white/20 dark:bg-white/[0.08] backdrop-blur-md`}>
+    <footer className={`${isHomePage ? 'footer-home z-[3] dark:text-white' : 'relative z-[1]'} bg-white/20 dark:bg-white/[0.08] backdrop-blur-md`}>
       <div className="max-w-[1400px] mx-auto px-6 py-4">
         <p className={`text-sm flex items-center justify-center gap-1 ${isHomePage ? 'text-muted-foreground dark:text-white' : 'text-muted-foreground'}`}>
           © {currentYear} Made with
