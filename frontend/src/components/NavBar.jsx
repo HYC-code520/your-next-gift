@@ -188,7 +188,7 @@ function NavBar() {
                 {/* Hamburger Dropdown Menu - rendered via portal to avoid z-index issues */}
                 {showHamburgerMenu && createPortal(
                   <div
-                    className="dropdown-menu fixed w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999]"
+                    className="dropdown-menu fixed w-56 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-[99999] dropdown-slide-in"
                     style={{ top: menuPosition.top, right: menuPosition.right }}
                   >
 

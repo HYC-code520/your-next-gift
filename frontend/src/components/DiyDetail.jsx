@@ -10,6 +10,13 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import '../styles/DiyDetail.css';
 
+function isLightColor(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 > 180;
+}
+
 const RoomVisualizer = lazy(() =>
   import('./room-visualizer/RoomVisualizer').catch(() => {
     // Chunk may be stale after a new deployment — reload to get fresh assets
@@ -167,8 +174,8 @@ function DiyDetail() {
     );
   }
 
-  // Preset color options (popular choices)
-  const presetColors = [
+  // Default color palette (used when project has no custom colors configured)
+  const defaultColors = [
     { name: 'Periwinkle', hex: '#9BA8E5' },
     { name: 'Lime', hex: '#E2EDA3' },
     { name: 'Navy', hex: '#2A3362' },
@@ -178,6 +185,12 @@ function DiyDetail() {
     { name: 'White', hex: '#FFFFFF' },
     { name: 'Black', hex: '#000000' },
   ];
+
+  // Color options from DB: null = default, [] = hidden, [...] = custom
+  const hideColors = Array.isArray(project.colorOptions) && project.colorOptions.length === 0;
+  const presetColors = (Array.isArray(project.colorOptions) && project.colorOptions.length > 0)
+    ? project.colorOptions
+    : defaultColors;
 
   // Size options
   const sizeOptions = ['Small', 'Medium', 'Large', 'Custom'];
@@ -424,8 +437,14 @@ function DiyDetail() {
                 <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
 
                 <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                  <div>
+                  <div className="relative group inline-flex items-center gap-1 cursor-default">
                     <span className="font-semibold">Time:</span> {project.estimatedTime}
+                    <Info className="w-3 h-3 text-muted-foreground" />
+                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs font-normal text-white bg-gray-800 dark:bg-gray-700 rounded-lg w-48 text-center opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50">
+                      {language === 'en'
+                        ? 'This is the longest estimate during high demand. It\'s usually shorter!'
+                        : '這是高需求時的最長估計時間，通常會更快完成！'}
+                    </span>
                   </div>
                   {project.materials && (
                     <div>
@@ -514,7 +533,7 @@ function DiyDetail() {
                 )}
 
                 {/* Color Selection */}
-                <div>
+                {!hideColors && <div>
                   <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
                     <Palette className="w-3.5 h-3.5" />
                     Colors
@@ -536,9 +555,7 @@ function DiyDetail() {
                       >
                         {customization.colors.includes(color.hex) && (
                           <Check className={`absolute inset-0 m-auto w-3.5 h-3.5 drop-shadow-lg ${
-                            ['#FFFFFF', '#E2EDA3', '#CCE5FF', '#98FF98', '#FFCBA4'].includes(color.hex)
-                              ? 'text-gray-700'
-                              : 'text-white'
+                            isLightColor(color.hex) ? 'text-gray-700' : 'text-white'
                           }`} />
                         )}
                       </button>
@@ -621,7 +638,7 @@ function DiyDetail() {
                       </div>
                     </div>
                   )}
-                </div>
+                </div>}
 
                 {/* Size Selection */}
                 <div>

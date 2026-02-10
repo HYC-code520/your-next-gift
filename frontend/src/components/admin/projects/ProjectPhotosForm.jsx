@@ -18,7 +18,7 @@ function ProjectPhotosForm({ formData, setFormData, onFileUpload }) {
             onChange={onFileUpload}
             className="hidden"
           />
-          <div className="w-full px-6 py-4 bg-gradient-to-r from-[#CCE5FF] to-[#E5D4FF] text-gray-900 rounded-xl cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all text-center font-semibold flex items-center justify-center gap-3">
+          <div className="w-full px-6 py-4 bg-gradient-to-r from-[#CCE5FF] to-[#E5D4FF] dark:from-[#2A3362] dark:to-[#3D2B5A] text-foreground rounded-xl cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all text-center font-semibold flex items-center justify-center gap-3">
             <Upload className="w-5 h-5" />
             Upload Photo
           </div>
@@ -32,7 +32,7 @@ function ProjectPhotosForm({ formData, setFormData, onFileUpload }) {
 
       {/* Photo Gallery */}
       {formData.images && formData.images.length > 0 && (
-        <PhotoGallery images={formData.images} setFormData={setFormData} formData={formData} />
+        <PhotoGallery images={formData.images} setFormData={setFormData} />
       )}
     </div>
   );

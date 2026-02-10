@@ -50,6 +50,13 @@ body.home-page {
     height: auto;
     pointer-events: none;
     z-index: 2;
+    transform: translateY(0);
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.bg-animation-top.bg-hidden {
+    transform: translateY(100%);
 }
 
 .slide-content {
@@ -71,6 +78,16 @@ body.home-page {
     height: auto;
     margin-bottom: 1.5rem;
     pointer-events: none;
+    animation: slideUpIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes slideUpIn {
+    from {
+        transform: translateY(40px);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .dark .home-title-img {
@@ -115,6 +132,11 @@ body.home-page {
     border-color: #88A2FF;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(136, 162, 255, 0.4);
+}
+
+.gift-gallery-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .dark .gift-gallery-btn {

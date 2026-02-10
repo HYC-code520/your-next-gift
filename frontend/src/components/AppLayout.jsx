@@ -15,6 +15,8 @@ function AppLayout() {
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [shouldFadeIn, setShouldFadeIn] = useState(false);
+  const [bgIsHomePage, setBgIsHomePage] = useState(true);
+  const [showDelayedLoading, setShowDelayedLoading] = useState(false);
   const location = useLocation();
 
   // Fetch DIY projects on initial load
@@ -44,6 +46,7 @@ function AppLayout() {
           estimatedTime: project.estimated_time,
           images: project.images,
           categories: project.categories || [],
+          colorOptions: project.color_options ?? null,
         }));
         setDiyProjects(transformedData);
       }
@@ -63,23 +66,68 @@ function AppLayout() {
     window.scrollTo(0, 0);
 
     if (!isInitialLoad) {
-      // Immediately set transitioning state before paint
+      const leavingHome = bgIsHomePage && location.pathname !== '/';
+
+      // Immediately: hide content
       setIsPageTransitioning(true);
       setShouldFadeIn(false);
 
-      // Loading animation for page transitions (1 second)
-      const timer = setTimeout(() => {
-        setIsPageTransitioning(false);
-        // Trigger fade-in immediately when loading screen exits
-        setTimeout(() => setShouldFadeIn(true), 50);
-      }, 1000);
+      if (leavingHome) {
+        // Home → other page: GIF slides down, loading screen overlaps
+        setBgIsHomePage(false);
 
-      return () => clearTimeout(timer);
+        const loadingDelay = setTimeout(() => {
+          setShowDelayedLoading(true);
+        }, 300);
+
+        const timer = setTimeout(() => {
+          setIsPageTransitioning(false);
+          setShowDelayedLoading(false);
+          setTimeout(() => setShouldFadeIn(true), 50);
+        }, 800);
+
+        return () => {
+          clearTimeout(loadingDelay);
+          clearTimeout(timer);
+        };
+      } else if (location.pathname === '/') {
+        // Other page → home: loading screen first, GIF slides up as it exits
+        setShowDelayedLoading(true);
+
+        const bgTimer = setTimeout(() => {
+          setBgIsHomePage(true);
+        }, 400);
+
+        const timer = setTimeout(() => {
+          setIsPageTransitioning(false);
+          setShowDelayedLoading(false);
+          setTimeout(() => setShouldFadeIn(true), 50);
+        }, 600);
+
+        return () => {
+          clearTimeout(bgTimer);
+          clearTimeout(timer);
+        };
+      } else {
+        // All other transitions: quick loading screen
+        setBgIsHomePage(false);
+        setShowDelayedLoading(true);
+
+        const timer = setTimeout(() => {
+          setIsPageTransitioning(false);
+          setShowDelayedLoading(false);
+          setTimeout(() => setShouldFadeIn(true), 50);
+        }, 400);
+
+        return () => clearTimeout(timer);
+      }
+    } else {
+      setBgIsHomePage(location.pathname === '/');
     }
   }, [location.pathname, isInitialLoad]);
 
   const isHomePage = location.pathname === '/';
-  const showLoadingScreen = isLoading || isPageTransitioning;
+  const showLoadingScreen = isLoading || showDelayedLoading;
 
   return (
     <>
@@ -90,15 +138,13 @@ function AppLayout() {
         <img
           src={bgUnderLayer}
           alt=""
-          className={`global-bg-under-layer${!isHomePage ? ' bg-faded' : ''}`}
+          className={`global-bg-under-layer${!bgIsHomePage ? ' bg-faded' : ''}`}
         />
-        {isHomePage && (
-          <img
-            src={bgAnimationTop}
-            alt=""
-            className="bg-animation-top"
-          />
-        )}
+        <img
+          src={bgAnimationTop}
+          alt=""
+          className={`bg-animation-top${!bgIsHomePage ? ' bg-hidden' : ''}`}
+        />
         {/* <AnnouncementBar /> */}
         <NavBar />
         <div
@@ -106,8 +152,8 @@ function AppLayout() {
           style={{
             visibility: (isPageTransitioning || isLoading) ? 'hidden' : 'visible',
             opacity: shouldFadeIn ? 1 : 0,
-            transform: shouldFadeIn ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+            transform: shouldFadeIn ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             position: 'relative',
             zIndex: 1
           }}

@@ -42,7 +42,7 @@ function DiyList() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={language === 'en' ? 'Search projects...' : '搜尋專案...'}
-                className="w-full pl-12 pr-10 py-3 bg-card/60 backdrop-blur-md border border-border rounded-full text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
+                className="w-full pl-12 pr-10 py-3 bg-card/60 backdrop-blur-md border-2 border-border rounded-full text-sm focus:border-primary focus:shadow-[0_0_0_3px_hsl(var(--primary)/0.2)] transition-all duration-300 placeholder:text-muted-foreground outline-none"
               />
               {searchQuery && (
                 <button
@@ -94,8 +94,8 @@ function DiyList() {
 
         {/* Exactly 3 cards per row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredProjects.map((diyProject) => (
-            <DiyCard key={diyProject.id} diyProjectDetails={diyProject} />
+          {filteredProjects.map((diyProject, index) => (
+            <DiyCard key={diyProject.id} diyProjectDetails={diyProject} index={index} />
           ))}
         </div>
 

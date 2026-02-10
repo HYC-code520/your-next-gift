@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useLanguage } from '../../context/LanguageContext';
+import { useToast } from '../../context/ToastContext';
 import { AlertCircle, CheckCircle, XCircle, User, Mail, MessageSquare } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 function AdditionalRequestsManager() {
   const { t } = useLanguage();
+  const { showToast } = useToast();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -82,11 +84,11 @@ function AdditionalRequestsManager() {
 
       if (error) throw error;
       
-      alert(t('requestApproved'));
+      showToast(t('requestApproved'));
       fetchAdditionalRequests();
     } catch (error) {
       console.error('Error approving request:', error);
-      alert('Error approving request');
+      showToast('Error approving request', 'error');
     }
   };
 
@@ -100,11 +102,11 @@ function AdditionalRequestsManager() {
 
       if (error) throw error;
       
-      alert(t('requestRejected'));
+      showToast(t('requestRejected'));
       fetchAdditionalRequests();
     } catch (error) {
       console.error('Error rejecting request:', error);
-      alert('Error rejecting request');
+      showToast('Error rejecting request', 'error');
     }
   };
 

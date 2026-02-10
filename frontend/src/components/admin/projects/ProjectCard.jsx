@@ -36,6 +36,11 @@ function ProjectCard({ project, onEdit, onDelete }) {
           <div>
             <span className="font-medium">Time:</span> {project.estimated_time}
           </div>
+          {project.materials && project.materials.length > 0 && project.materials[0] !== '' && (
+            <div>
+              <span className="font-medium">Materials:</span> {project.materials.join(', ')}
+            </div>
+          )}
           {project.categories && project.categories.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {project.categories.map((cat, i) => (

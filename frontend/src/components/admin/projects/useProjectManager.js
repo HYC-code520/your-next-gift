@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
+import { useToast } from '../../../context/ToastContext';
 
 export function useProjectManager() {
+  const { showToast } = useToast();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingProject, setEditingProject] = useState(null);
@@ -13,7 +15,8 @@ export function useProjectManager() {
     materials: [],
     estimated_time: '',
     categories: [],
-    images: []
+    images: [],
+    color_options: null
   });
 
   useEffect(() => {
@@ -45,7 +48,8 @@ export function useProjectManager() {
       materials: project.materials || [],
       estimated_time: project.estimated_time,
       categories: project.categories || [],
-      images: project.images || []
+      images: project.images || [],
+      color_options: project.color_options ?? null
     });
     setIsAdding(false);
     setShowModal(true);
@@ -61,7 +65,8 @@ export function useProjectManager() {
       materials: [],
       estimated_time: '',
       categories: [],
-      images: []
+      images: [],
+      color_options: null
     });
     setShowModal(true);
     console.log('✅ Modal should be showing now');
@@ -77,7 +82,8 @@ export function useProjectManager() {
       materials: [],
       estimated_time: '',
       categories: [],
-      images: []
+      images: [],
+      color_options: null
     });
   };
 
@@ -90,21 +96,21 @@ export function useProjectManager() {
           .eq('id', editingProject);
 
         if (error) throw error;
-        alert('Project updated successfully!');
+        showToast('Project updated successfully!');
       } else {
         const { error } = await supabase
           .from('diy_projects')
           .insert([formData]);
 
         if (error) throw error;
-        alert('Project added successfully!');
+        showToast('Project added successfully!');
       }
 
       handleCancel();
       fetchProjects();
     } catch (error) {
       console.error('Error saving project:', error);
-      alert('Error saving project');
+      showToast('Error saving project', 'error');
     }
   };
 
@@ -119,11 +125,11 @@ export function useProjectManager() {
 
       if (error) throw error;
       
-      alert('Project deleted successfully!');
+      showToast('Project deleted successfully!');
       fetchProjects();
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('Error deleting project');
+      showToast('Error deleting project', 'error');
     }
   };
 
@@ -132,12 +138,12 @@ export function useProjectManager() {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file');
+      showToast('Please upload an image file', 'warning');
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
+      showToast('File size must be less than 5MB', 'warning');
       return;
     }
 
@@ -152,7 +158,7 @@ export function useProjectManager() {
 
       if (error) {
         console.error('Upload error:', error);
-        alert('Error uploading file: ' + error.message);
+        showToast('Error uploading file: ' + error.message, 'error');
         return;
       }
 
@@ -165,10 +171,10 @@ export function useProjectManager() {
         images: [...(formData.images || []), publicUrl]
       });
 
-      alert('Photo uploaded successfully!');
+      showToast('Photo uploaded successfully!');
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Error uploading file');
+      showToast('Error uploading file', 'error');
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import '../styles/LoadingScreen.css';
 
@@ -10,6 +10,14 @@ function LoadingScreen({ isLoading, onComplete }) {
   const intervalRef = useRef(null);
   const isAnimatingRef = useRef(false);
 
+  // Sync visibility immediately when loading starts (before paint)
+  useLayoutEffect(() => {
+    if (isLoading) {
+      setIsVisible(true);
+      setProgress(1);
+    }
+  }, [isLoading]);
+
   useEffect(() => {
     if (!isLoading) {
       // Stop any running animation
@@ -18,34 +26,31 @@ function LoadingScreen({ isLoading, onComplete }) {
         intervalRef.current = null;
       }
       isAnimatingRef.current = false;
-      
+
       // Complete the progress bar to 100%
       setProgress(100);
-      
-      // Hold at 100% for 300ms so user sees completion, then fade out over 400ms
+
+      // Brief hold at 100%, then fade out
       const timer = setTimeout(() => {
         setIsVisible(false);
         if (onComplete) onComplete();
-      }, 700);
-      
+      }, 200);
+
       return () => clearTimeout(timer);
     } else if (!isAnimatingRef.current) {
       // Only start animation if not already animating
       isAnimatingRef.current = true;
-      
-      // Reset when loading starts
-      setIsVisible(true);
-      setProgress(1);
+
       startTimeRef.current = Date.now();
-      
+
       // SUPER fast from 1-95%, then slow down dramatically at 95-98%
       intervalRef.current = setInterval(() => {
         setProgress(prev => {
           if (prev >= 98) return prev; // Stop at 98%, wait for actual load
-          
+
           // Calculate time elapsed (in seconds)
           const elapsed = (Date.now() - startTimeRef.current) / 1000;
-          
+
           let targetProgress;
           if (elapsed < 0.4) {
             // SUPER FAST: reach 95% in just 0.4 seconds (was 0.7)
@@ -55,13 +60,13 @@ function LoadingScreen({ isLoading, onComplete }) {
             const slowElapsed = elapsed - 0.4;
             targetProgress = 95 + (3 * (1 - Math.exp(-slowElapsed / 0.6)));
           }
-          
+
           // Smoothly move towards target
           const speed = prev < 95 ? 0.5 : 0.05; // Even faster until 95%, then very slow
           return Math.min(prev + (targetProgress - prev) * speed, 98);
         });
       }, 40); // Update every 40ms for smooth animation
-      
+
       return () => {
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
@@ -71,7 +76,8 @@ function LoadingScreen({ isLoading, onComplete }) {
     }
   }, [isLoading, onComplete]);
 
-  if (!isVisible) return null;
+  // Stay mounted while loading OR while exit animation plays
+  if (!isVisible && !isLoading) return null;
 
   return (
     <div className={`load-in-screen ${!isLoading ? 'load-in-screen-exit' : ''}`}>

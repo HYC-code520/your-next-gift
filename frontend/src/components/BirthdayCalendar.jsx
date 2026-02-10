@@ -212,9 +212,11 @@ function BirthdayCalendar() {
 
   const upcomingBirthdays = getUpcomingBirthdays();
 
+  if (loading) return null;
+
   return (
     <div className="flex-1 pt-8">
-      
+
       <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Upcoming Birthdays Section */}
@@ -331,13 +333,7 @@ function BirthdayCalendar() {
         )}
 
         {/* Calendar */}
-        {loading ? (
-          <div className="text-center py-20">
-            <CalendarIcon className="w-16 h-16 mx-auto mb-4 animate-pulse text-primary" />
-            <p className="text-muted-foreground">Loading birthdays...</p>
-          </div>
-        ) : (
-          <Card>
+        <Card>
             <CardHeader>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <CardTitle className="text-2xl">
@@ -390,7 +386,6 @@ function BirthdayCalendar() {
               </div>
             </CardContent>
           </Card>
-        )}
 
       </div>
     </div>

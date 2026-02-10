@@ -36,7 +36,7 @@ const localImageMap = {
   '28': ['/images/custom-pet-inscense-stick-holder-01.PNG', '/images/custom-pet-inscense-stick-holder-02.PNG'],
 };
 
-function DiyCard({ diyProjectDetails }) {
+function DiyCard({ diyProjectDetails, index = 0 }) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
@@ -113,7 +113,8 @@ function DiyCard({ diyProjectDetails }) {
 
   return (
     <Card 
-      className="overflow-hidden hover:shadow-xl transition-all duration-300 group animate-fade-in border border-border/40 hover:border-primary/30"
+      className="overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-border/40 hover:border-primary/30"
+      style={{ animation: `cardStaggerIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${Math.min(index * 0.06, 0.5)}s both` }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext'; // Authentication context
 import { CartProvider } from './context/CartContext'; // Cart context
 import { ThemeProvider } from './context/ThemeContext'; // Theme context
 import { LanguageProvider } from './context/LanguageContext'; // Language context
+import { ToastProvider } from './context/ToastContext'; // Toast notification context
 
 // Create a router instance using the routes configuration
 const router = createBrowserRouter(routes);
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider> {/* Provides theme toggle context to the app */}
         <AuthProvider> {/* Provides authentication context to the app */}
           <CartProvider> {/* Provides cart context to the app */}
+            <ToastProvider> {/* Provides toast notification context to the app */}
     <RouterProvider router={router} /> {/* Provides routing context to the app */}
+            </ToastProvider>
           </CartProvider>
         </AuthProvider>
       </ThemeProvider>

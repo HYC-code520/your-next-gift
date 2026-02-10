@@ -65,6 +65,7 @@ html {
   object-fit: cover;
   pointer-events: none;
   z-index: 0;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Non-home pages: faded under layer */
