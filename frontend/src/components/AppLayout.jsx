@@ -47,6 +47,7 @@ function AppLayout() {
           images: project.images,
           categories: project.categories || [],
           colorOptions: project.color_options ?? null,
+          showSize: project.show_size ?? true,
         }));
         setDiyProjects(transformedData);
       }

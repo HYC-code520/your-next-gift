@@ -16,7 +16,8 @@ export function useProjectManager() {
     estimated_time: '',
     categories: [],
     images: [],
-    color_options: null
+    color_options: null,
+    show_size: true
   });
 
   useEffect(() => {
@@ -49,7 +50,8 @@ export function useProjectManager() {
       estimated_time: project.estimated_time,
       categories: project.categories || [],
       images: project.images || [],
-      color_options: project.color_options ?? null
+      color_options: project.color_options ?? null,
+      show_size: project.show_size ?? true
     });
     setIsAdding(false);
     setShowModal(true);
@@ -66,7 +68,8 @@ export function useProjectManager() {
       estimated_time: '',
       categories: [],
       images: [],
-      color_options: null
+      color_options: null,
+      show_size: true
     });
     setShowModal(true);
     console.log('✅ Modal should be showing now');
@@ -83,7 +86,8 @@ export function useProjectManager() {
       estimated_time: '',
       categories: [],
       images: [],
-      color_options: null
+      color_options: null,
+      show_size: true
     });
   };
 

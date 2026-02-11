@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Package, Palette, Plus, X } from 'lucide-react';
+import { Package, Palette, Plus, X, Ruler } from 'lucide-react';
 
 const CATEGORY_OPTIONS = ['Wood', 'Bag', 'Pet', 'Photo Frame', 'Decor', 'Bouquet', 'Food', 'Home'];
 
@@ -240,6 +240,35 @@ function ProjectDetailsForm({ formData, setFormData }) {
               </p>
             </div>
           )}
+        </div>
+        {/* Size Selector Toggle */}
+        <div>
+          <label className="block text-sm font-semibold mb-3 text-foreground flex items-center gap-2">
+            <Ruler className="w-4 h-4" />
+            Size Selector
+          </label>
+          <div className="flex gap-2">
+            {[
+              { value: true, label: 'Show' },
+              { value: false, label: 'Hide' },
+            ].map(({ value, label }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, show_size: value }))}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  formData.show_size === value
+                    ? 'bg-gradient-to-r from-[#CCE5FF] to-[#E5D4FF] dark:from-[#2A3362] dark:to-[#3D2B5A] text-foreground shadow-md scale-105'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:scale-105'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            {formData.show_size ? 'Users can choose Small, Medium, Large, or Custom.' : 'Size selector will be hidden for this project.'}
+          </p>
         </div>
       </div>
     </div>

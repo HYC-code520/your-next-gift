@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../lib/supabaseClient';
-import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle, ArrowLeft, Gift, LogIn, Heart, Camera, Upload, Loader2, Eye, Info } from 'lucide-react';
+import { ShoppingCart, Check, Palette, Ruler, Type, MessageSquare, Sparkles, Plus, X, RefreshCw, AlertCircle, ArrowLeft, Gift, LogIn, Heart, Camera, Upload, Loader2, Eye, Info, MapPin } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import '../styles/DiyDetail.css';
@@ -80,9 +80,12 @@ function DiyDetail() {
     specialRequests: '',
     petPhotoUrl: '',
     elementsYouLike: '',
-    favoriteStores: '',
+    favoriteStores: [],
     favoriteCharacter: '',
   });
+
+  // Favorite stores input state (project 5)
+  const [newStore, setNewStore] = useState('');
 
   // Pet photo upload state
   const [petPhotoFile, setPetPhotoFile] = useState(null);
@@ -341,7 +344,7 @@ function DiyDetail() {
            customization.personalization ||
            customization.specialRequests ||
            customization.elementsYouLike ||
-           customization.favoriteStores ||
+           customization.favoriteStores.length > 0 ||
            customization.favoriteCharacter ||
            petPhotoPreview;
   };
@@ -647,6 +650,7 @@ function DiyDetail() {
                 </div>}
 
                 {/* Size Selection */}
+                {project.showSize !== false && (
                 <div>
                   <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
                     <Ruler className="w-3.5 h-3.5" />
@@ -668,8 +672,88 @@ function DiyDetail() {
                     ))}
                   </div>
                 </div>
+                )}
 
-                {/* Personalization */}
+                {/* Personalization / Favorite Stores */}
+                {id === '5' ? (
+                <div>
+                  <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {language === 'en' ? 'Your Favorite Places' : '你最愛的店'}
+                  </label>
+                  <p className="text-[10px] text-muted-foreground mb-2">
+                    {language === 'en'
+                      ? 'Add stores, restaurants, bubble tea shops, etc. Paste a Google Maps link or type the full name & location.'
+                      : '新增餐廳、飲料店等。可貼上 Google Maps 連結或輸入完整店名和地點。'}
+                  </p>
+                  {/* Added places */}
+                  {customization.favoriteStores.length > 0 && (
+                    <div className="flex flex-col gap-1.5 mb-2">
+                      {customization.favoriteStores.map((store, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-background border border-border text-xs"
+                        >
+                          <MapPin className="w-3 h-3 text-muted-foreground shrink-0" />
+                          <span className="flex-1 break-all">{store}</span>
+                          <button
+                            type="button"
+                            onClick={() => setCustomization(prev => ({
+                              ...prev,
+                              favoriteStores: prev.favoriteStores.filter((_, i) => i !== index)
+                            }))}
+                            className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Add new place (max 5) */}
+                  {customization.favoriteStores.length < 5 ? (
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      type="text"
+                      value={newStore}
+                      onChange={(e) => setNewStore(e.target.value)}
+                      placeholder={language === 'en' ? 'Store name or Google Maps link...' : '店名或 Google Maps 連結⋯'}
+                      className="flex-1 px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && newStore.trim() && customization.favoriteStores.length < 5) {
+                          e.preventDefault();
+                          setCustomization(prev => ({
+                            ...prev,
+                            favoriteStores: [...prev.favoriteStores, newStore.trim()]
+                          }));
+                          setNewStore('');
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!newStore.trim()) return;
+                        setCustomization(prev => ({
+                          ...prev,
+                          favoriteStores: [...prev.favoriteStores, newStore.trim()]
+                        }));
+                        setNewStore('');
+                      }}
+                      disabled={!newStore.trim()}
+                      className="px-2 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+                    >
+                      <Plus className="w-3 h-3" />
+                      {language === 'en' ? 'Add' : '加'}
+                    </button>
+                  </div>
+                  ) : (
+                  <p className="text-[10px] text-muted-foreground">
+                    {language === 'en' ? 'Maximum 5 places added.' : '最多可新增 5 個地點。'}
+                  </p>
+                  )}
+                </div>
+                ) : (
                 <div>
                   <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
                     <Type className="w-3.5 h-3.5" />
@@ -687,6 +771,7 @@ function DiyDetail() {
                     maxLength={50}
                   />
                 </div>
+                )}
 
                 {/* Elements You Like - Project 23 (Always With You Double Frame) */}
                 {id === '23' && (
