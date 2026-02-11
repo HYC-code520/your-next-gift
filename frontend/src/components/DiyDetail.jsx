@@ -78,7 +78,10 @@ function DiyDetail() {
     size: '',
     personalization: '',
     specialRequests: '',
-    petPhotoUrl: ''
+    petPhotoUrl: '',
+    elementsYouLike: '',
+    favoriteStores: '',
+    favoriteCharacter: '',
   });
 
   // Pet photo upload state
@@ -337,6 +340,9 @@ function DiyDetail() {
            customization.size ||
            customization.personalization ||
            customization.specialRequests ||
+           customization.elementsYouLike ||
+           customization.favoriteStores ||
+           customization.favoriteCharacter ||
            petPhotoPreview;
   };
 
@@ -681,6 +687,54 @@ function DiyDetail() {
                     maxLength={50}
                   />
                 </div>
+
+                {/* Elements You Like - Project 23 (Always With You Double Frame) */}
+                {id === '23' && (
+                  <div>
+                    <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      {language === 'en' ? 'Elements You Like' : '你喜歡的元素'}
+                    </label>
+                    <textarea
+                      value={customization.elementsYouLike}
+                      onChange={(e) => setCustomization(prev => ({
+                        ...prev,
+                        elementsYouLike: e.target.value
+                      }))}
+                      placeholder={language === 'en' ? 'e.g. I like pugs, New York elements, cats, cherry blossoms...' : '例如：我喜歡巴哥犬、紐約元素、貓咪、櫻花...'}
+                      className="w-full px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none text-xs"
+                      rows="2"
+                      maxLength={300}
+                    />
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {language === 'en' ? 'Tell me what elements or themes you\'d like on the frame!' : '告訴我你希望框架上有什麼元素或主題！'}
+                    </p>
+                  </div>
+                )}
+
+                {/* Favorite Character - Projects 12 (Ah-Dai Pen Holder) & 20 (Chiikawa Frame) */}
+                {(id === '12' || id === '18' || id === '20') && (
+                  <div>
+                    <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
+                      <Heart className="w-3.5 h-3.5" />
+                      {language === 'en' ? 'Favorite Character' : '喜歡的卡通角色'}
+                    </label>
+                    <input
+                      type="text"
+                      value={customization.favoriteCharacter}
+                      onChange={(e) => setCustomization(prev => ({
+                        ...prev,
+                        favoriteCharacter: e.target.value
+                      }))}
+                      placeholder={language === 'en' ? 'e.g. Chiikawa, Hachiware, Usagi...' : '例如：吉伊卡哇、小八、兔兔...'}
+                      className="w-full px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs"
+                      maxLength={100}
+                    />
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {language === 'en' ? 'Which cartoon character would you like?' : '你想要哪個卡通角色呢？'}
+                    </p>
+                  </div>
+                )}
 
                 {/* Special Requests */}
                 <div>

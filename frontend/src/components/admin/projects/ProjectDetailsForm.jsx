@@ -18,8 +18,9 @@ function getColorMode(colorOptions) {
 function ProjectDetailsForm({ formData, setFormData }) {
   const [newColorName, setNewColorName] = useState('');
   const [newColorHex, setNewColorHex] = useState('#9BA8E5');
+  const [colorModeOverride, setColorModeOverride] = useState(null);
 
-  const colorMode = getColorMode(formData.color_options);
+  const colorMode = colorModeOverride ?? getColorMode(formData.color_options);
 
   const handleCategoryToggle = (category) => {
     setFormData(prev => ({
@@ -31,6 +32,7 @@ function ProjectDetailsForm({ formData, setFormData }) {
   };
 
   const handleColorModeChange = (mode) => {
+    setColorModeOverride(mode);
     setFormData(prev => ({
       ...prev,
       color_options: mode === COLOR_MODES.DEFAULT ? null
