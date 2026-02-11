@@ -80,6 +80,7 @@ function DiyDetail() {
     specialRequests: '',
     petPhotoUrl: '',
     elementsYouLike: '',
+    customSize: '',
     favoriteStores: [],
     favoriteCharacter: '',
   });
@@ -198,8 +199,12 @@ function DiyDetail() {
     ? project.colorOptions
     : defaultColors;
 
-  // Size options
-  const sizeOptions = ['Small', 'Medium', 'Large', 'Custom'];
+  // Size options — derived from admin config
+  const defaultSizes = ['Small', 'Medium', 'Large', 'Custom'];
+  const hideSizes = Array.isArray(project.sizeOptions) && project.sizeOptions.length === 0;
+  const sizeOptions = (Array.isArray(project.sizeOptions) && project.sizeOptions.length > 0)
+    ? project.sizeOptions
+    : defaultSizes;
 
   // Toggle a color (add/remove from selection)
   const handleColorToggle = (hex) => {
@@ -341,6 +346,7 @@ function DiyDetail() {
   const hasCustomization = () => {
     return customization.colors.length > 0 ||
            customization.size ||
+           customization.customSize ||
            customization.personalization ||
            customization.specialRequests ||
            customization.elementsYouLike ||
@@ -650,17 +656,21 @@ function DiyDetail() {
                 </div>}
 
                 {/* Size Selection */}
-                {project.showSize !== false && (
+                {!hideSizes && (
                 <div>
                   <label className="flex items-center gap-2 text-xs font-semibold mb-1.5">
                     <Ruler className="w-3.5 h-3.5" />
                     Size
                   </label>
-                  <div className="grid grid-cols-4 gap-1.5">
+                  <div className={`grid gap-1.5`} style={{ gridTemplateColumns: `repeat(${Math.min(sizeOptions.length, 4)}, 1fr)` }}>
                     {sizeOptions.map((size) => (
                       <button
                         key={size}
-                        onClick={() => setCustomization(prev => ({ ...prev, size }))}
+                        onClick={() => setCustomization(prev => ({
+                          ...prev,
+                          size,
+                          customSize: size === 'Custom' ? prev.customSize : ''
+                        }))}
                         className={`px-2 py-1.5 rounded-lg border-2 font-medium transition-all text-xs ${
                           customization.size === size
                             ? 'border-primary bg-primary/10 text-primary'
@@ -671,6 +681,19 @@ function DiyDetail() {
                       </button>
                     ))}
                   </div>
+                  {customization.size === 'Custom' && (
+                    <input
+                      type="text"
+                      value={customization.customSize || ''}
+                      onChange={(e) => setCustomization(prev => ({
+                        ...prev,
+                        customSize: e.target.value
+                      }))}
+                      placeholder="Enter your dimensions (e.g. 10cm x 15cm)"
+                      className="w-full mt-2 px-2.5 py-1.5 bg-input border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs"
+                      maxLength={50}
+                    />
+                  )}
                 </div>
                 )}
 

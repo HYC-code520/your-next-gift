@@ -17,7 +17,7 @@ export function useProjectManager() {
     categories: [],
     images: [],
     color_options: null,
-    show_size: true
+    size_options: null
   });
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function useProjectManager() {
       categories: project.categories || [],
       images: project.images || [],
       color_options: project.color_options ?? null,
-      show_size: project.show_size ?? true
+      size_options: project.size_options ?? null
     });
     setIsAdding(false);
     setShowModal(true);
@@ -69,7 +69,7 @@ export function useProjectManager() {
       categories: [],
       images: [],
       color_options: null,
-      show_size: true
+      size_options: null
     });
     setShowModal(true);
     console.log('✅ Modal should be showing now');
@@ -87,7 +87,7 @@ export function useProjectManager() {
       categories: [],
       images: [],
       color_options: null,
-      show_size: true
+      size_options: null
     });
   };
 

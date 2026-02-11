@@ -9,18 +9,34 @@ const COLOR_MODES = {
   CUSTOM: 'custom',
 };
 
+const SIZE_MODES = {
+  DEFAULT: 'default',
+  NONE: 'none',
+  CUSTOM: 'custom',
+};
+
+const ALL_SIZE_OPTIONS = ['Small', 'Medium', 'Large', 'Custom'];
+
 function getColorMode(colorOptions) {
   if (colorOptions === null || colorOptions === undefined) return COLOR_MODES.DEFAULT;
   if (Array.isArray(colorOptions) && colorOptions.length === 0) return COLOR_MODES.NONE;
   return COLOR_MODES.CUSTOM;
 }
 
+function getSizeMode(sizeOptions) {
+  if (sizeOptions === null || sizeOptions === undefined) return SIZE_MODES.DEFAULT;
+  if (Array.isArray(sizeOptions) && sizeOptions.length === 0) return SIZE_MODES.NONE;
+  return SIZE_MODES.CUSTOM;
+}
+
 function ProjectDetailsForm({ formData, setFormData }) {
   const [newColorName, setNewColorName] = useState('');
   const [newColorHex, setNewColorHex] = useState('#9BA8E5');
   const [colorModeOverride, setColorModeOverride] = useState(null);
+  const [sizeModeOverride, setSizeModeOverride] = useState(null);
 
   const colorMode = colorModeOverride ?? getColorMode(formData.color_options);
+  const sizeMode = sizeModeOverride ?? getSizeMode(formData.size_options);
 
   const handleCategoryToggle = (category) => {
     setFormData(prev => ({
@@ -241,23 +257,34 @@ function ProjectDetailsForm({ formData, setFormData }) {
             </div>
           )}
         </div>
-        {/* Size Selector Toggle */}
+        {/* Size Options */}
         <div>
           <label className="block text-sm font-semibold mb-3 text-foreground flex items-center gap-2">
             <Ruler className="w-4 h-4" />
-            Size Selector
+            Size Options
           </label>
-          <div className="flex gap-2">
+
+          {/* Mode selector */}
+          <div className="flex gap-2 mb-3">
             {[
-              { value: true, label: 'Show' },
-              { value: false, label: 'Hide' },
-            ].map(({ value, label }) => (
+              { mode: SIZE_MODES.DEFAULT, label: 'Default sizes' },
+              { mode: SIZE_MODES.NONE, label: 'No sizes' },
+              { mode: SIZE_MODES.CUSTOM, label: 'Custom' },
+            ].map(({ mode, label }) => (
               <button
-                key={label}
+                key={mode}
                 type="button"
-                onClick={() => setFormData(prev => ({ ...prev, show_size: value }))}
+                onClick={() => {
+                  setSizeModeOverride(mode);
+                  setFormData(prev => ({
+                    ...prev,
+                    size_options: mode === SIZE_MODES.DEFAULT ? null
+                      : mode === SIZE_MODES.NONE ? []
+                      : prev.size_options && prev.size_options.length > 0 ? prev.size_options : [...ALL_SIZE_OPTIONS]
+                  }));
+                }}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  formData.show_size === value
+                  sizeMode === mode
                     ? 'bg-gradient-to-r from-[#CCE5FF] to-[#E5D4FF] dark:from-[#2A3362] dark:to-[#3D2B5A] text-foreground shadow-md scale-105'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:scale-105'
                 }`}
@@ -266,9 +293,49 @@ function ProjectDetailsForm({ formData, setFormData }) {
               </button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            {formData.show_size ? 'Users can choose Small, Medium, Large, or Custom.' : 'Size selector will be hidden for this project.'}
-          </p>
+
+          {sizeMode === SIZE_MODES.DEFAULT && (
+            <p className="text-xs text-muted-foreground">Users will see Small, Medium, Large, and Custom.</p>
+          )}
+
+          {sizeMode === SIZE_MODES.NONE && (
+            <p className="text-xs text-muted-foreground">Size selector will be hidden for this project.</p>
+          )}
+
+          {sizeMode === SIZE_MODES.CUSTOM && (
+            <div className="space-y-2">
+              <div className="flex flex-wrap gap-2">
+                {ALL_SIZE_OPTIONS.map(size => {
+                  const selected = (formData.size_options || []).includes(size);
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => {
+                        setFormData(prev => {
+                          const current = prev.size_options || [];
+                          const updated = selected
+                            ? current.filter(s => s !== size)
+                            : [...current, size];
+                          return { ...prev, size_options: updated };
+                        });
+                      }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                        selected
+                          ? 'bg-gradient-to-r from-[#CCE5FF] to-[#E5D4FF] dark:from-[#2A3362] dark:to-[#3D2B5A] text-foreground shadow-md scale-105'
+                          : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:scale-105'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Toggle which sizes to show. "Custom" lets users type their own dimensions.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
