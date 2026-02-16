@@ -45,6 +45,7 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const loadingTimerRef = useRef(null);
+  const touchStartRef = useRef(null);
 
   // Fetch likes count
   useEffect(() => {
@@ -62,8 +63,9 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
     fetchLikes();
   }, [diyProjectDetails.id]);
 
-  // Get all images for this project
-  const projectImages = localImageMap[diyProjectDetails.id] || ['/images/placeholder.png'];
+  // Get all images for this project - check local map first, then database images
+  const localImages = localImageMap[diyProjectDetails.id] || [];
+  const projectImages = localImages.length > 0 ? localImages : (diyProjectDetails.images?.length > 0 ? diyProjectDetails.images : ['/images/placeholder.png']);
   const hasMultipleImages = projectImages.length > 1;
   const currentImage = projectImages[currentImageIndex];
 
@@ -81,6 +83,33 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
     loadingTimerRef.current = setTimeout(() => {
       setImageLoading(true);
     }, 100);
+  };
+
+  const goToImage = (newIndex, e) => {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    setCurrentImageIndex(newIndex);
+    loadingTimerRef.current = setTimeout(() => {
+      setImageLoading(true);
+    }, 100);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStartRef.current || !hasMultipleImages) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    // Only swipe if horizontal movement > 30px and greater than vertical (avoid hijacking scroll)
+    if (Math.abs(deltaX) > 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0 && currentImageIndex < projectImages.length - 1) {
+        goToImage(currentImageIndex + 1);
+      } else if (deltaX > 0 && currentImageIndex > 0) {
+        goToImage(currentImageIndex - 1);
+      }
+    }
+    touchStartRef.current = null;
   };
 
   const handleMouseEnter = () => {
@@ -119,7 +148,11 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
       onMouseLeave={handleMouseLeave}
     >
       <Link to={`/list/${diyProjectDetails.id}`}>
-        <div className="relative aspect-square overflow-hidden bg-muted">
+        <div
+          className="relative aspect-square overflow-hidden bg-muted"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Skeleton shimmer loading state */}
           {!imageLoaded && (
             <div className="absolute inset-0 bg-muted z-10">
@@ -144,17 +177,37 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
           {/* Subtle overlay on hover */}
           <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
 
-          {/* Image indicator dots - always visible if multiple images */}
+          {/* Left/right arrow buttons for mobile */}
+          {hasMultipleImages && imageLoaded && currentImageIndex > 0 && (
+            <button
+              onClick={(e) => goToImage(currentImageIndex - 1, e)}
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white md:hidden active:bg-black/50"
+              aria-label="Previous image"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+          )}
+          {hasMultipleImages && imageLoaded && currentImageIndex < projectImages.length - 1 && (
+            <button
+              onClick={(e) => goToImage(currentImageIndex + 1, e)}
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white md:hidden active:bg-black/50"
+              aria-label="Next image"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          )}
+
+          {/* Image indicator dots */}
           {hasMultipleImages && imageLoaded && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
               {projectImages.map((_, index) => (
                 <button
                   key={index}
-                  onClick={(e) => handleDotClick(e, index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  onClick={(e) => goToImage(index, e)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
                     index === currentImageIndex
                       ? 'bg-white w-6'
-                      : 'bg-white/50 hover:bg-white/80'
+                      : 'bg-white/50 hover:bg-white/80 w-2.5'
                   }`}
                   aria-label={`View image ${index + 1}`}
                 />
