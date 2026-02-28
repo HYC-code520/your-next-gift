@@ -8,9 +8,9 @@ function Footer({ isHomePage }) {
   return (
     <footer className={`${isHomePage ? 'footer-home z-[3]' : 'relative z-[1]'} py-3`}>
       <p className="text-xs flex items-center justify-center gap-1 text-black/40 dark:text-white/40">
-        © {currentYear} Made with
+        © {currentYear} {language === 'en' ? 'Made with' : '用'}
         <Heart className="w-3 h-3 text-pink-400/60 fill-pink-400/60" />
-        {language === 'en' ? 'by Ariel' : '由 Ariel'}
+        {language === 'en' ? 'by Ariel' : '由 Ariel 製作'}
       </p>
     </footer>
   );
