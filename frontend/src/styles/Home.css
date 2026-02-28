@@ -259,7 +259,7 @@ body.home-page {
         height: calc(100vh - 115px);
         height: calc(100dvh - 115px);
         justify-content: flex-start;
-        padding-top: 6dvh;
+        padding-top: 48dvh;
     }
 
     .slide-content {
