@@ -175,7 +175,7 @@ function NavBar() {
                 <button
                   ref={menuButtonRef}
                   onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}
-                  className="flex items-center justify-center text-gray-500 hover:text-primary transition-colors p-1"
+                  className="flex items-center justify-center text-gray-500 dark:text-gray-300 hover:text-primary transition-colors p-1"
                   title="Menu"
                 >
                   {showHamburgerMenu ? (
