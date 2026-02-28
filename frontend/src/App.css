@@ -92,3 +92,28 @@ html {
     padding-top: 60px;
   }
 }
+
+/* Mobile home background image - hidden by default */
+.mobile-home-bg {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Hide the original top layer GIF on mobile home page */
+  .bg-animation-top {
+    display: none !important;
+  }
+
+  /* Show the mobile home background image */
+  .mobile-home-bg {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 2;
+  }
+}

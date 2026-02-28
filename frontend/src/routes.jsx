@@ -8,6 +8,7 @@ import Blog from './components/Blog';
 import Home from './components/Home'; // Import the Home component
 import Search from './components/Search';
 import DiyDetail from './components/DiyDetail'; // Import the new DiyDetail component
+import CustomRequest from './components/CustomRequest'; // Import Custom Request page
 import Login from './components/Login'; // Import Login component
 import ForgotPassword from './components/ForgotPassword'; // Import Forgot Password component
 import ResetPassword from './components/ResetPassword'; // Import Reset Password component
@@ -73,6 +74,10 @@ const routes = [
       {
         path: 'list', // Relative path becomes "/list"
         element: <DiyList />, // Route for displaying DIY list
+      },
+      {
+        path: 'list/custom-request', // Custom request page (must be before :id)
+        element: <CustomRequest />,
       },
       {
         path: 'list/:id', // Add route for individual DIY details

@@ -1,6 +1,6 @@
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Palette, Search, X, SlidersHorizontal } from 'lucide-react';
+import { Palette, Search, X, SlidersHorizontal, Lightbulb, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import DiyCard from './DiyCard';
 import CategoryFilter from './CategoryFilter';
@@ -13,18 +13,21 @@ function DiyList() {
   const [showFilters, setShowFilters] = useState(false);
 
   // Filter projects by category and search query
+  // Exclude the "Custom Request" project (it has its own special card)
   const filteredProjects = (diyProjects || []).filter(project => {
+    if (project.projectName === 'Custom Request') return false;
+
     // Category filter
-    const matchesCategory = selectedCategory === 'all' 
+    const matchesCategory = selectedCategory === 'all'
       || (project.categories && project.categories.includes(selectedCategory));
-    
+
     // Search filter (search in name, description, and materials)
     const query = searchQuery.toLowerCase().trim();
-    const matchesSearch = !query 
+    const matchesSearch = !query
       || project.projectName?.toLowerCase().includes(query)
       || project.description?.toLowerCase().includes(query)
       || project.materials?.some(m => m.toLowerCase().includes(query));
-    
+
     return matchesCategory && matchesSearch;
   });
 
@@ -97,6 +100,31 @@ function DiyList() {
           {filteredProjects.map((diyProject, index) => (
             <DiyCard key={diyProject.id} diyProjectDetails={diyProject} index={index} />
           ))}
+
+          {/* Custom Request Card - always shown at the end */}
+          {(selectedCategory === 'all' || selectedCategory === 'Custom') && (
+            <Link
+              to="/list/custom-request"
+              className="group rounded-lg border-2 border-dashed border-primary/40 hover:border-primary bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/20 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col items-center justify-center text-center p-8 min-h-[380px]"
+              style={{ animation: `cardStaggerIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${Math.min(filteredProjects.length * 0.06, 0.5)}s both` }}
+            >
+              <div className="w-16 h-16 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors duration-300">
+                <Lightbulb className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-foreground">
+                {language === 'en' ? 'Have an idea?' : '有想法嗎？'}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-6 max-w-[200px]">
+                {language === 'en'
+                  ? 'Request anything you\'d like me to make! Add photos and details.'
+                  : '告訴我你想要什麼禮物！可以附上照片和細節。'}
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-primary group-hover:gap-3 transition-all duration-300">
+                {language === 'en' ? 'Make a Request' : '提出請求'}
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+          )}
         </div>
 
         {/* Empty state */}

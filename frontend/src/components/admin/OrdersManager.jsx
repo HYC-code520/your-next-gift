@@ -209,8 +209,46 @@ function OrdersManager() {
                             )}
                           </p>
 
-                          {/* Customization */}
-                          {item.customization && Object.keys(item.customization).length > 0 && (
+                          {/* Custom Request Details */}
+                          {item.customization?.isCustomRequest && (
+                            <div className="mt-2 space-y-1.5 text-xs text-muted-foreground bg-purple-500/10 border border-purple-500/20 rounded p-2">
+                              <p className="font-semibold text-purple-600 dark:text-purple-400">Custom Request</p>
+                              {item.customization.requestTitle && (
+                                <p><span className="text-foreground">Request:</span> {item.customization.requestTitle}</p>
+                              )}
+                              {item.customization.requestDescription && (
+                                <p><span className="text-foreground">Description:</span> {item.customization.requestDescription}</p>
+                              )}
+                              {item.customization.colorPreference && (
+                                <p><span className="text-foreground">Colors:</span> {item.customization.colorPreference}</p>
+                              )}
+                              {item.customization.sizePreference && (
+                                <p><span className="text-foreground">Size:</span> {item.customization.sizePreference}</p>
+                              )}
+                              {item.customization.additionalNotes && (
+                                <p><span className="text-foreground">Notes:</span> {item.customization.additionalNotes}</p>
+                              )}
+                              {item.customization.referencePhotos?.length > 0 && (
+                                <div>
+                                  <span className="text-foreground">Reference photos:</span>
+                                  <div className="flex gap-2 mt-1 flex-wrap">
+                                    {item.customization.referencePhotos.map((url, i) => (
+                                      <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                                        <img
+                                          src={url}
+                                          alt={`Reference ${i + 1}`}
+                                          className="w-20 h-20 object-cover rounded border border-border hover:opacity-80 transition-opacity"
+                                        />
+                                      </a>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Customization (regular projects) */}
+                          {item.customization && !item.customization.isCustomRequest && Object.keys(item.customization).length > 0 && (
                             <div className="mt-2 space-y-1.5 text-xs text-muted-foreground">
                               {item.customization.petPhotoUrl && (
                                 <div>

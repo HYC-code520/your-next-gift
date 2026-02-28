@@ -241,6 +241,18 @@ body.home-page {
     }
 }
 
+/* Mobile - hide title since bg image has it, position button below the name/birthday box */
+@media (max-width: 768px) {
+    .home-title-img {
+        display: none !important;
+    }
+
+    .slideshow {
+        justify-content: flex-start;
+        padding-top: 48dvh;
+    }
+}
+
 /* Mobile */
 @media (max-width: 480px) {
     .slideshow {
@@ -268,6 +280,7 @@ body.home-page {
         width: 100%;
         max-width: 280px;
     }
+
 }
 
 /* Landscape mobile */

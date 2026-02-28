@@ -146,6 +146,14 @@ function AppLayout() {
           alt=""
           className={`bg-animation-top${!bgIsHomePage ? ' bg-hidden' : ''}`}
         />
+        {/* Mobile-only home background image */}
+        {bgIsHomePage && (
+          <img
+            src="/images/phone-size-bg-image.png"
+            alt=""
+            className="mobile-home-bg"
+          />
+        )}
         {/* <AnnouncementBar /> */}
         <NavBar />
         <div

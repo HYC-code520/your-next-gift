@@ -62,27 +62,76 @@ function Cart() {
                   <div className="flex gap-6">
                     {/* Image */}
                     <div className="flex-shrink-0 group">
-                      <img
-                        src={item.images?.[0] || '/images/placeholder.png'}
-                        alt={item.projectName}
-                        className="w-32 h-32 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          e.target.src = '/images/placeholder.png';
-                        }}
-                      />
+                      {item.customization?.isCustomRequest ? (
+                        <div className="w-32 h-32 rounded-lg bg-gradient-to-br from-purple-100 to-primary/10 dark:from-purple-900/30 dark:to-primary/10 flex items-center justify-center">
+                          <Lightbulb className="w-10 h-10 text-primary/60" />
+                        </div>
+                      ) : (
+                        <img
+                          src={item.images?.[0] || '/images/placeholder.png'}
+                          alt={item.projectName}
+                          className="w-32 h-32 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            e.target.src = '/images/placeholder.png';
+                          }}
+                        />
+                      )}
                     </div>
 
                     {/* Details */}
                     <div className="flex-grow">
                       <h3 className="text-xl font-bold mb-2 hover:text-primary transition-colors">
-                        {item.projectName}
+                        {item.customization?.isCustomRequest
+                          ? item.customization.requestTitle
+                          : item.projectName}
                       </h3>
                       <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                        {item.description}
+                        {item.customization?.isCustomRequest
+                          ? item.customization.requestDescription || (language === 'en' ? 'Custom request' : '自訂請求')
+                          : item.description}
                       </p>
-                      
-                      {/* Customization Details */}
-                      {item.customization && (item.customization.colors?.length > 0 || item.customization.size || item.customization.personalization || item.customization.specialRequests) && (
+
+                      {/* Custom Request Details */}
+                      {item.customization?.isCustomRequest && (
+                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 mb-3 space-y-2">
+                          <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 mb-1">
+                            {language === 'en' ? 'Custom Request Details:' : '自訂請求詳情：'}
+                          </p>
+                          {item.customization.colorPreference && (
+                            <p className="text-xs">
+                              <span className="font-medium">{language === 'en' ? 'Colors:' : '顏色：'}</span> {item.customization.colorPreference}
+                            </p>
+                          )}
+                          {item.customization.sizePreference && (
+                            <p className="text-xs">
+                              <span className="font-medium">{language === 'en' ? 'Size:' : '尺寸：'}</span> {item.customization.sizePreference}
+                            </p>
+                          )}
+                          {item.customization.additionalNotes && (
+                            <p className="text-xs">
+                              <span className="font-medium">{language === 'en' ? 'Notes:' : '備註：'}</span> {item.customization.additionalNotes}
+                            </p>
+                          )}
+                          {item.customization.referencePhotos?.length > 0 && (
+                            <div>
+                              <span className="text-xs font-medium">{language === 'en' ? 'Reference photos:' : '參考照片：'}</span>
+                              <div className="flex gap-2 mt-1">
+                                {item.customization.referencePhotos.map((url, i) => (
+                                  <img
+                                    key={i}
+                                    src={url}
+                                    alt={`Ref ${i + 1}`}
+                                    className="w-12 h-12 object-cover rounded border border-border"
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Customization Details (regular projects) */}
+                      {item.customization && !item.customization.isCustomRequest && (item.customization.colors?.length > 0 || item.customization.size || item.customization.personalization || item.customization.specialRequests) && (
                         <div className="bg-primary/10 rounded-lg p-3 mb-3 space-y-1">
                           <p className="text-xs font-semibold text-primary mb-1">
                             ✨ {language === 'en' ? 'Customization:' : '客製化：'}
@@ -92,7 +141,7 @@ function Cart() {
                               <span className="font-medium">{language === 'en' ? 'Colors:' : '顏色：'}</span>
                               <div className="flex gap-1">
                                 {item.customization.colors.map((color, i) => (
-                                  <div 
+                                  <div
                                     key={i}
                                     className="w-4 h-4 rounded-full border border-border"
                                     style={{ backgroundColor: color }}
