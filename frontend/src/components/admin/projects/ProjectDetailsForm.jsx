@@ -110,6 +110,32 @@ function ProjectDetailsForm({ formData, setFormData }) {
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-semibold mb-2 text-foreground">
+            Project Name (中文)
+          </label>
+          <input
+            type="text"
+            value={formData.project_name_zh || ''}
+            onChange={(e) => setFormData(prev => ({ ...prev, project_name_zh: e.target.value }))}
+            className="w-full px-4 py-3 bg-background border-2 border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+            placeholder="輸入中文專案名稱"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold mb-2 text-foreground">
+            Description (中文)
+          </label>
+          <textarea
+            value={formData.description_zh || ''}
+            onChange={(e) => setFormData(prev => ({ ...prev, description_zh: e.target.value }))}
+            className="w-full px-4 py-3 bg-background border-2 border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-y min-h-[120px]"
+            rows="4"
+            placeholder="輸入中文描述..."
+          />
+        </div>
+
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold mb-2 text-foreground">

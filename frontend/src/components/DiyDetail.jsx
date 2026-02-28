@@ -448,8 +448,8 @@ function DiyDetail() {
             <Card className="overflow-hidden">
               {/* Project Info */}
               <div className="text-center px-5 pt-5 pb-4">
-                <h1 className="text-2xl sm:text-3xl font-bold mb-1">{project.projectName}</h1>
-                <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-1">{language === 'zh' && project.projectNameZh ? project.projectNameZh : project.projectName}</h1>
+                <p className="text-sm text-muted-foreground mb-2">{language === 'zh' && project.descriptionZh ? project.descriptionZh : project.description}</p>
 
                 <div className="flex justify-center gap-4 text-xs text-muted-foreground">
                   <div className="relative group inline-flex items-center gap-1 cursor-default">

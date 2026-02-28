@@ -41,7 +41,9 @@ function AppLayout() {
         const transformedData = data.data.map(project => ({
           id: project.id.toString(),
           projectName: project.project_name,
+          projectNameZh: project.project_name_zh,
           description: project.description,
+          descriptionZh: project.description_zh,
           materials: project.materials,
           estimatedTime: project.estimated_time,
           images: project.images,

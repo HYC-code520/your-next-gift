@@ -228,11 +228,11 @@ function DiyCard({ diyProjectDetails, index = 0 }) {
       <CardHeader className="pb-3">
         <CardTitle className="text-base hover:underline">
           <Link to={`/list/${diyProjectDetails.id}`}>
-            {diyProjectDetails.projectName}
+            {language === 'zh' && diyProjectDetails.projectNameZh ? diyProjectDetails.projectNameZh : diyProjectDetails.projectName}
           </Link>
         </CardTitle>
         <CardDescription className="line-clamp-2 text-xs">
-          {diyProjectDetails.description || "No description available"}
+          {language === 'zh' && diyProjectDetails.descriptionZh ? diyProjectDetails.descriptionZh : (diyProjectDetails.description || "No description available")}
         </CardDescription>
       </CardHeader>
 

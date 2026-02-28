@@ -11,7 +11,9 @@ export function useProjectManager() {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     project_name: '',
+    project_name_zh: '',
     description: '',
+    description_zh: '',
     materials: [],
     estimated_time: '',
     categories: [],
@@ -45,7 +47,9 @@ export function useProjectManager() {
     setEditingProject(project.id);
     setFormData({
       project_name: project.project_name,
+      project_name_zh: project.project_name_zh || '',
       description: project.description,
+      description_zh: project.description_zh || '',
       materials: project.materials || [],
       estimated_time: project.estimated_time,
       categories: project.categories || [],
