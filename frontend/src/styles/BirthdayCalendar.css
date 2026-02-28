@@ -173,12 +173,16 @@
   }
 
   .birthday-marker {
-    font-size: 0.65rem;
-    padding: 0.125rem;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.25rem;
+    flex-direction: column;
+    gap: 0.1rem;
   }
 
   .birthday-name {
-    display: none;
+    display: block;
+    font-size: 0.55rem;
+    max-width: 100%;
   }
 
   .calendar-day-header {
@@ -194,8 +198,12 @@
   }
 
   .birthday-marker svg {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
+  }
+
+  .birthday-name {
+    font-size: 0.5rem;
   }
 }
 
