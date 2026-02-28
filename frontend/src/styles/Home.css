@@ -140,14 +140,14 @@ body.home-page {
 }
 
 .dark .gift-gallery-btn {
-    background-color: #ffffff;
-    color: #000000;
-    border-color: #ffffff;
+    background-color: #88A2FF;
+    color: #ffffff;
+    border-color: #88A2FF;
 }
 
 .dark .gift-gallery-btn:hover {
-    background-color: #88A2FF;
-    border-color: #88A2FF;
+    background-color: #a8bfff;
+    border-color: #a8bfff;
     color: #ffffff;
 }
 
