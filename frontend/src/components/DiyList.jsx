@@ -97,16 +97,12 @@ function DiyList() {
 
         {/* Exactly 3 cards per row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredProjects.map((diyProject, index) => (
-            <DiyCard key={diyProject.id} diyProjectDetails={diyProject} index={index} />
-          ))}
-
-          {/* Custom Request Card - always shown at the end */}
+          {/* Custom Request Card - always shown first */}
           {(selectedCategory === 'all' || selectedCategory === 'Custom') && (
             <Link
               to="/list/custom-request"
               className="group rounded-lg border-2 border-dashed border-primary/40 hover:border-primary bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/20 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col items-center justify-center text-center p-8 min-h-[380px]"
-              style={{ animation: `cardStaggerIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${Math.min(filteredProjects.length * 0.06, 0.5)}s both` }}
+              style={{ animation: `cardStaggerIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0s both` }}
             >
               <div className="w-16 h-16 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors duration-300">
                 <Lightbulb className="w-8 h-8 text-primary" />
@@ -125,6 +121,10 @@ function DiyList() {
               </span>
             </Link>
           )}
+
+          {filteredProjects.map((diyProject, index) => (
+            <DiyCard key={diyProject.id} diyProjectDetails={diyProject} index={index} />
+          ))}
         </div>
 
         {/* Empty state */}
